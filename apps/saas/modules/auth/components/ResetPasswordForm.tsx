@@ -16,9 +16,8 @@ import {
 import { formatFormRootError } from "@repo/ui/components/form-root-error";
 import { passwordSchema } from "@repo/utils";
 import { PasswordInput } from "@shared/components/PasswordInput";
-import { useSearchParams } from "@shared/hooks/search-params";
 import { useForm, useStore } from "@tanstack/react-form";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useRouter, useSearch } from "@tanstack/react-router";
 import { AlertTriangleIcon, ArrowLeftIcon, MailboxIcon } from "lucide-react";
 import * as z from "zod";
 
@@ -26,13 +25,17 @@ const formSchema = z.object({
 	password: passwordSchema,
 });
 
+interface ResetPasswordSearch {
+	token?: string;
+}
+
 export function ResetPasswordForm() {
 	const t = useTranslations();
 	const { user } = useSession();
 	const router = useRouter();
 	const { getAuthErrorMessage } = useAuthErrorMessages();
-	const searchParams = useSearchParams();
-	const token = searchParams.get("token");
+	const search = useSearch({ strict: false }) as ResetPasswordSearch;
+	const token = search.token;
 
 	const form = useForm({
 		defaultValues: {

@@ -10,10 +10,9 @@ import { Button } from "@repo/ui/components/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@repo/ui/components/form";
 import { formatFormRootError } from "@repo/ui/components/form-root-error";
 import { Input } from "@repo/ui/components/input";
-import { useSearchParams } from "@shared/hooks/search-params";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useRouter, useSearch } from "@tanstack/react-router";
 import {
 	AlertTriangleIcon,
 	ArrowRightIcon,
@@ -36,21 +35,27 @@ const formSchema = z.object({
 	password: z.string(),
 });
 
+interface AuthSearch extends Record<string, string | undefined> {
+	email?: string;
+	invitationId?: string;
+	redirectTo?: string;
+}
+
 export function LoginForm() {
 	const t = useTranslations();
 	const { getAuthErrorMessage } = useAuthErrorMessages();
 	const router = useRouter();
 	const queryClient = useQueryClient();
-	const searchParams = useSearchParams();
+	const search = useSearch({ strict: false }) as AuthSearch;
 	const { user, loaded: sessionLoaded } = useSession();
 
 	const [showPassword, setShowPassword] = useState(false);
 	const [signinMode, setSigninMode] = useState<"password" | "magic-link">(
 		authConfig.enablePasswordLogin ? "password" : "magic-link",
 	);
-	const invitationId = searchParams.get("invitationId");
-	const email = searchParams.get("email");
-	const redirectTo = searchParams.get("redirectTo");
+	const invitationId = search.invitationId;
+	const email = search.email;
+	const redirectTo = search.redirectTo;
 
 	const redirectPath = invitationId
 		? `/organization-invitation/${invitationId}`
@@ -87,7 +92,7 @@ export function LoginForm() {
 
 					if ((data as { twoFactorRedirect?: boolean }).twoFactorRedirect) {
 						void router.navigate({
-							to: withQuery("/verify", Object.fromEntries(searchParams.entries())),
+							to: withQuery("/verify", search),
 							replace: true,
 						});
 						return;
@@ -300,12 +305,7 @@ export function LoginForm() {
 							<span className="text-foreground/60">
 								{t("auth.login.dontHaveAnAccount")}{" "}
 							</span>
-							<Link
-								to={withQuery(
-									"/signup",
-									Object.fromEntries(searchParams.entries()),
-								)}
-							>
+							<Link to={withQuery("/signup", search)}>
 								{t("auth.login.createAnAccount")}
 								<ArrowRightIcon className="ml-1 size-4 inline align-middle" />
 							</Link>

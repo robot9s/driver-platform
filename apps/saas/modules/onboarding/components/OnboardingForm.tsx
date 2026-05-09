@@ -1,20 +1,24 @@
 import { useTranslations } from "@i18n/intl";
 import { authClient } from "@repo/auth/client";
 import { Progress } from "@repo/ui/components/progress";
-import { useSearchParams } from "@shared/hooks/search-params";
-import { useRouter } from "@tanstack/react-router";
+import { useRouter, useSearch } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { withQuery } from "ufo";
 
 import { OnboardingAccountStep } from "./OnboardingAccountStep";
 
+interface OnboardingSearch {
+	redirectTo?: string;
+	step?: string;
+}
+
 export function OnboardingForm() {
 	const t = useTranslations();
 	const router = useRouter();
-	const searchParams = useSearchParams();
+	const search = useSearch({ strict: false }) as OnboardingSearch;
 
-	const stepSearchParam = searchParams.get("step");
-	const redirectTo = searchParams.get("redirectTo");
+	const stepSearchParam = search.step;
+	const redirectTo = search.redirectTo;
 	const onboardingStep = stepSearchParam ? Number.parseInt(stepSearchParam, 10) : 1;
 
 	// oxlint-disable-next-line no-unused-vars -- used for redirecting to the next step

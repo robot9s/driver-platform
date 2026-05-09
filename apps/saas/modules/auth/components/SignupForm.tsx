@@ -19,9 +19,8 @@ import { formatFormRootError } from "@repo/ui/components/form-root-error";
 import { Input } from "@repo/ui/components/input";
 import { passwordSchema } from "@repo/utils";
 import { PasswordInput } from "@shared/components/PasswordInput";
-import { useSearchParams } from "@shared/hooks/search-params";
 import { useForm, useStore } from "@tanstack/react-form";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useRouter, useSearch } from "@tanstack/react-router";
 import { AlertTriangleIcon, ArrowRightIcon, MailboxIcon } from "lucide-react";
 import { useEffect } from "react";
 import { withQuery } from "ufo";
@@ -36,16 +35,22 @@ const formSchema = z.object({
 	password: passwordSchema,
 });
 
+interface AuthSearch extends Record<string, string | undefined> {
+	email?: string;
+	invitationId?: string;
+	redirectTo?: string;
+}
+
 export function SignupForm({ prefillEmail }: { prefillEmail?: string }) {
 	const t = useTranslations();
 	const router = useRouter();
 	const { user, loaded: sessionLoaded } = useSession();
 	const { getAuthErrorMessage } = useAuthErrorMessages();
-	const searchParams = useSearchParams();
+	const search = useSearch({ strict: false }) as AuthSearch;
 
-	const invitationId = searchParams.get("invitationId");
-	const email = searchParams.get("email");
-	const redirectTo = searchParams.get("redirectTo");
+	const invitationId = search.invitationId;
+	const email = search.email;
+	const redirectTo = search.redirectTo;
 
 	const invitationOnlyMode = !authConfig.enableSignup && invitationId;
 	const redirectPath = invitationId
@@ -234,7 +239,7 @@ export function SignupForm({ prefillEmail }: { prefillEmail?: string }) {
 
 			<div className="mt-6 text-sm text-center">
 				<span className="text-foreground/60">{t("auth.signup.alreadyHaveAccount")} </span>
-				<Link to={withQuery("/login", Object.fromEntries(searchParams.entries()))}>
+				<Link to={withQuery("/login", search)}>
 					{t("auth.signup.signIn")}
 					<ArrowRightIcon className="ml-1 size-4 inline align-middle" />
 				</Link>

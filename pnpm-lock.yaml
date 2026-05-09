@@ -650,9 +650,6 @@ importers:
       streamdown:
         specifier: 'catalog:'
         version: 2.5.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
       ufo:
         specifier: 'catalog:'
         version: 1.6.3

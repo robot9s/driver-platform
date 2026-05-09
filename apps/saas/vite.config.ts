@@ -45,13 +45,12 @@ export default defineConfig(({ mode, command }) => {
 					entry: "src/server",
 				},
 			}),
-			nitro(),
+			nitro({
+				noExternals: ["file-selector"],
+			}),
 			viteReact(),
 		],
 		resolve: {
-			alias: {
-				tslib: fileURLToPath(import.meta.resolve("tslib/tslib.es6.mjs")),
-			},
 			tsconfigPaths: true,
 		},
 	};

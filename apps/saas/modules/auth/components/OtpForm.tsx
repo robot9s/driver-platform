@@ -19,9 +19,8 @@ import {
 	InputOTPSeparator,
 	InputOTPSlot,
 } from "@repo/ui/components/input-otp";
-import { useSearchParams } from "@shared/hooks/search-params";
 import { useForm, useStore } from "@tanstack/react-form";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useRouter, useSearch } from "@tanstack/react-router";
 import { AlertTriangleIcon, ArrowLeftIcon } from "lucide-react";
 import * as z from "zod";
 
@@ -29,14 +28,19 @@ const formSchema = z.object({
 	code: z.string().min(6).max(6),
 });
 
+interface VerifySearch {
+	invitationId?: string;
+	redirectTo?: string;
+}
+
 export function OtpForm() {
 	const t = useTranslations();
 	const router = useRouter();
 	const { getAuthErrorMessage } = useAuthErrorMessages();
-	const searchParams = useSearchParams();
+	const search = useSearch({ strict: false }) as VerifySearch;
 
-	const invitationId = searchParams.get("invitationId");
-	const redirectTo = searchParams.get("redirectTo");
+	const invitationId = search.invitationId;
+	const redirectTo = search.redirectTo;
 
 	const redirectPath = invitationId
 		? `/organization-invitation/${invitationId}`
