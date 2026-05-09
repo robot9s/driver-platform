@@ -1,0 +1,87 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"globalDependencies": ["**/.env.*local", ".env"],
+	"globalEnv": [
+		"NODE_ENV",
+		"PORT",
+		"DATABASE_URL",
+		"DIRECT_URL",
+		"BETTER_AUTH_SECRET",
+		"VITE_SAAS_URL",
+		"VITE_MARKETING_URL",
+		"VITE_DOCS_URL",
+		"VITE_AVATARS_BUCKET_NAME",
+		"VITE_PIRSCH_CODE",
+		"VITE_PLAUSIBLE_URL",
+		"VITE_UMAMI_WEBSITE_ID",
+		"VITE_UMAMI_SRC",
+		"GITHUB_CLIENT_ID",
+		"GITHUB_CLIENT_SECRET",
+		"GOOGLE_CLIENT_ID",
+		"GOOGLE_CLIENT_SECRET",
+		"MAIL_PROVIDER",
+		"MAIL_FROM",
+		"MAIL_HOST",
+		"MAIL_PORT",
+		"MAIL_USER",
+		"MAIL_PASS",
+		"PLUNK_API_KEY",
+		"RESEND_API_KEY",
+		"POSTMARK_SERVER_TOKEN",
+		"MAILGUN_API_KEY",
+		"MAILGUN_DOMAIN",
+		"PAYMENT_PROVIDER",
+		"STRIPE_SECRET_KEY",
+		"STRIPE_WEBHOOK_SECRET",
+		"LEMONSQUEEZY_API_KEY",
+		"LEMONSQUEEZY_WEBHOOK_SECRET",
+		"LEMONSQUEEZY_STORE_ID",
+		"CREEM_API_KEY",
+		"CREEM_WEBHOOK_SECRET",
+		"POLAR_ACCESS_TOKEN",
+		"POLAR_WEBHOOK_SECRET",
+		"DODO_PAYMENTS_API_KEY",
+		"DODO_PAYMENTS_WEBHOOK_SECRET",
+		"PRICE_ID_*",
+		"S3_ACCESS_KEY_ID",
+		"S3_SECRET_ACCESS_KEY",
+		"S3_ENDPOINT",
+		"S3_REGION",
+		"OPENAI_API_KEY",
+		"ANTHROPIC_API_KEY",
+		"CI",
+		"PW_PORT",
+		"PW_REUSE_SERVER"
+	],
+	"tasks": {
+		"build": {
+			"dependsOn": ["^generate", "^build"],
+			"outputs": ["dist/**", ".output/**", ".next/**", "!.next/cache/**"]
+		},
+		"type-check": {
+			"dependsOn": ["^generate"]
+		},
+		"test": {
+			"dependsOn": ["^generate"]
+		},
+		"clean": {
+			"cache": false
+		},
+		"generate": {
+			"cache": false
+		},
+		"dev": {
+			"cache": false,
+			"dependsOn": ["^generate"],
+			"persistent": true
+		},
+		"export": {
+			"outputs": ["out/**"]
+		},
+		"start": {
+			"cache": false,
+			"dependsOn": ["^generate", "^build"],
+			"persistent": true
+		}
+	}
+}

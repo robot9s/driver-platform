@@ -1,0 +1,138 @@
+import { useAuthErrorMessages } from "@auth/hooks/errors-messages";
+import { useSession } from "@auth/hooks/use-session";
+import { config } from "@config";
+import { useTranslations } from "@i18n/intl";
+import { authClient } from "@repo/auth/client";
+import { Alert, AlertTitle } from "@repo/ui/components/alert";
+import { Button } from "@repo/ui/components/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@repo/ui/components/form";
+import { formatFormRootError } from "@repo/ui/components/form-root-error";
+import { passwordSchema } from "@repo/utils";
+import { PasswordInput } from "@shared/components/PasswordInput";
+import { useRouter } from "@shared/hooks/router";
+import { useSearchParams } from "@shared/hooks/search-params";
+import { useForm, useStore } from "@tanstack/react-form";
+import { Link } from "@tanstack/react-router";
+import { AlertTriangleIcon, ArrowLeftIcon, MailboxIcon } from "lucide-react";
+import * as z from "zod";
+
+const formSchema = z.object({
+	password: passwordSchema,
+});
+
+export function ResetPasswordForm() {
+	const t = useTranslations();
+	const { user } = useSession();
+	const router = useRouter();
+	const { getAuthErrorMessage } = useAuthErrorMessages();
+	const searchParams = useSearchParams();
+	const token = searchParams.get("token");
+
+	const form = useForm({
+		defaultValues: {
+			password: "",
+		},
+		validators: {
+			onSubmit: formSchema,
+		},
+		onSubmit: async ({ value: { password }, formApi }) => {
+			try {
+				const { error } = await authClient.resetPassword({
+					token: token ?? undefined,
+					newPassword: password,
+				});
+
+				if (error) {
+					throw error;
+				}
+
+				if (user) {
+					router.push(config.redirectAfterSignIn);
+				}
+			} catch (e) {
+				formApi.setErrorMap({
+					onSubmit: {
+						form: getAuthErrorMessage(
+							e && typeof e === "object" && "code" in e
+								? (e.code as string)
+								: undefined,
+						),
+						fields: {},
+					},
+				});
+			}
+		},
+	});
+
+	const isSubmitting = useStore(form.store, (s) => s.isSubmitting);
+	const isSubmitSuccessful = useStore(form.store, (s) => s.isSubmitSuccessful);
+	const formErrors = useStore(form.store, (s) => s.errors);
+	const rootMessage = formatFormRootError(formErrors);
+
+	return (
+		<>
+			<h1 className="font-bold text-xl md:text-2xl">{t("auth.resetPassword.title")}</h1>
+			<p className="mt-1 mb-6 text-foreground/60">{t("auth.resetPassword.message")} </p>
+
+			{isSubmitSuccessful ? (
+				<Alert variant="success">
+					<MailboxIcon />
+					<AlertTitle>{t("auth.resetPassword.hints.success")}</AlertTitle>
+				</Alert>
+			) : (
+				<Form form={form}>
+					<form
+						className="gap-4 flex flex-col items-stretch"
+						onSubmit={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+							void form.handleSubmit();
+						}}
+					>
+						{rootMessage && (
+							<Alert variant="error">
+								<AlertTriangleIcon />
+								<AlertTitle>{rootMessage}</AlertTitle>
+							</Alert>
+						)}
+
+						<FormField name="password">
+							{(field) => (
+								<FormItem>
+									<FormLabel>{t("auth.resetPassword.newPassword")}</FormLabel>
+									<FormControl>
+										<PasswordInput
+											name={field.name}
+											autoComplete="new-password"
+											showPasswordCriteria
+											showGenerateButton
+											value={field.state.value}
+											onChange={(next) => field.handleChange(next)}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						</FormField>
+
+						<Button loading={isSubmitting}>{t("auth.resetPassword.submit")}</Button>
+					</form>
+				</Form>
+			)}
+
+			<div className="mt-6 text-sm text-center">
+				<Link to="/login">
+					<ArrowLeftIcon className="mr-1 size-4 inline align-middle" />
+					{t("auth.resetPassword.backToSignin")}
+				</Link>
+			</div>
+		</>
+	);
+}

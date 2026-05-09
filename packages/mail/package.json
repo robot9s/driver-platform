@@ -1,0 +1,29 @@
+{
+	"name": "@repo/mail",
+	"version": "0.0.0",
+	"main": "./index.ts",
+	"types": "./index.ts",
+	"scripts": {
+		"clean": "git clean -xdf .cache .turbo dist node_modules",
+		"type-check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@react-email/components": "^1.0.8",
+		"@react-email/render": "^2.0.4",
+		"@repo/i18n": "workspace:*",
+		"@repo/logs": "workspace:*",
+		"@repo/ui": "workspace:*",
+		"nodemailer": "^8.0.1",
+		"react": "^19.2.5",
+		"react-dom": "^19.2.5",
+		"react-email": "^5.2.9",
+		"resend": "^6.9.3"
+	},
+	"devDependencies": {
+		"@repo/tsconfig": "workspace:*",
+		"@tailwindcss/line-clamp": "^0.4.4",
+		"@types/node": "catalog:",
+		"@types/nodemailer": "catalog:",
+		"@types/react": "catalog:"
+	}
+}

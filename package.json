@@ -1,0 +1,45 @@
+{
+	"name": "supastarter-tanstack-start",
+	"private": true,
+	"scripts": {
+		"postinstall": "pnpm turbo run generate --filter=@repo/i18n --filter=marketing",
+		"build": "dotenv -c -- turbo build",
+		"dev": "dotenv -c -- turbo dev --concurrency 15",
+		"type-check": "dotenv -c -- turbo type-check",
+		"start": "dotenv -c -- turbo start",
+		"test": "dotenv -c -- turbo test",
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix",
+		"verify": "oxlint && oxfmt --check",
+		"check": "oxlint --fix && oxfmt --write",
+		"clean": "turbo clean",
+		"format": "oxfmt --write",
+		"format:check": "oxfmt --check",
+		"db:push": "pnpm --filter @repo/database push",
+		"db:migrate": "pnpm --filter @repo/database db:migrate",
+		"db:generate": "pnpm --filter @repo/database db:generate",
+		"db:studio": "pnpm --filter @repo/database db:studio",
+		"user:create": "pnpm --filter @repo/scripts create:user"
+	},
+	"devDependencies": {
+		"@repo/tsconfig": "workspace:*",
+		"@types/node": "catalog:",
+		"dotenv-cli": "catalog:",
+		"oxfmt": "catalog:",
+		"oxlint": "catalog:",
+		"oxlint-tsgolint": "^0.17.1",
+		"turbo": "^2.8.14",
+		"typescript": "catalog:"
+	},
+	"engines": {
+		"node": ">=22"
+	},
+	"packageManager": "pnpm@10.28.2",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@swc/core",
+			"esbuild",
+			"sharp"
+		]
+	}
+}
