@@ -6,7 +6,7 @@ import { Button } from "@repo/ui/components/button";
 import { toastError, toastSuccess } from "@repo/ui/components/toast";
 import { useConfirmationAlert } from "@shared/components/ConfirmationAlertProvider";
 import { SettingsItem } from "@shared/components/SettingsItem";
-import { useRouter } from "@shared/hooks/router";
+import { useRouter } from "@tanstack/react-router";
 
 export function DeleteOrganizationForm() {
 	const t = useTranslations();
@@ -37,7 +37,7 @@ export function DeleteOrganizationForm() {
 				toastSuccess(t("organizations.settings.notifications.organizationDeleted"));
 				await setActiveOrganization(null);
 				await reloadOrganizations();
-				router.replace("/");
+				void router.navigate({ to: "/", replace: true });
 			},
 		});
 	};

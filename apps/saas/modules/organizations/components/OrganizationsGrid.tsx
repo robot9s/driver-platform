@@ -4,8 +4,7 @@ import { useActiveOrganization } from "@organizations/hooks/use-active-organizat
 import { useOrganizationListQuery } from "@organizations/lib/api";
 import { config } from "@repo/auth/config";
 import { Card } from "@repo/ui/components/card";
-import { useRouter } from "@shared/hooks/router";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { ChevronRightIcon, PlusCircleIcon } from "lucide-react";
 
 export function OrganizationsGrid() {
@@ -17,7 +16,7 @@ export function OrganizationsGrid() {
 
 	const handleClick = async (organizationSlug: string) => {
 		await setActiveOrganization(organizationSlug);
-		router.replace(`/${organizationSlug}`);
+		void router.navigate({ to: `/${organizationSlug}`, replace: true });
 	};
 
 	return (

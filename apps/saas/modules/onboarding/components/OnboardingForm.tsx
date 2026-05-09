@@ -1,9 +1,8 @@
 import { useTranslations } from "@i18n/intl";
 import { authClient } from "@repo/auth/client";
 import { Progress } from "@repo/ui/components/progress";
-import { useRouter } from "@shared/hooks/router";
 import { useSearchParams } from "@shared/hooks/search-params";
-import { clearCache } from "@shared/lib/cache";
+import { useRouter } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { withQuery } from "ufo";
 
@@ -20,11 +19,12 @@ export function OnboardingForm() {
 
 	// oxlint-disable-next-line no-unused-vars -- used for redirecting to the next step
 	const setStep = (step: number) => {
-		router.replace(
-			withQuery(window.location.search ?? "", {
+		void router.navigate({
+			to: withQuery(window.location.search ?? "", {
 				step,
 			}),
-		);
+			replace: true,
+		});
 	};
 
 	const onCompleted = async () => {
@@ -32,8 +32,7 @@ export function OnboardingForm() {
 			onboardingComplete: true,
 		});
 
-		clearCache();
-		router.replace(redirectTo ?? "/");
+		void router.navigate({ to: redirectTo ?? "/", replace: true });
 	};
 
 	const steps = useMemo(() => {

@@ -10,11 +10,10 @@ import { Button } from "@repo/ui/components/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@repo/ui/components/form";
 import { formatFormRootError } from "@repo/ui/components/form-root-error";
 import { Input } from "@repo/ui/components/input";
-import { useRouter } from "@shared/hooks/router";
 import { useSearchParams } from "@shared/hooks/search-params";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import {
 	AlertTriangleIcon,
 	ArrowRightIcon,
@@ -87,14 +86,15 @@ export function LoginForm() {
 					}
 
 					if ((data as { twoFactorRedirect?: boolean }).twoFactorRedirect) {
-						router.replace(
-							withQuery("/verify", Object.fromEntries(searchParams.entries())),
-						);
+						void router.navigate({
+							to: withQuery("/verify", Object.fromEntries(searchParams.entries())),
+							replace: true,
+						});
 						return;
 					}
 
 					await queryClient.invalidateQueries({ queryKey: sessionQueryKey });
-					router.replace(redirectPath);
+					void router.navigate({ to: redirectPath, replace: true });
 				} else {
 					const { error } = await authClient.signIn.magicLink({
 						email: values.email,
@@ -127,14 +127,14 @@ export function LoginForm() {
 
 	useEffect(() => {
 		if (sessionLoaded && user) {
-			router.replace(redirectPath);
+			void router.navigate({ to: redirectPath, replace: true });
 		}
 	}, [user, sessionLoaded]); // oxlint-disable-line eslint-plugin-react-hooks/exhaustive-deps
 
 	const signInWithPasskey = async () => {
 		try {
 			await authClient.signIn.passkey();
-			router.replace(redirectPath);
+			void router.navigate({ to: redirectPath, replace: true });
 		} catch (e) {
 			form.setErrorMap({
 				onSubmit: {

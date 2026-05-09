@@ -8,9 +8,9 @@ import { cn } from "@repo/ui";
 import { Button } from "@repo/ui/components/button";
 import { Tabs, TabsList, TabsTrigger } from "@repo/ui/components/tabs";
 import { useLocaleCurrency } from "@shared/hooks/locale-currency";
-import { useRouter } from "@shared/hooks/router";
 import { orpc } from "@shared/lib/orpc-query-utils";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { ArrowRightIcon, BadgePercentIcon, CheckIcon, StarIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -47,7 +47,7 @@ export function PricingTable({
 
 	const onSelectPlan = async (planId: PlanId, selection?: PlanSelection) => {
 		if (!(userId || organizationId)) {
-			router.push("/signup");
+			void router.navigate({ to: "/signup" });
 			return;
 		}
 

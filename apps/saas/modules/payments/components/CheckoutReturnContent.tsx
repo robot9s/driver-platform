@@ -2,9 +2,9 @@ import { useTranslations } from "@i18n/intl";
 import { createPurchasesHelper } from "@repo/payments/lib/helper";
 import { Button } from "@repo/ui/components/button";
 import { Spinner } from "@repo/ui/components/spinner";
-import { useRouter } from "@shared/hooks/router";
 import { orpc } from "@shared/lib/orpc-query-utils";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 /**
@@ -34,7 +34,7 @@ export function CheckoutReturnContent({ organizationId }: { organizationId?: str
 
 	useEffect(() => {
 		if (activePlan) {
-			router.replace("/");
+			void router.navigate({ to: "/", replace: true });
 		}
 	}, [activePlan, router]);
 
@@ -62,7 +62,10 @@ export function CheckoutReturnContent({ organizationId }: { organizationId?: str
 					>
 						{t("retry")}
 					</Button>
-					<Button variant="primary" onClick={() => router.replace("/choose-plan")}>
+					<Button
+						variant="primary"
+						onClick={() => void router.navigate({ to: "/choose-plan", replace: true })}
+					>
 						{t("choosePlan")}
 					</Button>
 				</div>

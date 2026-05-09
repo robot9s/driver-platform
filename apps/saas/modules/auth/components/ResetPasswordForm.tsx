@@ -16,10 +16,9 @@ import {
 import { formatFormRootError } from "@repo/ui/components/form-root-error";
 import { passwordSchema } from "@repo/utils";
 import { PasswordInput } from "@shared/components/PasswordInput";
-import { useRouter } from "@shared/hooks/router";
 import { useSearchParams } from "@shared/hooks/search-params";
 import { useForm, useStore } from "@tanstack/react-form";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { AlertTriangleIcon, ArrowLeftIcon, MailboxIcon } from "lucide-react";
 import * as z from "zod";
 
@@ -54,7 +53,7 @@ export function ResetPasswordForm() {
 				}
 
 				if (user) {
-					router.push(config.redirectAfterSignIn);
+					void router.navigate({ to: config.redirectAfterSignIn });
 				}
 			} catch (e) {
 				formApi.setErrorMap({

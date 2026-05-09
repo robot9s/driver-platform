@@ -3,8 +3,8 @@ import { OrganizationLogo } from "@organizations/components/OrganizationLogo";
 import { organizationListQueryKey } from "@organizations/lib/api";
 import { authClient } from "@repo/auth/client";
 import { Button } from "@repo/ui/components/button";
-import { useRouter } from "@shared/hooks/router";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { CheckIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -40,7 +40,7 @@ export function OrganizationInvitationModal({
 					queryKey: organizationListQueryKey,
 				});
 
-				router.replace(`/${organizationSlug}`);
+				void router.navigate({ to: `/${organizationSlug}`, replace: true });
 			} else {
 				const { error } = await authClient.organization.rejectInvitation({
 					invitationId,
@@ -50,7 +50,7 @@ export function OrganizationInvitationModal({
 					throw error;
 				}
 
-				router.replace("/");
+				void router.navigate({ to: "/", replace: true });
 			}
 		} catch {
 			// TODO: handle error

@@ -13,8 +13,8 @@ import { toastError, toastSuccess } from "@repo/ui/components/toast";
 import { passwordSchema } from "@repo/utils";
 import { PasswordInput } from "@shared/components/PasswordInput";
 import { SettingsItem } from "@shared/components/SettingsItem";
-import { useRouter } from "@shared/hooks/router";
 import { useForm, useStore } from "@tanstack/react-form";
+import { useRouter } from "@tanstack/react-router";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -47,7 +47,7 @@ export function ChangePasswordForm() {
 
 			toastSuccess(t("settings.account.security.changePassword.notifications.success"));
 			formApi.reset({ currentPassword: "", newPassword: "" });
-			router.refresh();
+			void router.invalidate();
 		},
 	});
 

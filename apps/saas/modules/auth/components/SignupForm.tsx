@@ -19,10 +19,9 @@ import { formatFormRootError } from "@repo/ui/components/form-root-error";
 import { Input } from "@repo/ui/components/input";
 import { passwordSchema } from "@repo/utils";
 import { PasswordInput } from "@shared/components/PasswordInput";
-import { useRouter } from "@shared/hooks/router";
 import { useSearchParams } from "@shared/hooks/search-params";
 import { useForm, useStore } from "@tanstack/react-form";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { AlertTriangleIcon, ArrowRightIcon, MailboxIcon } from "lucide-react";
 import { useEffect } from "react";
 import { withQuery } from "ufo";
@@ -90,7 +89,7 @@ export function SignupForm({ prefillEmail }: { prefillEmail?: string }) {
 						throw acceptError;
 					}
 
-					router.push(config.redirectAfterSignIn);
+					void router.navigate({ to: config.redirectAfterSignIn });
 				}
 			} catch (e) {
 				formApi.setErrorMap({
@@ -114,7 +113,7 @@ export function SignupForm({ prefillEmail }: { prefillEmail?: string }) {
 
 	useEffect(() => {
 		if (sessionLoaded && user) {
-			router.replace(redirectPath);
+			void router.navigate({ to: redirectPath, replace: true });
 		}
 	}, [user, sessionLoaded]); // oxlint-disable-line eslint-plugin-react-hooks/exhaustive-deps
 

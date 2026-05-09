@@ -20,10 +20,10 @@ import {
 } from "@repo/ui/components/form";
 import { Input } from "@repo/ui/components/input";
 import { toastError, toastSuccess } from "@repo/ui/components/toast";
-import { useRouter } from "@shared/hooks/router";
 import { orpc } from "@shared/lib/orpc-query-utils";
 import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { z } from "zod";
 
 const organizationFormSchema = z.object({
@@ -70,7 +70,10 @@ export function OrganizationForm({ organizationId }: { organizationId: string })
 				toastSuccess(t("admin.organizations.form.notifications.success"));
 
 				if (!organization) {
-					router.replace(getAdminPath(`/organizations/${newOrganization.id}`));
+					void router.navigate({
+						to: getAdminPath(`/organizations/${newOrganization.id}`),
+						replace: true,
+					});
 				}
 			} catch {
 				toastError(t("admin.organizations.form.notifications.error"));

@@ -13,16 +13,19 @@ const monorepoRoot = path.resolve(marketingRoot, "../..");
 
 const nitroPreset = process.env.VERCEL ? "vercel" : undefined;
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
 	Object.assign(process.env, loadEnv(mode, monorepoRoot, ""));
+
+	const bundleReactForProdSsr = command === "build";
 
 	return {
 		envDir: monorepoRoot,
 		envPrefix: ["VITE_"],
 		ssr: {
-			// See apps/saas/vite.config.ts — bundle React for SSR so serverless
-			// deployments don't need a hoisted node_modules for `react`.
-			noExternal: ["@repo/i18n", "react", "react-dom"],
+			noExternal: [
+				"@repo/i18n",
+				...(bundleReactForProdSsr ? (["react", "react-dom"] as const) : []),
+			],
 		},
 		server: {
 			port: Number.parseInt(process.env.PORT ?? "3001", 10),

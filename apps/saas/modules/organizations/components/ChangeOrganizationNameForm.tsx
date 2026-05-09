@@ -6,9 +6,9 @@ import { Button } from "@repo/ui/components/button";
 import { Input } from "@repo/ui/components/input";
 import { toastError, toastSuccess } from "@repo/ui/components/toast";
 import { SettingsItem } from "@shared/components/SettingsItem";
-import { useRouter } from "@shared/hooks/router";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -44,7 +44,7 @@ export function ChangeOrganizationNameForm() {
 				}
 
 				await queryClient.invalidateQueries({ queryKey: organizationListQueryKey });
-				router.refresh();
+				void router.invalidate();
 
 				toastSuccess(t("organizations.settings.changeName.notifications.success"));
 

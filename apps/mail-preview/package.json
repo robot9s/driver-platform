@@ -10,10 +10,10 @@
 	},
 	"dependencies": {
 		"@react-email/components": "^1.0.8",
-		"@react-email/preview-server": "^5.2.9",
+		"@react-email/preview-server": "5.2.11",
 		"@repo/mail": "workspace:*",
 		"react": "^19.2.5",
-		"react-email": "^5.2.9"
+		"react-email": "5.2.11"
 	},
 	"devDependencies": {
 		"@repo/tsconfig": "workspace:*",

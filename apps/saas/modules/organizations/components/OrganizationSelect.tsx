@@ -25,9 +25,7 @@ import {
 	TooltipTrigger,
 } from "@repo/ui/components/tooltip";
 import { UserAvatar } from "@shared/components/UserAvatar";
-import { useRouter } from "@shared/hooks/router";
-import { clearCache } from "@shared/lib/cache";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
 
 import { OrganizationLogo } from "./OrganizationLogo";
@@ -178,9 +176,8 @@ export function OrganzationSelect({
 							value={activeOrganization?.id ?? user.id}
 							onValueChange={async (value: string) => {
 								if (value === user.id) {
-									clearCache();
 									await setActiveOrganization(null);
-									router.replace("/");
+									void router.navigate({ to: "/", replace: true });
 								}
 							}}
 						>
@@ -209,9 +206,8 @@ export function OrganzationSelect({
 				<DropdownMenuRadioGroup
 					value={activeOrganization?.slug}
 					onValueChange={async (organizationSlug: string) => {
-						clearCache();
 						await setActiveOrganization(organizationSlug);
-						router.replace(`/${organizationSlug}`);
+						void router.navigate({ to: `/${organizationSlug}`, replace: true });
 					}}
 				>
 					{allOrganizations?.map((organization) => (

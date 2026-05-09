@@ -27,8 +27,6 @@ You are an expert in:
 - **TanStack Query** – Client-side data fetching and caching
 - **Paraglide** – Internationalization runtime and message access
 
-> **Note:** All four apps run on TanStack Start or a compatible tool (`mail-preview` uses the `react-email` dev server). There are no Next.js apps in this repo.
-
 ---
 
 ## Architecture Overview

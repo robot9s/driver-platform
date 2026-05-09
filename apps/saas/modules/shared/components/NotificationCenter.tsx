@@ -6,9 +6,9 @@ import {
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu";
-import { useRouter } from "@shared/hooks/router";
 import { orpc } from "@shared/lib/orpc-query-utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { BellIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -65,7 +65,7 @@ export function NotificationCenter({ className }: { className?: string }) {
 			await markRead.mutateAsync({ notificationId: n.id });
 		}
 		if (n.link?.startsWith("/")) {
-			router.push(n.link);
+			void router.navigate({ to: n.link });
 		}
 		setOpen(false);
 	};

@@ -19,10 +19,9 @@ import {
 	InputOTPSeparator,
 	InputOTPSlot,
 } from "@repo/ui/components/input-otp";
-import { useRouter } from "@shared/hooks/router";
 import { useSearchParams } from "@shared/hooks/search-params";
 import { useForm, useStore } from "@tanstack/react-form";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { AlertTriangleIcon, ArrowLeftIcon } from "lucide-react";
 import * as z from "zod";
 
@@ -56,7 +55,7 @@ export function OtpForm() {
 				if (error) {
 					throw error;
 				}
-				router.replace(redirectPath);
+				void router.navigate({ to: redirectPath, replace: true });
 			} catch (e) {
 				formApi.setErrorMap({
 					onSubmit: {

@@ -14,8 +14,8 @@ import {
 } from "@repo/ui/components/select";
 import { toastError, toastSuccess } from "@repo/ui/components/toast";
 import { SettingsItem } from "@shared/components/SettingsItem";
-import { useRouter } from "@shared/hooks/router";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
 export function UserLanguageForm() {
@@ -40,7 +40,7 @@ export function UserLanguageForm() {
 			localeRouter.replace(`${localePathname}${search}`, {
 				locale,
 			});
-			router.refresh();
+			void router.invalidate();
 		},
 	});
 
