@@ -46,7 +46,10 @@ export default defineConfig(({ mode, command }) => {
 				},
 			}),
 			nitro({
-				noExternals: ["file-selector"],
+				alias: {
+					tslib: fileURLToPath(import.meta.resolve("tslib/tslib.es6.mjs")),
+				},
+				noExternals: ["file-selector", "tslib"],
 			}),
 			viteReact(),
 		],

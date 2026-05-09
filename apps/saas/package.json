@@ -64,6 +64,7 @@
 		"slugify": "catalog:",
 		"sonner": "catalog:",
 		"streamdown": "catalog:",
+		"tslib": "^2.8.1",
 		"ufo": "catalog:",
 		"usehooks-ts": "catalog:",
 		"uuid": "catalog:",
