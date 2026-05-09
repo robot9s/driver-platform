@@ -4,10 +4,10 @@ import { ConfirmationAlertProvider } from "@shared/components/ConfirmationAlertP
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated")({
-	beforeLoad: async () => {
+	loader: async () => {
 		const session = await loadSessionForRouteFn();
 		if (!session) {
-			throw redirect({ to: "/login" });
+			throw redirect({ href: "/login" });
 		}
 	},
 	component: AuthenticatedLayout,
