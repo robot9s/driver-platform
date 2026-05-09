@@ -10,8 +10,6 @@ import { defineConfig, loadEnv } from "vite";
 const saasRoot = path.dirname(fileURLToPath(import.meta.url));
 const monorepoRoot = path.resolve(saasRoot, "../..");
 
-const nitroPreset = process.env.VERCEL ? "vercel" : undefined;
-
 export default defineConfig(({ mode, command }) => {
 	// Keep app-local pnpm scripts working by loading env files from monorepo root.
 	Object.assign(process.env, loadEnv(mode, monorepoRoot, ""));
@@ -41,16 +39,19 @@ export default defineConfig(({ mode, command }) => {
 		// re-running the plugin per-app, which used to race on a shared outdir.
 		plugins: [
 			tailwindcss(),
-			nitro(nitroPreset ? { preset: nitroPreset } : {}),
 			tanstackStart({
 				srcDirectory: ".",
 				server: {
 					entry: "src/server",
 				},
 			}),
+			nitro(),
 			viteReact(),
 		],
 		resolve: {
+			alias: {
+				tslib: fileURLToPath(import.meta.resolve("tslib/tslib.es6.mjs")),
+			},
 			tsconfigPaths: true,
 		},
 	};

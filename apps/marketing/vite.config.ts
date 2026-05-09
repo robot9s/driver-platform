@@ -11,8 +11,6 @@ import { defineConfig, loadEnv } from "vite";
 const marketingRoot = path.dirname(fileURLToPath(import.meta.url));
 const monorepoRoot = path.resolve(marketingRoot, "../..");
 
-const nitroPreset = process.env.VERCEL ? "vercel" : undefined;
-
 export default defineConfig(({ mode, command }) => {
 	Object.assign(process.env, loadEnv(mode, monorepoRoot, ""));
 
@@ -38,13 +36,13 @@ export default defineConfig(({ mode, command }) => {
 		plugins: [
 			contentCollections(),
 			tailwindcss(),
-			nitro(nitroPreset ? { preset: nitroPreset } : {}),
 			tanstackStart({
 				srcDirectory: ".",
 				server: {
 					entry: "src/server",
 				},
 			}),
+			nitro(),
 			viteReact(),
 		],
 		resolve: {
