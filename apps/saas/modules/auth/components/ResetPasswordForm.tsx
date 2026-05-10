@@ -124,7 +124,9 @@ export function ResetPasswordForm() {
 							)}
 						</FormField>
 
-						<Button loading={isSubmitting}>{t("auth.resetPassword.submit")}</Button>
+						<Button type="submit" loading={isSubmitting}>
+							{t("auth.resetPassword.submit")}
+						</Button>
 					</form>
 				</Form>
 			)}

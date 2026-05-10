@@ -38,11 +38,10 @@ export default defineConfig(({ mode, command }) => {
 			tailwindcss(),
 			tanstackStart({
 				srcDirectory: ".",
-				server: {
-					entry: "src/server.ts",
-				},
 			}),
-			nitro(),
+			nitro({
+				serverEntry: false,
+			}),
 			viteReact(),
 		],
 		resolve: {

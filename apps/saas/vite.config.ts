@@ -32,11 +32,9 @@ export default defineConfig(({ mode }) => {
 			tailwindcss(),
 			tanstackStart({
 				srcDirectory: ".",
-				server: {
-					entry: "src/server.ts",
-				},
 			}),
 			nitro({
+				serverEntry: false,
 				alias: {
 					tslib: fileURLToPath(import.meta.resolve("tslib/tslib.es6.mjs")),
 				},
