@@ -1,5 +1,5 @@
-import { authClient } from "@repo/auth/client";
 import type { Session } from "@repo/auth";
+import { authClient } from "@repo/auth/client";
 import { useQuery } from "@tanstack/react-query";
 
 export const sessionQueryKey = ["user", "session"] as const;
