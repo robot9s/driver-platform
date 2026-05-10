@@ -7,7 +7,7 @@
 		"dev": "vite dev",
 		"generate": "content-collections build",
 		"build": "pnpm generate && vite build",
-		"start": "node .output/server/index.mjs",
+		"start": "PORT=3001 node .output/server/index.mjs",
 		"clean": "git clean -xdf .cache .turbo dist node_modules .content-collections",
 		"e2e": "pnpm exec playwright test --ui",
 		"e2e:ci": "pnpm exec playwright install && pnpm exec playwright test",

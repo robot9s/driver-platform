@@ -80,6 +80,8 @@
 			"accountSettings": "Paramètres du compte",
 			"admin": "Admin",
 			"aiChatbot": "Chatbot IA",
+			"navigationTitle": "Navigation",
+			"openNavigation": "Ouvrir la navigation",
 			"organizationSettings": "Paramètres de l'organisation",
 			"start": "Démarrage"
 		},

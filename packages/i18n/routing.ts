@@ -3,6 +3,7 @@ import { getCurrentLocale } from "./runtime";
 import {
 	defaultLocale,
 	extractLocaleFromPath,
+	normalizeLocale,
 	shouldIgnorePath,
 	stripLocaleFromPath,
 } from "./shared";
@@ -37,7 +38,7 @@ export function localizeUrl(url: URL | string, options?: { locale?: Locale | str
 		return nextUrl;
 	}
 
-	const locale = options?.locale ?? getCurrentLocale();
+	const locale = normalizeLocale(options?.locale ?? getCurrentLocale());
 	const delocalizedPathname = stripLocaleFromPath(nextUrl.pathname);
 
 	if (locale === defaultLocale) {

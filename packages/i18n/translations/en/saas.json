@@ -80,6 +80,8 @@
 			"accountSettings": "Account settings",
 			"admin": "Admin",
 			"aiChatbot": "AI Chatbot",
+			"navigationTitle": "Navigation",
+			"openNavigation": "Open navigation",
 			"organizationSettings": "Organization settings",
 			"start": "Start"
 		},

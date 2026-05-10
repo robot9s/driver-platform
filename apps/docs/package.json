@@ -6,8 +6,8 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"start": "vite preview",
-		"preview": "vite preview",
+		"start": "vite preview --port 3002 --strictPort",
+		"preview": "vite preview --port 3002 --strictPort",
 		"types:check": "fumadocs-mdx && tsc --noEmit",
 		"postinstall": "fumadocs-mdx",
 		"lint": "oxlint"

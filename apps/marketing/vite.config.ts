@@ -11,19 +11,20 @@ import { defineConfig, loadEnv } from "vite";
 const marketingRoot = path.dirname(fileURLToPath(import.meta.url));
 const monorepoRoot = path.resolve(marketingRoot, "../..");
 
-export default defineConfig(({ mode, command }) => {
+export default defineConfig(({ mode }) => {
 	Object.assign(process.env, loadEnv(mode, monorepoRoot, ""));
-
-	const bundleReactForProdSsr = command === "build";
 
 	return {
 		envDir: monorepoRoot,
 		envPrefix: ["VITE_"],
-		ssr: {
-			noExternal: [
-				"@repo/i18n",
-				...(bundleReactForProdSsr ? (["react", "react-dom"] as const) : []),
-			],
+		environments: {
+			ssr: {
+				build: {
+					rollupOptions: {
+						input: "./src/server.ts",
+					},
+				},
+			},
 		},
 		server: {
 			port: Number.parseInt(process.env.PORT ?? "3001", 10),
@@ -31,17 +32,15 @@ export default defineConfig(({ mode, command }) => {
 		},
 		plugins: [
 			contentCollections(),
-			tailwindcss(),
 			tanstackStart({
 				srcDirectory: ".",
 			}),
-			nitro({
-				serverEntry: false,
-				noExternals: ["@repo/i18n", "@repo/ui", "react", "react-dom", "use-intl"],
-			}),
 			viteReact(),
+			tailwindcss(),
+			nitro(),
 		],
 		resolve: {
+			dedupe: ["react", "react-dom"],
 			tsconfigPaths: true,
 		},
 	};
