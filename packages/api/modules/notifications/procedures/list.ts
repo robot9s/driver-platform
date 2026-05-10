@@ -1,4 +1,5 @@
 import { getUnreadNotificationCountByUserId, listNotificationsByUserId } from "@repo/database";
+import { resolveNotificationLink } from "@repo/notifications";
 import { z } from "zod";
 
 import { protectedProcedure } from "../../../orpc/procedures";
@@ -23,5 +24,11 @@ export const list = protectedProcedure
 			listNotificationsByUserId(user.id, limit),
 			getUnreadNotificationCountByUserId(user.id),
 		]);
-		return { items, unreadCount };
+		return {
+			items: items.map((item) => ({
+				...item,
+				link: resolveNotificationLink(item.link),
+			})),
+			unreadCount,
+		};
 	});

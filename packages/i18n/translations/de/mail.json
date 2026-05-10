@@ -24,6 +24,11 @@
 		"confirmEmail": "E-Mail bestätigen",
 		"subject": "E-Mail bestätigen"
 	},
+	"notification": {
+		"openInApp": "Öffne diese Benachrichtigung in der App:",
+		"subject": "Neue Benachrichtigung",
+		"view": "Ansehen"
+	},
 	"organizationInvitation": {
 		"body": "Du wurdest eingeladen, der Organisation {organizationName} beizutreten. Klicke auf den Button unten oder kopiere den Link und füge ihn in den Browser deiner Wahl ein, um die Einladung anzunehmen und der Organisation beizutreten.",
 		"headline": "Einladung zur Organisation {organizationName}",

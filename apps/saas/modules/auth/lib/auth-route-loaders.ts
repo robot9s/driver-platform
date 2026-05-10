@@ -1,4 +1,5 @@
 import { auth } from "@repo/auth";
+import { logger } from "@repo/logs";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
 
@@ -21,8 +22,9 @@ export const loadOrganizationListForRouteFn = createServerFn({ method: "GET" }).
 			return await auth.api.listOrganizations({
 				headers: getRequestHeaders(),
 			});
-		} catch {
-			return [];
+		} catch (error) {
+			logger.error(error);
+			throw error;
 		}
 	},
 );

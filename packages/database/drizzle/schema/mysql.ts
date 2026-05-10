@@ -36,6 +36,7 @@ export const user = mysqlTable("user", {
 	onboardingComplete: boolean("onboardingComplete").default(false).notNull(),
 	paymentsCustomerId: text("paymentsCustomerId"),
 	locale: text("locale"),
+	lastActiveOrganizationId: text("lastActiveOrganizationId"),
 });
 
 export const session = mysqlTable(

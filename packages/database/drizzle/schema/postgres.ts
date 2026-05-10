@@ -36,6 +36,7 @@ export const user = pgTable("user", {
 	onboardingComplete: boolean("onboardingComplete"),
 	paymentsCustomerId: text("paymentsCustomerId"),
 	locale: text("locale"),
+	lastActiveOrganizationId: text("lastActiveOrganizationId"),
 });
 
 export const session = pgTable(
@@ -162,6 +163,7 @@ export const member = pgTable(
 		createdAt: timestamp("createdAt").notNull(),
 	},
 	(table) => [
+		uniqueIndex("member_user_org_idx").on(table.userId, table.organizationId),
 		index("member_organizationId_idx").on(table.organizationId),
 		index("member_userId_idx").on(table.userId),
 	],

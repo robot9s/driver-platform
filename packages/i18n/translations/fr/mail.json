@@ -24,6 +24,11 @@
 		"confirmEmail": "Confirmer l'e-mail",
 		"subject": "Confirmez votre e-mail"
 	},
+	"notification": {
+		"openInApp": "Ouvrez cette notification dans l'application :",
+		"subject": "Nouvelle notification",
+		"view": "Voir"
+	},
 	"organizationInvitation": {
 		"body": "Vous avez été invité à rejoindre l'organisation {organizationName}. Cliquez sur le bouton ci-dessous ou copiez et collez le lien dans votre navigateur préféré pour accepter l'invitation et rejoindre l'organisation.",
 		"headline": "Rejoignez l'organisation {organizationName}",

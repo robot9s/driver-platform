@@ -5,6 +5,7 @@ import {
 	mail_forgotPassword_subject,
 	mail_magicLink_subject,
 	mail_newUser_subject,
+	mail_notification_subject,
 	mail_organizationInvitation_subject,
 } from "@repo/i18n/paraglide/messages.js";
 import type { ReactElement } from "react";
@@ -16,6 +17,7 @@ const mailSubjects = {
 	forgotPassword: mail_forgotPassword_subject,
 	magicLink: mail_magicLink_subject,
 	newUser: mail_newUser_subject,
+	notification: mail_notification_subject,
 	organizationInvitation: mail_organizationInvitation_subject,
 } as const;
 
@@ -32,9 +34,18 @@ export async function getTemplate<T extends TemplateId>({
 }) {
 	const template = mailTemplates[templateId];
 	const templateProps = { ...context, locale };
-	const email = (template as (props: typeof templateProps) => ReactElement)(templateProps);
+	const email = (template as unknown as (props: typeof templateProps) => ReactElement)(
+		templateProps,
+	);
 
-	const subject = mailSubjects[templateId]({}, { locale });
+	let subject = mailSubjects[templateId]({}, { locale }) as string;
+
+	if (templateId === "notification") {
+		const notificationContext = context as { title?: string };
+		if (notificationContext.title) {
+			subject = notificationContext.title;
+		}
+	}
 
 	const html = await render(email);
 	const text = await render(email, { plainText: true });

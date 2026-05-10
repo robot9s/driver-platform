@@ -24,6 +24,8 @@ import { Link, useRouter, useSearch } from "@tanstack/react-router";
 import { AlertTriangleIcon, ArrowLeftIcon } from "lucide-react";
 import * as z from "zod";
 
+import { getSafeRedirectPath } from "../lib/redirects";
+
 const formSchema = z.object({
 	code: z.string().min(6).max(6),
 });
@@ -44,7 +46,7 @@ export function OtpForm() {
 
 	const redirectPath = invitationId
 		? `/organization-invitation/${invitationId}`
-		: (redirectTo ?? config.redirectAfterSignIn);
+		: getSafeRedirectPath(redirectTo, config.redirectAfterSignIn);
 
 	const form = useForm({
 		defaultValues: {
@@ -112,7 +114,7 @@ export function OtpForm() {
 										onBlur={field.handleBlur}
 										onChange={(value) => {
 											field.handleChange(value);
-											if (value.length === 6) {
+											if (value.length === 6 && !isSubmitting) {
 												void form.handleSubmit();
 											}
 										}}

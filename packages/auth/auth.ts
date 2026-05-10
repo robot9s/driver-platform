@@ -5,10 +5,12 @@ import {
 	getPurchasesByOrganizationId,
 	getPurchasesByUserId,
 	getUserByEmail,
+	getUserById,
 } from "@repo/database";
 import { config as i18nConfig, type Locale } from "@repo/i18n";
 import { logger } from "@repo/logs";
 import { sendEmail } from "@repo/mail";
+import { createWelcomeNotification } from "@repo/notifications";
 import { cancelSubscription } from "@repo/payments";
 import { getBaseUrl } from "@repo/utils";
 import { betterAuth } from "better-auth";
@@ -43,6 +45,39 @@ export const auth = betterAuth({
 	session: {
 		expiresIn: config.sessionCookieMaxAge,
 		freshAge: 0,
+	},
+	databaseHooks: {
+		session: {
+			create: {
+				before: async (session) => {
+					const user = await getUserById(session.userId);
+					return {
+						data: {
+							...session,
+							activeOrganizationId: user?.lastActiveOrganizationId ?? null,
+						},
+					};
+				},
+			},
+		},
+		user: {
+			create: {
+				after: async (createdUser) => {
+					if (!createdUser?.id) {
+						return;
+					}
+
+					try {
+						await createWelcomeNotification(createdUser.id);
+					} catch (error) {
+						logger.error(error, {
+							ctx: "createWelcomeNotification",
+							userId: createdUser.id,
+						});
+					}
+				},
+			},
+		},
 	},
 	account: {
 		accountLinking: {
@@ -134,6 +169,10 @@ export const auth = betterAuth({
 				required: false,
 			},
 			locale: {
+				type: "string",
+				required: false,
+			},
+			lastActiveOrganizationId: {
 				type: "string",
 				required: false,
 			},
