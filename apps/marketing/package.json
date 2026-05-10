@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"generate": "tsx scripts/build-content.ts && tsx scripts/build-sitemap.ts",
+		"generate": "tsx scripts/build-content.ts",
 		"build": "pnpm generate && vite build",
 		"start": "node .output/server/index.mjs",
 		"clean": "git clean -xdf .cache .turbo dist node_modules .content-collections",

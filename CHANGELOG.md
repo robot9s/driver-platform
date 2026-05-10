@@ -4,7 +4,7 @@
 
 ### Added
 
-- Added TanStack Start parity routes for `robots.txt`, marketing `sitemap.xml`, and private avatar/logo image proxying.
+- Added TanStack Start parity routes for `robots.txt` and private avatar/logo image proxying.
 - Added `@repo/notifications` with notification creation helpers, link resolution, welcome notifications, and notification email support.
 - Added marketing analytics provider examples for Google Analytics, Mixpanel, PostHog, Vercel Analytics, and custom integrations.
 
