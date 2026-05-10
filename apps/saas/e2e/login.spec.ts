@@ -1,8 +1,13 @@
 import { expect, test } from "@playwright/test";
 
+async function waitForAuthPageHydration(page: import("@playwright/test").Page) {
+	await expect(page.getByRole("button", { name: "System mode" })).toBeVisible();
+}
+
 test.describe("login page", () => {
 	test("should load and show all relevant login form components", async ({ page }) => {
 		await page.goto("/login");
+		await waitForAuthPageHydration(page);
 
 		// Main heading and subtitle
 		await expect(page.getByRole("heading", { name: "Welcome back" })).toBeVisible();
@@ -39,6 +44,7 @@ test.describe("login page", () => {
 
 	test("should switch between magic link and password auth modes", async ({ page }) => {
 		await page.goto("/login");
+		await waitForAuthPageHydration(page);
 
 		const passwordInput = page.locator('input[autocomplete="current-password"]');
 

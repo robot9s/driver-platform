@@ -13,14 +13,16 @@ import {
 } from "@repo/ui/components/dropdown-menu";
 import { LanguagesIcon } from "lucide-react";
 import { useState } from "react";
+import { useIsClient } from "usehooks-ts";
 
 export function LocaleSwitch() {
 	const localeRouter = useLocaleRouter();
 	const localePathname = useLocalePathname();
 	const currentLocale = getLocale();
 	const [value, setValue] = useState<string>(currentLocale);
+	const isClient = useIsClient();
 
-	if (Object.keys(i18nConfig.locales).length <= 1) {
+	if (!isClient || Object.keys(i18nConfig.locales).length <= 1) {
 		return null;
 	}
 

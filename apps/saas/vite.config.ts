@@ -10,24 +10,15 @@ import { defineConfig, loadEnv } from "vite";
 const saasRoot = path.dirname(fileURLToPath(import.meta.url));
 const monorepoRoot = path.resolve(saasRoot, "../..");
 
-export default defineConfig(({ mode, command }) => {
+export default defineConfig(({ mode }) => {
 	// Keep app-local pnpm scripts working by loading env files from monorepo root.
 	Object.assign(process.env, loadEnv(mode, monorepoRoot, ""));
-
-	const bundleReactForProdSsr = command === "build";
 
 	return {
 		envDir: monorepoRoot,
 		envPrefix: ["VITE_"],
 		ssr: {
-			noExternal: [
-				"@repo/i18n",
-				// Production SSR needs React in the bundle so serverless artifacts
-				// don't rely on a hoisted node_modules. In dev, externalize React so
-				// Node loads the CJS bridge; Vite's SSR runner can't execute that file
-				// as ESM (ReferenceError: module is not defined).
-				...(bundleReactForProdSsr ? (["react", "react-dom"] as const) : []),
-			],
+			noExternal: ["@repo/i18n"],
 		},
 		server: {
 			port: Number.parseInt(process.env.PORT ?? "3000", 10),
@@ -41,9 +32,6 @@ export default defineConfig(({ mode, command }) => {
 			tailwindcss(),
 			tanstackStart({
 				srcDirectory: ".",
-				server: {
-					entry: "src/server",
-				},
 			}),
 			nitro({
 				alias: {
