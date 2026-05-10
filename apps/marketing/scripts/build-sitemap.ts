@@ -23,12 +23,7 @@ function localePath(locale: string, routePath: string) {
 }
 
 function sitemapUrl(loc: string) {
-	return [
-		"<url>",
-		`<loc>${loc}</loc>`,
-		`<lastmod>${new Date().toISOString()}</lastmod>`,
-		"</url>",
-	].join("");
+	return ["<url>", `<loc>${loc}</loc>`, "</url>"].join("");
 }
 
 async function main() {
