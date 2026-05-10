@@ -1,4 +1,5 @@
 import type { OrganizationMetadata } from "@repo/auth";
+import type { ActiveOrganization } from "@repo/auth";
 import { authClient } from "@repo/auth/client";
 import { orpcClient } from "@shared/lib/orpc-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -31,6 +32,7 @@ export const useActiveOrganizationQuery = (
 	identifier: ActiveOrganizationIdentifier,
 	options?: {
 		enabled?: boolean;
+		initialData?: ActiveOrganization | null;
 	},
 ) => {
 	const { slug, id } = identifier;
@@ -53,6 +55,7 @@ export const useActiveOrganizationQuery = (
 			return data;
 		},
 		enabled: options?.enabled && !!cacheKey,
+		...(options?.initialData ? { initialData: options.initialData } : {}),
 	});
 };
 

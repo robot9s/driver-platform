@@ -1,6 +1,7 @@
 import { useSession } from "@auth/hooks/use-session";
 import { sessionQueryKey } from "@auth/lib/api";
 import { activeOrganizationQueryKey, useActiveOrganizationQuery } from "@organizations/lib/api";
+import type { ActiveOrganization } from "@repo/auth";
 import { authClient } from "@repo/auth/client";
 import { isOrganizationAdmin } from "@repo/auth/lib/helper";
 import { config as paymentsConfig } from "@repo/payments/config";
@@ -12,7 +13,13 @@ import { type ReactNode, useEffect, useState } from "react";
 
 import { ActiveOrganizationContext } from "../lib/active-organization-context";
 
-export function ActiveOrganizationProvider({ children }: { children: ReactNode }) {
+export function ActiveOrganizationProvider({
+	children,
+	initialActiveOrganization,
+}: {
+	children: ReactNode;
+	initialActiveOrganization?: ActiveOrganization | null;
+}) {
 	const queryClient = useQueryClient();
 	const { session, user } = useSession();
 	const params = useParams({ strict: false }) as { organizationSlug?: string };
@@ -24,9 +31,15 @@ export function ActiveOrganizationProvider({ children }: { children: ReactNode }
 		: activeOrganizationId
 			? { id: activeOrganizationId }
 			: { slug: undefined, id: undefined };
+	const shouldUseInitialActiveOrganization =
+		!!initialActiveOrganization &&
+		(organizationSlug
+			? initialActiveOrganization.slug === organizationSlug
+			: initialActiveOrganization.id === activeOrganizationId);
 
 	const { data: activeOrganization } = useActiveOrganizationQuery(activeOrganizationIdentifier, {
 		enabled: !!organizationSlug || !!activeOrganizationId,
+		initialData: shouldUseInitialActiveOrganization ? initialActiveOrganization : undefined,
 	});
 
 	const refetchActiveOrganization = async () => {

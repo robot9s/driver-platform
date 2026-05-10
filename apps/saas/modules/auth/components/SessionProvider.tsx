@@ -1,14 +1,21 @@
 import { sessionQueryKey, useSessionQuery } from "@auth/lib/api";
+import type { Session } from "@repo/auth";
 import { authClient } from "@repo/auth/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { type ReactNode, useEffect, useState } from "react";
 
 import { SessionContext } from "../lib/session-context";
 
-export function SessionProvider({ children }: { children: ReactNode }) {
+export function SessionProvider({
+	children,
+	initialSession,
+}: {
+	children: ReactNode;
+	initialSession?: Session | null;
+}) {
 	const queryClient = useQueryClient();
 
-	const { data: session } = useSessionQuery();
+	const { data: session } = useSessionQuery(initialSession);
 	const [loaded, setLoaded] = useState(!!session);
 
 	useEffect(() => {

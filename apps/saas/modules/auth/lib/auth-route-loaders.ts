@@ -28,3 +28,19 @@ export const loadOrganizationListForRouteFn = createServerFn({ method: "GET" }).
 		}
 	},
 );
+
+export const loadActiveOrganizationForRouteFn = createServerFn({ method: "GET" })
+	.inputValidator((organizationId: string) => organizationId)
+	.handler(async ({ data: organizationId }) => {
+		try {
+			return await auth.api.getFullOrganization({
+				query: {
+					organizationId,
+				},
+				headers: getRequestHeaders(),
+			});
+		} catch (error) {
+			logger.error(error);
+			return null;
+		}
+	});

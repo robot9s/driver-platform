@@ -1,4 +1,5 @@
 import { authClient } from "@repo/auth/client";
+import type { Session } from "@repo/auth";
 import { useQuery } from "@tanstack/react-query";
 
 export const sessionQueryKey = ["user", "session"] as const;
@@ -12,7 +13,7 @@ export const sessionQueryKey = ["user", "session"] as const;
  * change email, accept invitation, etc.) should call `reloadSession()` from
  * the session context, which bypasses the cache explicitly.
  */
-export const useSessionQuery = () => {
+export const useSessionQuery = (initialData?: Session | null) => {
 	return useQuery({
 		queryKey: sessionQueryKey,
 		queryFn: async () => {
@@ -27,6 +28,7 @@ export const useSessionQuery = () => {
 		staleTime: Number.POSITIVE_INFINITY,
 		refetchOnWindowFocus: false,
 		retry: false,
+		...(initialData ? { initialData } : {}),
 	});
 };
 
