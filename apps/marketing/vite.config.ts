@@ -39,7 +39,7 @@ export default defineConfig(({ mode, command }) => {
 			tanstackStart({
 				srcDirectory: ".",
 				server: {
-					entry: "src/server",
+					entry: "src/server.ts",
 				},
 			}),
 			nitro(),

@@ -32,6 +32,9 @@ export default defineConfig(({ mode }) => {
 			tailwindcss(),
 			tanstackStart({
 				srcDirectory: ".",
+				server: {
+					entry: "src/server.ts",
+				},
 			}),
 			nitro({
 				alias: {
