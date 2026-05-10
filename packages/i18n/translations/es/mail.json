@@ -24,6 +24,11 @@
 		"confirmEmail": "Confirmar correo",
 		"subject": "Confirma tu correo electrónico"
 	},
+	"notification": {
+		"openInApp": "Abre esta notificación en la aplicación:",
+		"subject": "Nueva notificación",
+		"view": "Ver"
+	},
 	"organizationInvitation": {
 		"body": "Has sido invitado a unirte a la organización {organizationName}. Haz clic en el botón de abajo o copia y pega el enlace en tu navegador preferido para aceptar la invitación y unirte a la organización.",
 		"headline": "Únete a la organización {organizationName}",

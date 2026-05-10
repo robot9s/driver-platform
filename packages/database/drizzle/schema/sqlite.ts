@@ -26,6 +26,7 @@ export const user = sqliteTable("user", {
 	onboardingComplete: integer("onboardingComplete", { mode: "boolean" }).notNull().default(false),
 	paymentsCustomerId: text("paymentsCustomerId"),
 	locale: text("locale"),
+	lastActiveOrganizationId: text("lastActiveOrganizationId"),
 });
 
 export const session = sqliteTable(

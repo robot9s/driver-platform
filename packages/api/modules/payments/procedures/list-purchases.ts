@@ -1,8 +1,10 @@
+import { ORPCError } from "@orpc/server";
 import { getPurchasesByOrganizationId, getPurchasesByUserId } from "@repo/database";
 import { getPlanIdByProviderPriceId, getPlanPriceByProviderPriceId } from "@repo/payments";
 import { z } from "zod";
 
 import { protectedProcedure } from "../../../orpc/procedures";
+import { verifyOrganizationMembership } from "../../organizations/lib/membership";
 
 export const listPurchases = protectedProcedure
 	.route({
@@ -18,6 +20,14 @@ export const listPurchases = protectedProcedure
 		}),
 	)
 	.handler(async ({ input: { organizationId }, context: { user } }) => {
+		if (organizationId) {
+			const membership = await verifyOrganizationMembership(organizationId, user.id);
+
+			if (!membership) {
+				throw new ORPCError("FORBIDDEN");
+			}
+		}
+
 		const purchases = organizationId
 			? await getPurchasesByOrganizationId(organizationId)
 			: await getPurchasesByUserId(user.id);

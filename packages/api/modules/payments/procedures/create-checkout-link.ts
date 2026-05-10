@@ -1,4 +1,4 @@
-import { ORPCError } from "@orpc/client";
+import { ORPCError } from "@orpc/server";
 import { getOrganizationById } from "@repo/database";
 import { logger } from "@repo/logs";
 import {
@@ -12,6 +12,7 @@ import { z } from "zod";
 
 import { localeMiddleware } from "../../../orpc/middleware/locale-middleware";
 import { protectedProcedure } from "../../../orpc/procedures";
+import { verifyOrganizationMembership } from "../../organizations/lib/membership";
 
 export const createCheckoutLink = protectedProcedure
 	.use(localeMiddleware)
@@ -36,6 +37,14 @@ export const createCheckoutLink = protectedProcedure
 			input: { planId, redirectUrl, type, interval, organizationId },
 			context: { user },
 		}) => {
+			const membership = organizationId
+				? await verifyOrganizationMembership(organizationId, user.id)
+				: null;
+
+			if (organizationId && !membership) {
+				throw new ORPCError("FORBIDDEN");
+			}
+
 			const customerId = await getCustomerIdFromEntity(
 				organizationId
 					? {
@@ -66,10 +75,6 @@ export const createCheckoutLink = protectedProcedure
 			const organization = organizationId
 				? await getOrganizationById(organizationId)
 				: undefined;
-
-			if (organization === null) {
-				throw new ORPCError("NOT_FOUND");
-			}
 
 			const seats =
 				organization && price && "seatBased" in price && price.seatBased

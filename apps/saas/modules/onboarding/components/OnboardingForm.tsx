@@ -1,3 +1,4 @@
+import { getSafeRedirectPath } from "@auth/lib/redirects";
 import { useTranslations } from "@i18n/intl";
 import { authClient } from "@repo/auth/client";
 import { Progress } from "@repo/ui/components/progress";
@@ -19,12 +20,12 @@ export function OnboardingForm() {
 
 	const stepSearchParam = search.step;
 	const redirectTo = search.redirectTo;
-	const onboardingStep = stepSearchParam ? Number.parseInt(stepSearchParam, 10) : 1;
 
 	// oxlint-disable-next-line no-unused-vars -- used for redirecting to the next step
 	const setStep = (step: number) => {
 		void router.navigate({
-			to: withQuery(window.location.search ?? "", {
+			to: withQuery(window.location.pathname, {
+				...search,
 				step,
 			}),
 			replace: true,
@@ -36,7 +37,7 @@ export function OnboardingForm() {
 			onboardingComplete: true,
 		});
 
-		void router.navigate({ to: redirectTo ?? "/", replace: true });
+		void router.navigate({ to: getSafeRedirectPath(redirectTo, "/"), replace: true });
 	};
 
 	const steps = useMemo(() => {
@@ -48,6 +49,12 @@ export function OnboardingForm() {
 
 		return allSteps;
 	}, []); // oxlint-disable-line eslint-plugin-react-hooks/exhaustive-deps
+
+	const parsedStep = stepSearchParam ? Number.parseInt(stepSearchParam, 10) : 1;
+	const onboardingStep =
+		Number.isInteger(parsedStep) && parsedStep >= 1 && parsedStep <= steps.length
+			? parsedStep
+			: 1;
 
 	return (
 		<div>

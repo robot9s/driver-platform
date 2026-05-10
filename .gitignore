@@ -19,6 +19,7 @@ build
 .swc/
 .output/
 .vercel/
+apps/marketing/public/sitemap.xml
 *.local
 
 # misc

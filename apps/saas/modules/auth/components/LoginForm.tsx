@@ -27,6 +27,7 @@ import { z } from "zod";
 
 import { type OAuthProvider, oAuthProviders } from "../constants/oauth-providers";
 import { useSession } from "../hooks/use-session";
+import { getSafeRedirectPath } from "../lib/redirects";
 import { LoginModeSwitch } from "./LoginModeSwitch";
 import { SocialSigninButton } from "./SocialSigninButton";
 
@@ -59,7 +60,7 @@ export function LoginForm() {
 
 	const redirectPath = invitationId
 		? `/organization-invitation/${invitationId}`
-		: (redirectTo ?? config.redirectAfterSignIn);
+		: getSafeRedirectPath(redirectTo, config.redirectAfterSignIn);
 
 	const form = useForm({
 		defaultValues: {
@@ -134,7 +135,7 @@ export function LoginForm() {
 		if (sessionLoaded && user) {
 			void router.navigate({ to: redirectPath, replace: true });
 		}
-	}, [user, sessionLoaded]); // oxlint-disable-line eslint-plugin-react-hooks/exhaustive-deps
+	}, [user, sessionLoaded, router, redirectPath]);
 
 	const signInWithPasskey = async () => {
 		try {

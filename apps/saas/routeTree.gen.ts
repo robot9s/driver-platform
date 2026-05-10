@@ -15,6 +15,7 @@ import { Route as SignupIndexRouteImport } from './routes/signup/index'
 import { Route as ResetPasswordIndexRouteImport } from './routes/reset-password/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as ForgotPasswordIndexRouteImport } from './routes/forgot-password/index'
+import { Route as ImageProxySplatRouteImport } from './routes/image-proxy/$'
 import { Route as ApiSplatRouteImport } from './routes/api/$'
 import { Route as AuthenticatedMainRouteRouteImport } from './routes/_authenticated/_main/route'
 import { Route as AuthenticatedOnboardingIndexRouteImport } from './routes/_authenticated/onboarding/index'
@@ -69,6 +70,11 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
 const ForgotPasswordIndexRoute = ForgotPasswordIndexRouteImport.update({
   id: '/forgot-password/',
   path: '/forgot-password/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImageProxySplatRoute = ImageProxySplatRouteImport.update({
+  id: '/image-proxy/$',
+  path: '/image-proxy/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
@@ -227,6 +233,7 @@ const AuthenticatedMainOrganizationSlugSettingsBillingIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedMainIndexRoute
   '/api/$': typeof ApiSplatRoute
+  '/image-proxy/$': typeof ImageProxySplatRoute
   '/forgot-password/': typeof ForgotPasswordIndexRoute
   '/login/': typeof LoginIndexRoute
   '/reset-password/': typeof ResetPasswordIndexRoute
@@ -259,6 +266,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedMainIndexRoute
   '/api/$': typeof ApiSplatRoute
+  '/image-proxy/$': typeof ImageProxySplatRoute
   '/forgot-password': typeof ForgotPasswordIndexRoute
   '/login': typeof LoginIndexRoute
   '/reset-password': typeof ResetPasswordIndexRoute
@@ -291,6 +299,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/_main': typeof AuthenticatedMainRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
+  '/image-proxy/$': typeof ImageProxySplatRoute
   '/forgot-password/': typeof ForgotPasswordIndexRoute
   '/login/': typeof LoginIndexRoute
   '/reset-password/': typeof ResetPasswordIndexRoute
@@ -326,6 +335,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/api/$'
+    | '/image-proxy/$'
     | '/forgot-password/'
     | '/login/'
     | '/reset-password/'
@@ -358,6 +368,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/api/$'
+    | '/image-proxy/$'
     | '/forgot-password'
     | '/login'
     | '/reset-password'
@@ -389,6 +400,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_authenticated/_main'
     | '/api/$'
+    | '/image-proxy/$'
     | '/forgot-password/'
     | '/login/'
     | '/reset-password/'
@@ -423,6 +435,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ApiSplatRoute: typeof ApiSplatRoute
+  ImageProxySplatRoute: typeof ImageProxySplatRoute
   ForgotPasswordIndexRoute: typeof ForgotPasswordIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   ResetPasswordIndexRoute: typeof ResetPasswordIndexRoute
@@ -472,6 +485,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password/'
       preLoaderRoute: typeof ForgotPasswordIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/image-proxy/$': {
+      id: '/image-proxy/$'
+      path: '/image-proxy/$'
+      fullPath: '/image-proxy/$'
+      preLoaderRoute: typeof ImageProxySplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/$': {
@@ -774,6 +794,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ApiSplatRoute: ApiSplatRoute,
+  ImageProxySplatRoute: ImageProxySplatRoute,
   ForgotPasswordIndexRoute: ForgotPasswordIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   ResetPasswordIndexRoute: ResetPasswordIndexRoute,

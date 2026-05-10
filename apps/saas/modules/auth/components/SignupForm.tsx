@@ -27,12 +27,13 @@ import { withQuery } from "ufo";
 import { z } from "zod";
 
 import { type OAuthProvider, oAuthProviders } from "../constants/oauth-providers";
+import { getSafeRedirectPath } from "../lib/redirects";
 import { SocialSigninButton } from "./SocialSigninButton";
 
 const formSchema = z.object({
 	email: z.email(),
 	name: z.string().min(1),
-	password: passwordSchema,
+	password: authConfig.enablePasswordLogin ? passwordSchema : z.string(),
 });
 
 interface AuthSearch extends Record<string, string | undefined> {
@@ -55,7 +56,7 @@ export function SignupForm({ prefillEmail }: { prefillEmail?: string }) {
 	const invitationOnlyMode = !authConfig.enableSignup && invitationId;
 	const redirectPath = invitationId
 		? `/organization-invitation/${invitationId}`
-		: (redirectTo ?? config.redirectAfterSignIn);
+		: getSafeRedirectPath(redirectTo, config.redirectAfterSignIn);
 
 	const form = useForm({
 		defaultValues: {
@@ -120,7 +121,7 @@ export function SignupForm({ prefillEmail }: { prefillEmail?: string }) {
 		if (sessionLoaded && user) {
 			void router.navigate({ to: redirectPath, replace: true });
 		}
-	}, [user, sessionLoaded]); // oxlint-disable-line eslint-plugin-react-hooks/exhaustive-deps
+	}, [user, sessionLoaded, router, redirectPath]);
 
 	return (
 		<div>
