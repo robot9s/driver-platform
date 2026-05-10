@@ -13,10 +13,14 @@ const monorepoRoot = path.resolve(marketingRoot, "../..");
 
 export default defineConfig(({ mode }) => {
 	Object.assign(process.env, loadEnv(mode, monorepoRoot, ""));
+	const isProductionBuild = mode === "production";
 
 	return {
 		envDir: monorepoRoot,
 		envPrefix: ["VITE_"],
+		ssr: {
+			noExternal: isProductionBuild ? ["react", "react-dom"] : [],
+		},
 		environments: {
 			ssr: {
 				build: {
