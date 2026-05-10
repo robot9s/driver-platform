@@ -1,16 +1,17 @@
 import { PostContent } from "@blog/components/PostContent";
 import { getPostBySlug } from "@blog/lib/posts";
 import { LocaleLink, localeRedirect } from "@i18n/routing";
-import { marketing_blog_back } from "@repo/i18n/paraglide/messages.js";
-import { deLocalizeHref, getLocale } from "@repo/i18n/paraglide/runtime";
+import { deLocalizeHref } from "@repo/i18n/routing";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { getBaseUrl } from "@shared/lib/base-url";
 import { getActivePathFromUrlParam } from "@shared/lib/content";
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslations } from "use-intl";
 
 export const Route = createFileRoute("/blog/$/")({
 	component: BlogPostPage,
 	loader: async ({ location }) => {
-		const resolvedLocale = getLocale();
+		const resolvedLocale = getCurrentLocale();
 		const dePath = deLocalizeHref(location.pathname);
 		const slug = getActivePathFromUrlParam(dePath.replace(/^\/blog\/?/, "").replace(/\/$/, ""));
 		const post = await getPostBySlug(slug, { locale: resolvedLocale });
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/blog/$/")({
 
 function BlogPostPage() {
 	const { post } = Route.useLoaderData();
+	const t = useTranslations("blog");
 
 	if (!post) {
 		return null;
@@ -42,7 +44,7 @@ function BlogPostPage() {
 		<div className="py-16 container">
 			<div className="">
 				<div className="mb-12">
-					<LocaleLink href="/blog">&larr; {marketing_blog_back()}</LocaleLink>
+					<LocaleLink href="/blog">&larr; {t("back")}</LocaleLink>
 				</div>
 
 				<div className="max-w-2xl mx-auto text-center">

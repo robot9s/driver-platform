@@ -1,14 +1,14 @@
 import { PostContent } from "@blog/components/PostContent";
 import { localeRedirect } from "@i18n/routing";
 import { getLegalPageByPath } from "@legal/lib/pages";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { getActivePathFromUrlParam } from "@shared/lib/content";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/legal/$slug/")({
 	component: LegalPage,
 	loader: async ({ params }) => {
-		const resolvedLocale = getLocale();
+		const resolvedLocale = getCurrentLocale();
 		const activePath = getActivePathFromUrlParam(params.slug);
 		const page = await getLegalPageByPath(activePath, { locale: resolvedLocale });
 		if (!page) {

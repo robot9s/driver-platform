@@ -1,15 +1,9 @@
 import { Link, Text } from "@react-email/components";
-import {
-	mail_common_openLinkInBrowser,
-	mail_common_otp,
-	mail_common_useLink,
-	mail_newUser_body,
-	mail_newUser_confirmEmail,
-} from "@repo/i18n/paraglide/messages.js";
 import React from "react";
 
 import PrimaryButton from "../components/PrimaryButton";
 import Wrapper from "../components/Wrapper";
+import { getMailTranslator } from "../lib/i18n";
 import { defaultLocale } from "../lib/translations";
 import type { BaseMailProps } from "../types";
 
@@ -22,24 +16,24 @@ export function NewUser({
 	name: string;
 	otp: string;
 } & BaseMailProps) {
-	const l = { locale };
+	const t = getMailTranslator(locale);
 
 	return (
 		<Wrapper>
-			<Text>{mail_newUser_body({}, l)}</Text>
+			<Text>{t("newUser.body")}</Text>
 
 			<Text>
-				{mail_common_otp({}, l)}
+				{t("common.otp")}
 				<br />
 				<strong className="font-bold text-2xl">{otp}</strong>
 			</Text>
 
-			<Text>{mail_common_useLink({}, l)}</Text>
+			<Text>{t("common.useLink")}</Text>
 
-			<PrimaryButton href={url}>{mail_newUser_confirmEmail({}, l)} &rarr;</PrimaryButton>
+			<PrimaryButton href={url}>{t("newUser.confirmEmail")} &rarr;</PrimaryButton>
 
 			<Text className="text-sm text-muted-foreground">
-				{mail_common_openLinkInBrowser({}, l)}
+				{t("common.openLinkInBrowser")}
 				<Link href={url}>{url}</Link>
 			</Text>
 		</Wrapper>

@@ -1,9 +1,9 @@
 import type { Post } from "@blog/types";
 import { LocaleLink } from "@i18n/routing";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 
 export function PostListItem({ post }: { post: Post }) {
-	const locale = getLocale();
+	const locale = getCurrentLocale();
 	const { title, excerpt, authorName, image, date, path, authorImage, tags } = post;
 
 	return (

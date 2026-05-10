@@ -4,7 +4,7 @@ import { useLocalePathname, useLocaleRouter } from "@i18n/routing";
 import { authClient } from "@repo/auth/client";
 import type { Locale } from "@repo/i18n";
 import { config as i18nConfig } from "@repo/i18n";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import {
 	Select,
 	SelectContent,
@@ -19,7 +19,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
 export function UserLanguageForm() {
-	const currentLocale = getLocale();
+	const currentLocale = getCurrentLocale();
 	const localePathname = useLocalePathname();
 	const localeRouter = useLocaleRouter();
 	const t = useTranslations();

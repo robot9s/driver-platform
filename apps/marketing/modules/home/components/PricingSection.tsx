@@ -1,39 +1,6 @@
 import { config } from "@config";
 import { LocaleLink } from "@i18n/routing";
-import {
-	marketing_pricing_contactSales,
-	marketing_pricing_description,
-	marketing_pricing_getStarted,
-	marketing_pricing_month,
-	marketing_pricing_products_basic_description,
-	marketing_pricing_products_basic_features_anotherFeature,
-	marketing_pricing_products_basic_features_limitedSupport,
-	marketing_pricing_products_basic_title,
-	marketing_pricing_products_enterprise_description,
-	marketing_pricing_products_enterprise_features_enterpriseSupport,
-	marketing_pricing_products_enterprise_features_unlimitedProjects,
-	marketing_pricing_products_enterprise_title,
-	marketing_pricing_products_free_description,
-	marketing_pricing_products_free_features_anotherFeature,
-	marketing_pricing_products_free_features_limitedSupport,
-	marketing_pricing_products_free_title,
-	marketing_pricing_products_lifetime_description,
-	marketing_pricing_products_lifetime_features_extendSupport,
-	marketing_pricing_products_lifetime_features_noRecurringCosts,
-	marketing_pricing_products_lifetime_title,
-	marketing_pricing_products_pro_description,
-	marketing_pricing_products_pro_features_anotherFeature,
-	marketing_pricing_products_pro_features_fiveMembers,
-	marketing_pricing_products_pro_features_fullSupport,
-	marketing_pricing_products_pro_title,
-	marketing_pricing_recommended,
-	marketing_pricing_title,
-	marketing_pricing_trialPeriod,
-	marketing_pricing_year,
-	marketing_pricing_monthly,
-	marketing_pricing_yearly,
-} from "@repo/i18n/paraglide/messages.js";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { config as paymentsConfig } from "@repo/payments/config";
 import type { PaidPlan } from "@repo/payments/types";
 import { cn } from "@repo/ui";
@@ -41,76 +8,80 @@ import { Button } from "@repo/ui/components/button";
 import { Tabs, TabsList, TabsTrigger } from "@repo/ui/components/tabs";
 import { ArrowRightIcon, BadgePercentIcon, CheckIcon, StarIcon } from "lucide-react";
 import { useMemo, useState, type ComponentPropsWithoutRef } from "react";
+import { useTranslations } from "use-intl";
 
-function productFeatures(planId: string): string[] {
+type Translator = ReturnType<typeof useTranslations>;
+
+function productFeatures(t: Translator, planId: string): string[] {
 	switch (planId) {
 		case "free":
 			return [
-				marketing_pricing_products_free_features_anotherFeature(),
-				marketing_pricing_products_free_features_limitedSupport(),
+				t("products.free.features.anotherFeature"),
+				t("products.free.features.limitedSupport"),
 			];
 		case "basic":
 			return [
-				marketing_pricing_products_basic_features_anotherFeature(),
-				marketing_pricing_products_basic_features_limitedSupport(),
+				t("products.basic.features.anotherFeature"),
+				t("products.basic.features.limitedSupport"),
 			];
 		case "pro":
 			return [
-				marketing_pricing_products_pro_features_anotherFeature(),
-				marketing_pricing_products_pro_features_fiveMembers(),
-				marketing_pricing_products_pro_features_fullSupport(),
+				t("products.pro.features.anotherFeature"),
+				t("products.pro.features.fiveMembers"),
+				t("products.pro.features.fullSupport"),
 			];
 		case "enterprise":
 			return [
-				marketing_pricing_products_enterprise_features_enterpriseSupport(),
-				marketing_pricing_products_enterprise_features_unlimitedProjects(),
+				t("products.enterprise.features.enterpriseSupport"),
+				t("products.enterprise.features.unlimitedProjects"),
 			];
 		case "lifetime":
 			return [
-				marketing_pricing_products_lifetime_features_extendSupport(),
-				marketing_pricing_products_lifetime_features_noRecurringCosts(),
+				t("products.lifetime.features.extendSupport"),
+				t("products.lifetime.features.noRecurringCosts"),
 			];
 		default:
 			return [];
 	}
 }
 
-function productTitle(planId: string): string {
+function productTitle(t: Translator, planId: string): string {
 	switch (planId) {
 		case "free":
-			return marketing_pricing_products_free_title();
+			return t("products.free.title");
 		case "basic":
-			return marketing_pricing_products_basic_title();
+			return t("products.basic.title");
 		case "pro":
-			return marketing_pricing_products_pro_title();
+			return t("products.pro.title");
 		case "enterprise":
-			return marketing_pricing_products_enterprise_title();
+			return t("products.enterprise.title");
 		case "lifetime":
-			return marketing_pricing_products_lifetime_title();
+			return t("products.lifetime.title");
 		default:
 			return planId;
 	}
 }
 
-function productDescription(planId: string): string {
+function productDescription(t: Translator, planId: string): string {
 	switch (planId) {
 		case "free":
-			return marketing_pricing_products_free_description();
+			return t("products.free.description");
 		case "basic":
-			return marketing_pricing_products_basic_description();
+			return t("products.basic.description");
 		case "pro":
-			return marketing_pricing_products_pro_description();
+			return t("products.pro.description");
 		case "enterprise":
-			return marketing_pricing_products_enterprise_description();
+			return t("products.enterprise.description");
 		case "lifetime":
-			return marketing_pricing_products_lifetime_description();
+			return t("products.lifetime.description");
 		default:
 			return "";
 	}
 }
 
 export function PricingSection() {
-	const locale = getLocale();
+	const t = useTranslations("pricing");
+	const locale = getCurrentLocale();
 	const [interval, setBillingInterval] = useState<"month" | "year">("month");
 
 	const signupUrl = useMemo(
@@ -134,10 +105,10 @@ export function PricingSection() {
 		if (!paymentsConfig.requireActiveSubscription) {
 			result.push({
 				id: "free",
-				title: marketing_pricing_products_free_title(),
-				description: marketing_pricing_products_free_description(),
-				features: productFeatures("free"),
-				cta: marketing_pricing_getStarted(),
+				title: productTitle(t, "free"),
+				description: productDescription(t, "free"),
+				features: productFeatures(t, "free"),
+				cta: t("getStarted"),
 				to: signupUrl ?? "#",
 			});
 		}
@@ -148,12 +119,10 @@ export function PricingSection() {
 
 			result.push({
 				id: planId,
-				title: productTitle(planId),
-				description: productDescription(planId),
-				features: productFeatures(planId),
-				cta: isEnterprise
-					? marketing_pricing_contactSales()
-					: marketing_pricing_getStarted(),
+				title: productTitle(t, planId),
+				description: productDescription(t, planId),
+				features: productFeatures(t, planId),
+				cta: isEnterprise ? t("contactSales") : t("getStarted"),
 				recommended: plan.recommended,
 				isEnterprise,
 				prices,
@@ -162,7 +131,7 @@ export function PricingSection() {
 		}
 
 		return result;
-	}, [signupUrl]);
+	}, [signupUrl, t]);
 
 	const hasSubscriptions = plans.some((p) =>
 		p.prices?.some((price) => price.type === "subscription"),
@@ -173,11 +142,9 @@ export function PricingSection() {
 			<div className="container">
 				<div className="mb-6 max-w-3xl mx-auto text-center">
 					<h1 className="font-medium text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight text-foreground">
-						{marketing_pricing_title()}
+						{t("title")}
 					</h1>
-					<p className="mt-2 text-sm sm:text-lg text-foreground/60">
-						{marketing_pricing_description()}
-					</p>
+					<p className="mt-2 text-sm sm:text-lg text-foreground/60">{t("description")}</p>
 				</div>
 
 				<div className="@container">
@@ -191,12 +158,8 @@ export function PricingSection() {
 								data-test="price-table-interval-tabs"
 							>
 								<TabsList className="border-foreground/10">
-									<TabsTrigger value="month">
-										{marketing_pricing_monthly()}
-									</TabsTrigger>
-									<TabsTrigger value="year">
-										{marketing_pricing_yearly()}
-									</TabsTrigger>
+									<TabsTrigger value="month">{t("monthly")}</TabsTrigger>
+									<TabsTrigger value="year">{t("yearly")}</TabsTrigger>
 								</TabsList>
 							</Tabs>
 						</div>
@@ -233,7 +196,7 @@ export function PricingSection() {
 									{plan.recommended && (
 										<div className="-top-3 px-2 py-1 font-semibold text-xs absolute left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full bg-primary text-center text-primary-foreground">
 											<StarIcon className="mr-1.5 size-3 inline-block" />
-											{marketing_pricing_recommended()}
+											{t("recommended")}
 										</div>
 									)}
 									<div className="gap-4 flex h-full flex-col justify-between">
@@ -265,8 +228,8 @@ export function PricingSection() {
 												trialPeriodDays > 0 && (
 													<div className="mt-4 font-medium text-sm flex items-center justify-start text-primary opacity-80">
 														<BadgePercentIcon className="mr-2 size-4" />
-														{marketing_pricing_trialPeriod({
-															days: String(trialPeriodDays),
+														{t("trialPeriod", {
+															days: trialPeriodDays,
 														})}
 													</div>
 												)}
@@ -298,8 +261,8 @@ export function PricingSection() {
 														<span className="font-normal text-xs opacity-60">
 															/
 															{price.interval === "year"
-																? marketing_pricing_year()
-																: marketing_pricing_month()}
+																? t("year")
+																: t("month")}
 														</span>
 													)}
 												</strong>

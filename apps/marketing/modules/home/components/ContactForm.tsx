@@ -1,11 +1,3 @@
-import {
-	marketing_contact_form_email,
-	marketing_contact_form_message,
-	marketing_contact_form_name,
-	marketing_contact_form_notifications_error,
-	marketing_contact_form_notifications_success,
-	marketing_contact_form_submit,
-} from "@repo/i18n/paraglide/messages.js";
 import { Alert, AlertTitle } from "@repo/ui/components/alert";
 import { Button } from "@repo/ui/components/button";
 import {
@@ -21,6 +13,7 @@ import { Input } from "@repo/ui/components/input";
 import { Textarea } from "@repo/ui/components/textarea";
 import { useForm, useStore } from "@tanstack/react-form";
 import { MailCheckIcon, MailIcon } from "lucide-react";
+import { useTranslations } from "use-intl";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -30,6 +23,7 @@ const contactSchema = z.object({
 });
 
 export function ContactForm() {
+	const t = useTranslations("contact.form");
 	const form = useForm({
 		defaultValues: {
 			name: "",
@@ -47,7 +41,7 @@ export function ContactForm() {
 			} catch {
 				formApi.setErrorMap({
 					onSubmit: {
-						form: marketing_contact_form_notifications_error(),
+						form: t("notifications.error"),
 						fields: {},
 					},
 				});
@@ -65,7 +59,7 @@ export function ContactForm() {
 			{isSubmitSuccessful ? (
 				<Alert variant="success">
 					<MailCheckIcon />
-					<AlertTitle>{marketing_contact_form_notifications_success()}</AlertTitle>
+					<AlertTitle>{t("notifications.success")}</AlertTitle>
 				</Alert>
 			) : (
 				<Form form={form}>
@@ -87,7 +81,7 @@ export function ContactForm() {
 						<FormField name="name">
 							{(field) => (
 								<FormItem>
-									<FormLabel>{marketing_contact_form_name()}</FormLabel>
+									<FormLabel>{t("name")}</FormLabel>
 									<FormControl>
 										<Input
 											name={field.name}
@@ -104,7 +98,7 @@ export function ContactForm() {
 						<FormField name="email">
 							{(field) => (
 								<FormItem>
-									<FormLabel>{marketing_contact_form_email()}</FormLabel>
+									<FormLabel>{t("email")}</FormLabel>
 									<FormControl>
 										<Input
 											type="email"
@@ -123,7 +117,7 @@ export function ContactForm() {
 						<FormField name="message">
 							{(field) => (
 								<FormItem>
-									<FormLabel>{marketing_contact_form_message()}</FormLabel>
+									<FormLabel>{t("message")}</FormLabel>
 									<FormControl>
 										<Textarea
 											rows={6}
@@ -144,7 +138,7 @@ export function ContactForm() {
 							variant="primary"
 							loading={isSubmitting}
 						>
-							{marketing_contact_form_submit()}
+							{t("submit")}
 						</Button>
 					</form>
 				</Form>

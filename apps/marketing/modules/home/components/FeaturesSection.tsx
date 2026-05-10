@@ -1,29 +1,7 @@
-import {
-	marketing_home_features_badge,
-	marketing_home_features_description,
-	marketing_home_features_feature1_benefit1_description,
-	marketing_home_features_feature1_benefit1_title,
-	marketing_home_features_feature1_benefit2_description,
-	marketing_home_features_feature1_benefit2_title,
-	marketing_home_features_feature1_benefit3_description,
-	marketing_home_features_feature1_benefit3_title,
-	marketing_home_features_feature1_description,
-	marketing_home_features_feature1_subtitle,
-	marketing_home_features_feature1_title,
-	marketing_home_features_feature2_benefit1_description,
-	marketing_home_features_feature2_benefit1_title,
-	marketing_home_features_feature2_benefit2_description,
-	marketing_home_features_feature2_benefit2_title,
-	marketing_home_features_feature2_benefit3_description,
-	marketing_home_features_feature2_benefit3_title,
-	marketing_home_features_feature2_description,
-	marketing_home_features_feature2_subtitle,
-	marketing_home_features_feature2_title,
-	marketing_home_features_title,
-} from "@repo/i18n/paraglide/messages.js";
 import { cn } from "@repo/ui";
 import { CloudIcon, ComputerIcon, SmartphoneIcon, StarIcon, WandIcon } from "lucide-react";
 import type { JSXElementConstructor, ReactNode } from "react";
+import { useTranslations } from "use-intl";
 
 interface FeatureTab {
 	id: string;
@@ -52,57 +30,58 @@ interface FeatureTab {
 }
 
 export function FeaturesSection() {
+	const t = useTranslations("home.features");
 	const featureTabs: FeatureTab[] = [
 		{
 			id: "feature1",
-			title: marketing_home_features_feature1_title(),
+			title: t("feature1.title"),
 			icon: StarIcon,
-			subtitle: marketing_home_features_feature1_subtitle(),
-			description: marketing_home_features_feature1_description(),
+			subtitle: t("feature1.subtitle"),
+			description: t("feature1.description"),
 			stack: [],
 			image: "https://placehold.co/1280x720/EAF2FC/3875C8.png",
 			imageBorder: false,
 			highlights: [
 				{
-					title: marketing_home_features_feature1_benefit1_title(),
-					description: marketing_home_features_feature1_benefit1_description(),
+					title: t("feature1.benefit1.title"),
+					description: t("feature1.benefit1.description"),
 					icon: WandIcon,
 				},
 				{
-					title: marketing_home_features_feature1_benefit2_title(),
-					description: marketing_home_features_feature1_benefit2_description(),
+					title: t("feature1.benefit2.title"),
+					description: t("feature1.benefit2.description"),
 					icon: ComputerIcon,
 				},
 				{
-					title: marketing_home_features_feature1_benefit3_title(),
-					description: marketing_home_features_feature1_benefit3_description(),
+					title: t("feature1.benefit3.title"),
+					description: t("feature1.benefit3.description"),
 					icon: SmartphoneIcon,
 				},
 			],
 		},
 		{
 			id: "feature2",
-			title: marketing_home_features_feature2_title(),
+			title: t("feature2.title"),
 			icon: CloudIcon,
-			subtitle: marketing_home_features_feature2_subtitle(),
-			description: marketing_home_features_feature2_description(),
+			subtitle: t("feature2.subtitle"),
+			description: t("feature2.description"),
 			stack: [],
 			image: "https://placehold.co/1280x720/F0F6FD/2D5FA3.png",
 			imageBorder: false,
 			highlights: [
 				{
-					title: marketing_home_features_feature2_benefit1_title(),
-					description: marketing_home_features_feature2_benefit1_description(),
+					title: t("feature2.benefit1.title"),
+					description: t("feature2.benefit1.description"),
 					icon: WandIcon,
 				},
 				{
-					title: marketing_home_features_feature2_benefit2_title(),
-					description: marketing_home_features_feature2_benefit2_description(),
+					title: t("feature2.benefit2.title"),
+					description: t("feature2.benefit2.description"),
 					icon: ComputerIcon,
 				},
 				{
-					title: marketing_home_features_feature2_benefit3_title(),
-					description: marketing_home_features_feature2_benefit3_description(),
+					title: t("feature2.benefit3.title"),
+					description: t("feature2.benefit3.description"),
 					icon: SmartphoneIcon,
 				},
 			],
@@ -114,13 +93,11 @@ export function FeaturesSection() {
 			<div className="container">
 				<div className="mb-6 lg:mb-0 max-w-3xl mx-auto text-center">
 					<small className="font-medium text-xs tracking-wider mb-4 block text-primary uppercase">
-						{marketing_home_features_badge()}
+						{t("badge")}
 					</small>
-					<h2 className="text-3xl lg:text-4xl xl:text-5xl font-medium">
-						{marketing_home_features_title()}
-					</h2>
+					<h2 className="text-3xl lg:text-4xl xl:text-5xl font-medium">{t("title")}</h2>
 					<p className="mt-2 text-base lg:text-lg text-balance text-foreground/60">
-						{marketing_home_features_description()}
+						{t("description")}
 					</p>
 				</div>
 			</div>

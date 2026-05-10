@@ -1,7 +1,6 @@
 import { useLocalePathname, useLocaleRouter } from "@i18n/routing";
 import { config as i18nConfig } from "@repo/i18n";
-import { marketing_common_aria_language } from "@repo/i18n/paraglide/messages.js";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { Button } from "@repo/ui/components/button";
 import {
 	DropdownMenu,
@@ -12,11 +11,13 @@ import {
 } from "@repo/ui/components/dropdown-menu";
 import { LanguagesIcon } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "use-intl";
 
 export function LocaleSwitch() {
 	const localeRouter = useLocaleRouter();
 	const localePathname = useLocalePathname();
-	const currentLocale = getLocale();
+	const t = useTranslations("common.aria");
+	const currentLocale = getCurrentLocale();
 	const [value, setValue] = useState<string>(currentLocale);
 
 	if (Object.keys(i18nConfig.locales).length <= 1) {
@@ -27,11 +28,7 @@ export function LocaleSwitch() {
 		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger
 				render={
-					<Button
-						variant="ghost"
-						size="icon"
-						aria-label={marketing_common_aria_language()}
-					>
+					<Button variant="ghost" size="icon" aria-label={t("language")}>
 						<LanguagesIcon className="size-4" />
 					</Button>
 				}

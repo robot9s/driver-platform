@@ -1,8 +1,8 @@
 import { config } from "@i18n/config";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 
 export function useLocaleCurrency() {
-	const locale = getLocale();
+	const locale = getCurrentLocale();
 	const localeCurrency =
 		Object.entries(config.locales).find(([key]) => key === locale)?.[1].currency ??
 		config.defaultCurrency;

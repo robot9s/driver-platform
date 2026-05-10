@@ -1,24 +1,17 @@
 import { render } from "@react-email/render";
 import type { Locale } from "@repo/i18n";
-import {
-	mail_emailVerification_subject,
-	mail_forgotPassword_subject,
-	mail_magicLink_subject,
-	mail_newUser_subject,
-	mail_notification_subject,
-	mail_organizationInvitation_subject,
-} from "@repo/i18n/paraglide/messages.js";
 import type { ReactElement } from "react";
 
 import { mailTemplates } from "../emails";
+import { getMailTranslator } from "./i18n";
 
 const mailSubjects = {
-	emailVerification: mail_emailVerification_subject,
-	forgotPassword: mail_forgotPassword_subject,
-	magicLink: mail_magicLink_subject,
-	newUser: mail_newUser_subject,
-	notification: mail_notification_subject,
-	organizationInvitation: mail_organizationInvitation_subject,
+	emailVerification: "emailVerification.subject",
+	forgotPassword: "forgotPassword.subject",
+	magicLink: "magicLink.subject",
+	newUser: "newUser.subject",
+	notification: "notification.subject",
+	organizationInvitation: "organizationInvitation.subject",
 } as const;
 
 export type TemplateId = keyof typeof mailTemplates;
@@ -38,7 +31,8 @@ export async function getTemplate<T extends TemplateId>({
 		templateProps,
 	);
 
-	let subject = mailSubjects[templateId]({}, { locale }) as string;
+	const t = getMailTranslator(locale);
+	let subject = t(mailSubjects[templateId]);
 
 	if (templateId === "notification") {
 		const notificationContext = context as { title?: string };

@@ -1,15 +1,5 @@
 import { config } from "@config";
 import { LocaleLink, useLocalePathname } from "@i18n/routing";
-import {
-	marketing_common_aria_menu,
-	marketing_common_menu_blog,
-	marketing_common_menu_changelog,
-	marketing_common_menu_contact,
-	marketing_common_menu_docs,
-	marketing_common_menu_faq,
-	marketing_common_menu_login,
-	marketing_common_menu_pricing,
-} from "@repo/i18n/paraglide/messages.js";
 import { cn, Logo } from "@repo/ui";
 import { Button } from "@repo/ui/components/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@repo/ui/components/sheet";
@@ -24,6 +14,7 @@ import {
 	useState,
 	type ComponentPropsWithoutRef,
 } from "react";
+import { useTranslations } from "use-intl";
 
 /** Tiny trailing-edge debounce scoped to this module; avoids an extra dep. */
 function useDebouncedCallback<Args extends unknown[]>(
@@ -58,6 +49,7 @@ function useDebouncedCallback<Args extends unknown[]>(
 
 export function NavBar() {
 	const localePathname = useLocalePathname();
+	const t = useTranslations("common");
 
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [isTop, setIsTop] = useState(true);
@@ -87,29 +79,29 @@ export function NavBar() {
 		href: string;
 	}[] = [
 		{
-			label: marketing_common_menu_pricing(),
+			label: t("menu.pricing"),
 			href: "/#pricing",
 		},
 		{
-			label: marketing_common_menu_faq(),
+			label: t("menu.faq"),
 			href: "/#faq",
 		},
 		{
-			label: marketing_common_menu_blog(),
+			label: t("menu.blog"),
 			href: "/blog",
 		},
 		{
-			label: marketing_common_menu_changelog(),
+			label: t("menu.changelog"),
 			href: "/changelog",
 		},
 		{
-			label: marketing_common_menu_contact(),
+			label: t("menu.contact"),
 			href: "/contact",
 		},
 		...(config.docsUrl
 			? [
 					{
-						label: marketing_common_menu_docs(),
+						label: t("menu.docs"),
 						href: config.docsUrl,
 					},
 				]
@@ -174,7 +166,7 @@ export function NavBar() {
 										className="lg:hidden"
 										size="icon"
 										variant="secondary"
-										aria-label={marketing_common_aria_menu()}
+										aria-label={t("aria.menu")}
 									>
 										<MenuIcon className="size-4" />
 									</Button>
@@ -205,7 +197,7 @@ export function NavBar() {
 											className="px-3 py-2 text-base block"
 											onClick={handleMobileMenuClose}
 										>
-											{marketing_common_menu_login()}
+											{t("menu.login")}
 										</a>
 									)}
 								</div>
@@ -228,7 +220,7 @@ export function NavBar() {
 									);
 								}}
 							>
-								{marketing_common_menu_login()}
+								{t("menu.login")}
 							</Button>
 						)}
 					</div>

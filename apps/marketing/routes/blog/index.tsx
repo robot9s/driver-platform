@@ -1,27 +1,32 @@
 import { PostListItem } from "@blog/components/PostListItem";
 import { getAllPosts } from "@blog/lib/posts";
-import { marketing_blog_description, marketing_blog_title } from "@repo/i18n/paraglide/messages.js";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { createTranslatorForLocale } from "@repo/i18n";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslations } from "use-intl";
 
 export const Route = createFileRoute("/blog/")({
 	component: BlogListPage,
 	loader: async () => ({
-		posts: await getAllPosts(getLocale()),
+		posts: await getAllPosts(getCurrentLocale()),
 	}),
-	head: () => ({
-		meta: [{ title: String(marketing_blog_title()) }],
-	}),
+	head: () => {
+		const t = createTranslatorForLocale(getCurrentLocale(), "marketing");
+		return {
+			meta: [{ title: t("blog.title") }],
+		};
+	},
 });
 
 function BlogListPage() {
 	const { posts } = Route.useLoaderData();
+	const t = useTranslations("blog");
 
 	return (
 		<div className="max-w-6xl py-16 container">
 			<div className="mb-12 pt-8 text-center">
-				<h1 className="mb-2 font-bold text-5xl">{marketing_blog_title()}</h1>
-				<p className="text-lg opacity-50">{marketing_blog_description()}</p>
+				<h1 className="mb-2 font-bold text-5xl">{t("title")}</h1>
+				<p className="text-lg opacity-50">{t("description")}</p>
 			</div>
 
 			<div className="gap-8 md:grid-cols-2 grid">

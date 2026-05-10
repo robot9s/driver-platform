@@ -1,13 +1,9 @@
 import { Link, Text } from "@react-email/components";
-import {
-	mail_common_openLinkInBrowser,
-	mail_emailVerification_body,
-	mail_emailVerification_confirmEmail,
-} from "@repo/i18n/paraglide/messages.js";
 import React from "react";
 
 import PrimaryButton from "../components/PrimaryButton";
 import Wrapper from "../components/Wrapper";
+import { getMailTranslator } from "../lib/i18n";
 import { defaultLocale } from "../lib/translations";
 import type { BaseMailProps } from "../types";
 
@@ -18,18 +14,16 @@ export function EmailVerification({
 	url: string;
 	name: string;
 } & BaseMailProps) {
-	const l = { locale };
+	const t = getMailTranslator(locale);
 
 	return (
 		<Wrapper>
-			<Text>{mail_emailVerification_body({}, l)}</Text>
+			<Text>{t("emailVerification.body")}</Text>
 
-			<PrimaryButton href={url}>
-				{mail_emailVerification_confirmEmail({}, l)} &rarr;
-			</PrimaryButton>
+			<PrimaryButton href={url}>{t("emailVerification.confirmEmail")} &rarr;</PrimaryButton>
 
 			<Text className="text-sm text-muted-foreground">
-				{mail_common_openLinkInBrowser({}, l)}
+				{t("common.openLinkInBrowser")}
 				<Link href={url} className="break-all">
 					{url}
 				</Link>

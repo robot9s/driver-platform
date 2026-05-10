@@ -25,7 +25,7 @@ You are an expert in:
 - **Drizzle** – Database ORM (single source of truth, postgres by default)
 - **TanStack Form + Zod** – Forms and validation (single form stack across saas + marketing)
 - **TanStack Query** – Client-side data fetching and caching
-- **Paraglide** – Internationalization runtime and message access
+- **use-intl** – Internationalization runtime and message access
 
 ---
 
@@ -37,7 +37,7 @@ You are an expert in:
 /
 ├── apps/
 │   ├── marketing/               # Marketing site (public pages, blog, changelog)
-│   │   ├── routes/              # TanStack Router routes (locale handled by Paraglide URL strategy, not a $locale segment)
+│   │   ├── routes/              # TanStack Router routes (locale handled by shared URL rewrite helpers)
 │   │   ├── modules/             # Feature modules
 │   │   │   ├── home/            # Home page components
 │   │   │   ├── blog/            # Blog components
@@ -606,39 +606,32 @@ export type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 - Source strings via i18n utilities in `packages/i18n`.
 - Keep translations scoped by surface: `marketing`, `saas`, `mail`, and
-  `shared`. `pnpm --filter @repo/i18n generate` flattens each locale into a
-  single Paraglide bundle; `postinstall` runs it automatically.
-- Prefer Paraglide messages from `@repo/i18n/paraglide/messages` directly in
-  components — this is what the marketing app and email templates use.
-- `apps/saas` also exposes a `useTranslations` hook from `@i18n/intl` that
-  takes the same dotted-path keys and resolves them against Paraglide's
-  compiled functions. Either style is fine inside saas; use the one that
-  matches the file you are editing.
+  `shared`. Shared messages are merged into each app surface, and missing
+  translations fall back to the default locale.
+- Use `useTranslations`, `useFormatter`, and `IntlProvider` from `use-intl`
+  for React UI. The SaaS app re-exports these hooks from `@i18n/intl` for
+  existing local imports.
+- For non-React server usage such as email templates, use helpers built on
+  `createTranslator` from `use-intl/core`.
 - Content collections live in `apps/marketing/content`.
 
 ```typescript
-// Paraglide-direct (preferred for new code)
-import { m } from "@repo/i18n/paraglide/messages";
-<h1>{m.marketing_home_hero_title()}</h1>;
-
-// Saas translator helper (existing saas components)
-import { useTranslations } from "@i18n/intl";
-const t = useTranslations();
-<h1>{t("settings.account.general")}</h1>;
+import { useTranslations } from "use-intl";
+const t = useTranslations("settings.account");
+<h1>{t("general")}</h1>;
 ```
 
 ### Locale Handling
 
 - Honor locale detection from `packages/i18n/config.ts`.
-- Paraglide uses a URL-prefix + cookie strategy. There is **no `$locale` route
-  segment**: the router's `rewrite` hook de-/localizes every URL and
-  `paraglideMiddleware` (wired in each app's `server.ts`) populates the
-  request-scoped `getLocale()` runtime.
-- Read the active locale in components or loaders with
-  `getLocale()` from `@repo/i18n/paraglide/runtime`.
+- Locale prefixes are handled by shared `@repo/i18n` URL helpers. The router's
+  `rewrite` hook de-/localizes every URL, and each app's `server.ts` runs
+  custom middleware for default-locale redirects and cookie sync.
+- Read the active locale in components or loaders with `getCurrentLocale()`
+  from `@repo/i18n/runtime`.
 - Use correct cookie naming conventions (`locale`).
-- For email templates (server-only), call `getMessagesForLocale(locale, scope)`
-  from `@repo/i18n` — that's the only remaining consumer of the JSON bundle.
+- For email templates (server-only), use the mail translator helper in
+  `packages/mail/lib/i18n.ts`.
 
 ---
 

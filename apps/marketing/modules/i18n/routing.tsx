@@ -1,5 +1,6 @@
 import type { Locale } from "@repo/i18n";
-import { deLocalizeHref, getLocale, localizeHref, localizeUrl } from "@repo/i18n/paraglide/runtime";
+import { deLocalizeHref, localizeHref, localizeUrl } from "@repo/i18n/routing";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { redirect, useRouterState } from "@tanstack/react-router";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
@@ -32,8 +33,7 @@ function normalizePathname(pathname: string) {
  * `<Link>`: `buildLocation` matches `to` before param interpolation, so splat URLs and
  * `to: "/blog/$"`-style templates can hit router bugs (`parentRoute` on null). Legal
  * pages use `/legal/$slug` instead of a splat to avoid that.
- * Paraglide `localizeHref` applies the locale prefix; the server and client still serve
- * the same routes.
+ * `localizeHref` applies the locale prefix; the server and client still serve the same routes.
  */
 function localizedAppHref(href: string, hashLinkBasePath: string): string {
 	if (href.startsWith("#")) {
@@ -89,7 +89,7 @@ export function useLocaleRouter() {
 			if (typeof window === "undefined") {
 				return;
 			}
-			const locale = (options?.locale ?? getLocale()) as Locale;
+			const locale = (options?.locale ?? getCurrentLocale()) as Locale;
 			const base = window.location.origin;
 			const normalized = pathWithQuery.startsWith("/") ? pathWithQuery : `/${pathWithQuery}`;
 			const delocalized = deLocalizeHref(normalized);

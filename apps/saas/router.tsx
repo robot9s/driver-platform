@@ -1,4 +1,4 @@
-import { deLocalizeUrl, localizeUrl } from "@repo/i18n/paraglide/runtime";
+import { deLocalizeUrl, localizeUrl } from "@repo/i18n/routing";
 import { createRouter } from "@tanstack/react-router";
 
 import { routeTree } from "./routeTree.gen";

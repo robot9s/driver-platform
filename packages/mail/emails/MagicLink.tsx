@@ -1,14 +1,9 @@
 import { Link, Text } from "@react-email/components";
-import {
-	mail_common_openLinkInBrowser,
-	mail_common_useLink,
-	mail_magicLink_body,
-	mail_magicLink_login,
-} from "@repo/i18n/paraglide/messages.js";
 import React from "react";
 
 import PrimaryButton from "../components/PrimaryButton";
 import Wrapper from "../components/Wrapper";
+import { getMailTranslator } from "../lib/i18n";
 import { defaultLocale } from "../lib/translations";
 import type { BaseMailProps } from "../types";
 
@@ -18,18 +13,18 @@ export function MagicLink({
 }: {
 	url: string;
 } & BaseMailProps) {
-	const l = { locale };
+	const t = getMailTranslator(locale);
 
 	return (
 		<Wrapper>
-			<Text>{mail_magicLink_body({}, l)}</Text>
+			<Text>{t("magicLink.body")}</Text>
 
-			<Text>{mail_common_useLink({}, l)}</Text>
+			<Text>{t("common.useLink")}</Text>
 
-			<PrimaryButton href={url}>{mail_magicLink_login({}, l)} &rarr;</PrimaryButton>
+			<PrimaryButton href={url}>{t("magicLink.login")} &rarr;</PrimaryButton>
 
 			<Text className="text-sm text-muted-foreground">
-				{mail_common_openLinkInBrowser({}, l)}
+				{t("common.openLinkInBrowser")}
 				<Link href={url}>{url}</Link>
 			</Text>
 		</Wrapper>

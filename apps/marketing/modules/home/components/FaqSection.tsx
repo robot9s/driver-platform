@@ -1,15 +1,3 @@
-import {
-	marketing_faq_description,
-	marketing_faq_items_cancelSubscription_answer,
-	marketing_faq_items_cancelSubscription_question,
-	marketing_faq_items_changePlan_answer,
-	marketing_faq_items_changePlan_question,
-	marketing_faq_items_freeTrial_answer,
-	marketing_faq_items_freeTrial_question,
-	marketing_faq_items_refundPolicy_answer,
-	marketing_faq_items_refundPolicy_question,
-	marketing_faq_title,
-} from "@repo/i18n/paraglide/messages.js";
 import { cn } from "@repo/ui";
 import {
 	Accordion,
@@ -17,30 +5,32 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "@repo/ui/components/accordion";
+import { useTranslations } from "use-intl";
 
 const FAQ_ITEMS = [
 	{
-		question: marketing_faq_items_refundPolicy_question,
-		answer: marketing_faq_items_refundPolicy_answer,
+		question: "items.refundPolicy.question",
+		answer: "items.refundPolicy.answer",
 	},
 	{
-		question: marketing_faq_items_cancelSubscription_question,
-		answer: marketing_faq_items_cancelSubscription_answer,
+		question: "items.cancelSubscription.question",
+		answer: "items.cancelSubscription.answer",
 	},
 	{
-		question: marketing_faq_items_changePlan_question,
-		answer: marketing_faq_items_changePlan_answer,
+		question: "items.changePlan.question",
+		answer: "items.changePlan.answer",
 	},
 	{
-		question: marketing_faq_items_freeTrial_question,
-		answer: marketing_faq_items_freeTrial_answer,
+		question: "items.freeTrial.question",
+		answer: "items.freeTrial.answer",
 	},
 ] as const;
 
 export function FaqSection({ className }: { className?: string }) {
+	const t = useTranslations("faq");
 	const items = FAQ_ITEMS.map(({ question, answer }) => ({
-		question: question(),
-		answer: answer(),
+		question: t(question),
+		answer: t(answer),
 	}));
 
 	return (
@@ -49,10 +39,10 @@ export function FaqSection({ className }: { className?: string }) {
 				<div className="gap-6 md:gap-8 lg:gap-12 max-w-2xl mx-auto grid grid-cols-1">
 					<div className="text-center">
 						<h1 className="font-medium text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-tight text-foreground">
-							{marketing_faq_title()}
+							{t("title")}
 						</h1>
 						<p className="text-sm sm:text-lg mt-2 text-foreground/60">
-							{marketing_faq_description()}
+							{t("description")}
 						</p>
 					</div>
 					<Accordion

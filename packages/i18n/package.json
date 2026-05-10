@@ -6,25 +6,23 @@
 	"exports": {
 		".": "./index.ts",
 		"./config": "./config.ts",
-		"./types": "./types.ts",
-		"./paraglide/messages": "./paraglide/messages.js",
-		"./paraglide/messages.js": "./paraglide/messages.js",
-		"./paraglide/runtime": "./paraglide/runtime.js",
-		"./paraglide/runtime.js": "./paraglide/runtime.js",
-		"./paraglide/server": "./paraglide/server.js",
-		"./paraglide/server.js": "./paraglide/server.js"
+		"./messages": "./messages.ts",
+		"./routing": "./routing.ts",
+		"./runtime": "./runtime.ts",
+		"./server": "./server.ts",
+		"./shared": "./shared.ts",
+		"./types": "./types.ts"
 	},
 	"scripts": {
 		"clean": "git clean -xdf .cache .turbo dist node_modules",
-		"type-check": "tsc --noEmit",
-		"generate": "tsx scripts/synthesize-messages.ts && tsx scripts/compile-paraglide.ts"
+		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
-		"es-toolkit": "catalog:"
+		"@tanstack/react-start": "catalog:",
+		"es-toolkit": "catalog:",
+		"use-intl": "catalog:"
 	},
 	"devDependencies": {
-		"@inlang/cli": "^3.1.7",
-		"@inlang/paraglide-js": "^2.15.0",
 		"@repo/tsconfig": "workspace:*",
 		"@types/node": "catalog:",
 		"tsx": "catalog:",

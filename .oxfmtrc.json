@@ -33,7 +33,6 @@
 		"apps/marketing/routeTree.gen.ts",
 		"apps/saas/routeTree.gen.ts",
 		"apps/docs/src/routeTree.gen.ts",
-		"packages/i18n/paraglide/**",
 		"apps/marketing/.content-collections/**"
 	]
 }

@@ -1,19 +1,12 @@
 import { config } from "@config";
-import {
-	marketing_home_hero_documentation,
-	marketing_home_hero_featureBadge,
-	marketing_home_hero_getStarted,
-	marketing_home_hero_imageAlt,
-	marketing_home_hero_new,
-	marketing_home_hero_subtitle,
-	marketing_home_hero_title,
-} from "@repo/i18n/paraglide/messages.js";
 import { Button } from "@repo/ui/components/button";
 import { ArrowRightIcon } from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";
+import { useTranslations } from "use-intl";
 
 export function HeroSection() {
-	const imageAlt = marketing_home_hero_imageAlt();
+	const t = useTranslations("home.hero");
+	const imageAlt = t("imageAlt");
 
 	return (
 		<div className="relative max-w-full overflow-x-hidden bg-linear-to-t from-background via-primary/5 to-background">
@@ -21,20 +14,18 @@ export function HeroSection() {
 				<div className="mb-4 flex justify-center">
 					<div className="px-3 py-1 font-normal text-sm flex flex-wrap items-center justify-center rounded-full bg-muted p-px text-foreground">
 						<span className="gap-2 font-semibold flex items-center rounded-full">
-							{marketing_home_hero_new()}
+							{t("new")}
 						</span>
-						<span className="ml-1 font-medium block">
-							{marketing_home_hero_featureBadge()}
-						</span>
+						<span className="ml-1 font-medium block">{t("featureBadge")}</span>
 					</div>
 				</div>
 
 				<h1 className="font-medium text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tighter max-w-4xl mx-auto text-balance text-foreground">
-					{marketing_home_hero_title()}
+					{t("title")}
 				</h1>
 
 				<p className="mt-2 text-sm sm:text-lg max-w-4xl mx-auto text-balance text-foreground/60">
-					{marketing_home_hero_subtitle()}
+					{t("subtitle")}
 				</p>
 
 				<div className="mt-4 gap-2 flex items-center justify-center">
@@ -53,7 +44,7 @@ export function HeroSection() {
 							);
 						}}
 					>
-						{marketing_home_hero_getStarted()}
+						{t("getStarted")}
 						<ArrowRightIcon className="ml-2 size-4" />
 					</Button>
 					{config.docsUrl && (
@@ -72,7 +63,7 @@ export function HeroSection() {
 								);
 							}}
 						>
-							{marketing_home_hero_documentation()}
+							{t("documentation")}
 						</Button>
 					)}
 				</div>

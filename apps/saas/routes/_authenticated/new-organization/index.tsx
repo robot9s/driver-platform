@@ -1,4 +1,5 @@
 import { CreateOrganizationForm } from "@organizations/components/CreateOrganizationForm";
+import { AuthWrapper } from "@shared/components/AuthWrapper";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/new-organization/")({
@@ -10,8 +11,8 @@ export const Route = createFileRoute("/_authenticated/new-organization/")({
 
 function NewOrganizationPage() {
 	return (
-		<div className="max-w-lg p-6 mx-auto">
+		<AuthWrapper>
 			<CreateOrganizationForm />
-		</div>
+		</AuthWrapper>
 	);
 }

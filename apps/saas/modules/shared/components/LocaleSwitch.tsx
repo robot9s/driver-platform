@@ -2,7 +2,7 @@ import { setLocaleCookie } from "@i18n/lib/update-locale";
 import { useLocalePathname, useLocaleRouter } from "@i18n/routing";
 import type { Locale } from "@repo/i18n";
 import { config as i18nConfig } from "@repo/i18n";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { Button } from "@repo/ui/components/button";
 import {
 	DropdownMenu,
@@ -18,7 +18,7 @@ import { useIsClient } from "usehooks-ts";
 export function LocaleSwitch() {
 	const localeRouter = useLocaleRouter();
 	const localePathname = useLocalePathname();
-	const currentLocale = getLocale();
+	const currentLocale = getCurrentLocale();
 	const [value, setValue] = useState<string>(currentLocale);
 	const isClient = useIsClient();
 

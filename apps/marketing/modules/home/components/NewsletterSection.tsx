@@ -1,18 +1,10 @@
-import {
-	marketing_newsletter_email,
-	marketing_newsletter_hints_error_message,
-	marketing_newsletter_hints_success_message,
-	marketing_newsletter_hints_success_title,
-	marketing_newsletter_submit,
-	marketing_newsletter_subtitle,
-	marketing_newsletter_title,
-} from "@repo/i18n/paraglide/messages.js";
 import { Alert, AlertDescription, AlertTitle } from "@repo/ui/components/alert";
 import { Button } from "@repo/ui/components/button";
 import { formatFormRootError } from "@repo/ui/components/form-root-error";
 import { Input } from "@repo/ui/components/input";
 import { useForm, useStore } from "@tanstack/react-form";
 import { CheckCircleIcon, KeyIcon } from "lucide-react";
+import { useTranslations } from "use-intl";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -37,6 +29,7 @@ function firstFieldError(errors: unknown[]): string | undefined {
 }
 
 export function NewsletterSection() {
+	const t = useTranslations("newsletter");
 	const form = useForm({
 		defaultValues: { email: "" },
 		validators: {
@@ -50,7 +43,7 @@ export function NewsletterSection() {
 			} catch {
 				formApi.setErrorMap({
 					onSubmit: {
-						form: marketing_newsletter_hints_error_message(),
+						form: t("hints.error.message"),
 						fields: {},
 					},
 				});
@@ -69,21 +62,17 @@ export function NewsletterSection() {
 				<div className="mb-8 text-center">
 					<KeyIcon className="mb-3 size-10 mx-auto text-primary" />
 					<h1 className="font-medium text-lg md:text-xl lg:text-2xl xl:text-3xl leading-tighter text-foreground">
-						{marketing_newsletter_title()}
+						{t("title")}
 					</h1>
-					<p className="mt-2 text-sm sm:text-base text-foreground/60">
-						{marketing_newsletter_subtitle()}
-					</p>
+					<p className="mt-2 text-sm sm:text-base text-foreground/60">{t("subtitle")}</p>
 				</div>
 
 				<div className="max-w-lg mx-auto flex flex-col items-center">
 					{isSubmitSuccessful ? (
 						<Alert variant="success">
 							<CheckCircleIcon />
-							<AlertTitle>{marketing_newsletter_hints_success_title()}</AlertTitle>
-							<AlertDescription>
-								{marketing_newsletter_hints_success_message()}
-							</AlertDescription>
+							<AlertTitle>{t("hints.success.title")}</AlertTitle>
+							<AlertDescription>{t("hints.success.message")}</AlertDescription>
 						</Alert>
 					) : (
 						<form
@@ -105,7 +94,7 @@ export function NewsletterSection() {
 													type="email"
 													autoComplete="email"
 													required
-													placeholder={marketing_newsletter_email()}
+													placeholder={t("email")}
 													className="rounded-full"
 													name={field.name}
 													value={field.state.value}
@@ -120,7 +109,7 @@ export function NewsletterSection() {
 													variant="primary"
 													loading={isSubmitting}
 												>
-													{marketing_newsletter_submit()}
+													{t("submit")}
 												</Button>
 											</div>
 											{displayError ? (

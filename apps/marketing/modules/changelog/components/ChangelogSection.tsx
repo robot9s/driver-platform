@@ -1,4 +1,4 @@
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import type { ReactNode } from "react";
 
 export type ChangelogItem = {
@@ -8,7 +8,7 @@ export type ChangelogItem = {
 };
 
 export function ChangelogSection() {
-	const locale = getLocale();
+	const locale = getCurrentLocale();
 
 	const items: ChangelogItem[] = [
 		{

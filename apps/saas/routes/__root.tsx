@@ -1,6 +1,7 @@
 import { SessionProvider } from "@auth/components/SessionProvider";
 import { config } from "@config";
-import { getLocale } from "@repo/i18n/paraglide/runtime";
+import { I18nProvider } from "@i18n/provider";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { Button, cn, ThemeProvider, Toaster } from "@repo/ui";
 // Button is used by the error boundary to render a "Try again" action.
 import { ApiClientProvider } from "@shared/components/ApiClientProvider";
@@ -13,6 +14,7 @@ import {
 	Outlet,
 	Scripts,
 	useRouter,
+	useRouterState,
 } from "@tanstack/react-router";
 import { NuqsAdapter } from "nuqs/adapters/tanstack-router";
 
@@ -46,10 +48,8 @@ export const Route = createRootRoute({
 });
 
 function RootLayout() {
-	// Read the locale from Paraglide's request-scoped runtime. `paraglideMiddleware`
-	// in `server.ts` populates this during SSR; on the client it stays in sync
-	// via the configured `url`/`cookie` strategies.
-	const locale = getLocale();
+	useRouterState({ select: (s) => s.location.pathname });
+	const locale = getCurrentLocale();
 
 	return (
 		<html lang={locale} suppressHydrationWarning>
@@ -62,8 +62,10 @@ function RootLayout() {
 						<ApiClientProvider>
 							<SessionProvider>
 								<ClientProviders>
-									<Outlet />
-									<Toaster position="top-right" />
+									<I18nProvider>
+										<Outlet />
+										<Toaster position="top-right" />
+									</I18nProvider>
 								</ClientProviders>
 							</SessionProvider>
 						</ApiClientProvider>

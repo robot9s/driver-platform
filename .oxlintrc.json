@@ -9,7 +9,7 @@
 			"callees": ["clsx", "cva", "cn"]
 		}
 	},
-	"ignorePatterns": ["**/.content-collections/**", "**/routeTree.gen.ts", "**/paraglide/**"],
+	"ignorePatterns": ["**/.content-collections/**", "**/routeTree.gen.ts"],
 	"options": {
 		"typeAware": true,
 		"typeCheck": true

@@ -1,5 +1,6 @@
 import type { Locale } from "@repo/i18n";
-import { deLocalizeHref, getLocale, localizeHref, localizeUrl } from "@repo/i18n/paraglide/runtime";
+import { deLocalizeHref, localizeHref, localizeUrl } from "@repo/i18n/routing";
+import { getCurrentLocale } from "@repo/i18n/runtime";
 import { redirect, useRouterState } from "@tanstack/react-router";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
@@ -81,7 +82,7 @@ export function useLocaleRouter() {
 			if (typeof window === "undefined") {
 				return;
 			}
-			const locale = (options?.locale ?? getLocale()) as Locale;
+			const locale = (options?.locale ?? getCurrentLocale()) as Locale;
 			const base = window.location.origin;
 			const normalized = pathWithQuery.startsWith("/") ? pathWithQuery : `/${pathWithQuery}`;
 			const delocalized = deLocalizeHref(normalized);

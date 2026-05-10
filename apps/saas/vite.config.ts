@@ -24,10 +24,6 @@ export default defineConfig(({ mode }) => {
 			port: Number.parseInt(process.env.PORT ?? "3000", 10),
 			fs: { allow: [monorepoRoot] },
 		},
-		// Paraglide compilation is owned by the `@repo/i18n` package (`pnpm --filter
-		// @repo/i18n generate`, invoked via root `postinstall`). Apps consume the
-		// generated modules directly from `@repo/i18n/paraglide/*` rather than
-		// re-running the plugin per-app, which used to race on a shared outdir.
 		plugins: [
 			tailwindcss(),
 			tanstackStart({
@@ -38,7 +34,15 @@ export default defineConfig(({ mode }) => {
 				alias: {
 					tslib: fileURLToPath(import.meta.resolve("tslib/tslib.es6.mjs")),
 				},
-				noExternals: ["file-selector", "tslib"],
+				noExternals: [
+					"@repo/i18n",
+					"@repo/ui",
+					"file-selector",
+					"react",
+					"react-dom",
+					"tslib",
+					"use-intl",
+				],
 			}),
 			viteReact(),
 		],

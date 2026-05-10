@@ -1,13 +1,20 @@
-import * as paraglideServer from "@repo/i18n/paraglide/server.js";
+import { createLocaleCookieHeader, handleLocaleMiddleware } from "@repo/i18n/server";
 import handler, { createServerEntry } from "@tanstack/react-start/server-entry";
 
-/**
- * Paraglide middleware sets locale context and keeps cookies in sync.
- * TanStack Router applies `deLocalizeUrl` / `localizeUrl` via `rewrite`, so the
- * handler receives the original request URL (see Paraglide TanStack Start docs).
- */
 export default createServerEntry({
-	fetch(req, opts) {
-		return paraglideServer.paraglideMiddleware(req, () => handler.fetch(req, opts));
+	async fetch(req, opts) {
+		const { redirect, setCookie } = handleLocaleMiddleware(req);
+
+		if (redirect) {
+			return redirect;
+		}
+
+		const response = await handler.fetch(req, opts);
+
+		if (setCookie) {
+			response.headers.append("Set-Cookie", createLocaleCookieHeader(setCookie.value));
+		}
+
+		return response;
 	},
 });

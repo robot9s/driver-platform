@@ -1,13 +1,9 @@
 import { Link, Text } from "@react-email/components";
-import {
-	mail_common_openLinkInBrowser,
-	mail_notification_openInApp,
-	mail_notification_view,
-} from "@repo/i18n/paraglide/messages.js";
 import React from "react";
 
 import PrimaryButton from "../components/PrimaryButton";
 import Wrapper from "../components/Wrapper";
+import { getMailTranslator } from "../lib/i18n";
 import { defaultLocale } from "../lib/translations";
 import type { BaseMailProps } from "../types";
 
@@ -21,7 +17,7 @@ export function Notification({
 	message?: string;
 	link?: string;
 } & BaseMailProps) {
-	const l = { locale };
+	const t = getMailTranslator(locale);
 
 	return (
 		<Wrapper>
@@ -29,12 +25,10 @@ export function Notification({
 			{message ? <Text>{message}</Text> : null}
 			{link ? (
 				<>
-					<Text>{mail_notification_openInApp({}, l)}</Text>
-					<PrimaryButton href={link}>
-						{mail_notification_view({}, l)} &rarr;
-					</PrimaryButton>
+					<Text>{t("notification.openInApp")}</Text>
+					<PrimaryButton href={link}>{t("notification.view")} &rarr;</PrimaryButton>
 					<Text className="text-sm text-muted-foreground">
-						{mail_common_openLinkInBrowser({}, l)}
+						{t("common.openLinkInBrowser")}
 						<br />
 						<Link href={link}>{link}</Link>
 					</Text>

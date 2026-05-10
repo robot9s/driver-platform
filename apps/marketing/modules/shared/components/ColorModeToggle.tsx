@@ -1,7 +1,3 @@
-import {
-	marketing_common_colorMode_dark,
-	marketing_common_colorMode_light,
-} from "@repo/i18n/paraglide/messages.js";
 import { cn, useTheme } from "@repo/ui";
 import {
 	Tooltip,
@@ -11,6 +7,7 @@ import {
 } from "@repo/ui/components/tooltip";
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useSyncExternalStore } from "react";
+import { useTranslations } from "use-intl";
 
 function subscribeToPrefersColorScheme(onStoreChange: () => void) {
 	const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -24,6 +21,7 @@ function getPrefersColorSchemeSnapshot(): "light" | "dark" {
 
 export function ColorModeToggle() {
 	const { setTheme, theme } = useTheme();
+	const t = useTranslations("common.colorMode");
 	const systemAppearance = useSyncExternalStore<"light" | "dark">(
 		subscribeToPrefersColorScheme,
 		getPrefersColorSchemeSnapshot,
@@ -37,12 +35,12 @@ export function ColorModeToggle() {
 		{
 			value: "light" as const,
 			icon: SunIcon,
-			label: marketing_common_colorMode_light,
+			label: t("light"),
 		},
 		{
 			value: "dark" as const,
 			icon: MoonIcon,
-			label: marketing_common_colorMode_dark,
+			label: t("dark"),
 		},
 	];
 
@@ -66,7 +64,7 @@ export function ColorModeToggle() {
 				{colorModeOptions.map((option) => {
 					const Icon = option.icon;
 					const isActive = option.value === activeMode;
-					const label = option.label();
+					const label = option.label;
 
 					return (
 						<Tooltip key={option.value}>
