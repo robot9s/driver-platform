@@ -137,7 +137,9 @@ export function OtpForm() {
 						)}
 					</FormField>
 
-					<Button loading={isSubmitting}>{t("auth.verify.submit")}</Button>
+					<Button type="submit" loading={isSubmitting}>
+						{t("auth.verify.submit")}
+					</Button>
 				</form>
 			</Form>
 

@@ -210,7 +210,7 @@ export function SignupForm({ prefillEmail }: { prefillEmail?: string }) {
 								</FormField>
 							)}
 
-							<Button variant="primary" loading={isSubmitting}>
+							<Button type="submit" variant="primary" loading={isSubmitting}>
 								{t("auth.signup.submit")}
 							</Button>
 						</form>

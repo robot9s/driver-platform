@@ -129,7 +129,9 @@ export function ForgotPasswordForm() {
 							)}
 						</FormField>
 
-						<Button loading={isSubmitting}>{t("auth.forgotPassword.submit")}</Button>
+						<Button type="submit" loading={isSubmitting}>
+							{t("auth.forgotPassword.submit")}
+						</Button>
 					</form>
 				</Form>
 			)}
