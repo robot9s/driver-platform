@@ -1,8 +1,19 @@
 import { createLocaleCookieHeader, handleLocaleMiddleware } from "@repo/i18n/server";
-import handler, { createServerEntry } from "@tanstack/react-start/server-entry";
+import type { Register } from "@tanstack/react-router";
+import type { RequestOptions } from "@tanstack/react-start/server";
+import { fetchViteEnv } from "nitro/vite/runtime";
 
-export default createServerEntry({
-	async fetch(req, opts) {
+interface NitroMainGlobal {
+	__nitro_main__?: string;
+}
+
+export default {
+	async fetch(req: Request, opts?: RequestOptions<Register>) {
+		if ((globalThis as NitroMainGlobal).__nitro_main__ === import.meta.url) {
+			return fetchViteEnv("ssr", req);
+		}
+
+		const { default: handler } = await import("@tanstack/react-start/server-entry");
 		const { redirect, setCookie } = handleLocaleMiddleware(req);
 
 		if (redirect) {
@@ -17,4 +28,4 @@ export default createServerEntry({
 
 		return response;
 	},
-});
+};
