@@ -4,7 +4,6 @@ import { DeleteOrganizationForm } from "@organizations/components/DeleteOrganiza
 import { OrganizationLogoForm } from "@organizations/components/OrganizationLogoForm";
 import { useActiveOrganization } from "@organizations/hooks/use-active-organization";
 import { config as authConfig } from "@repo/auth/config";
-import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui";
 import { SettingsList } from "@shared/components/SettingsList";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
@@ -38,17 +37,8 @@ function OrgSettingsGeneralPage() {
 			<SettingsList>
 				<OrganizationLogoForm />
 				<ChangeOrganizationNameForm />
+				<DeleteOrganizationForm />
 			</SettingsList>
-			<Card className="mt-8 border-destructive/40">
-				<CardHeader>
-					<CardTitle className="text-destructive">
-						{t("organizations.settings.dangerZone.title")}
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<DeleteOrganizationForm />
-				</CardContent>
-			</Card>
 		</div>
 	);
 }
