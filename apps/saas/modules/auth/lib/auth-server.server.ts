@@ -3,14 +3,15 @@ import { getInvitationById } from "@repo/database";
 import { getRequestHeaders } from "@tanstack/react-start/server";
 
 export async function getSession() {
+	const headers = getRequestHeaders();
 	const session = await auth.api.getSession({
-		headers: getRequestHeaders(),
+		headers,
 		query: {
 			disableCookieCache: true,
 		},
 	});
 
-	return session;
+	return toJsonSafe(session);
 }
 
 export async function getActiveOrganization(slug: string) {
@@ -22,7 +23,22 @@ export async function getActiveOrganization(slug: string) {
 			headers: getRequestHeaders(),
 		});
 
-		return activeOrganization;
+		return toJsonSafe(activeOrganization);
+	} catch {
+		return null;
+	}
+}
+
+export async function getActiveOrganizationById(organizationId: string) {
+	try {
+		const activeOrganization = await auth.api.getFullOrganization({
+			query: {
+				organizationId,
+			},
+			headers: getRequestHeaders(),
+		});
+
+		return toJsonSafe(activeOrganization);
 	} catch {
 		return null;
 	}
@@ -34,7 +50,7 @@ export async function getOrganizationList() {
 			headers: getRequestHeaders(),
 		});
 
-		return organizationList;
+		return toJsonSafe(organizationList);
 	} catch {
 		return [];
 	}
@@ -46,7 +62,7 @@ export async function getUserAccounts() {
 			headers: getRequestHeaders(),
 		});
 
-		return userAccounts;
+		return toJsonSafe(userAccounts);
 	} catch {
 		return [];
 	}
@@ -58,7 +74,7 @@ export async function getUserPasskeys() {
 			headers: getRequestHeaders(),
 		});
 
-		return userPasskeys;
+		return toJsonSafe(userPasskeys);
 	} catch {
 		return [];
 	}
@@ -70,4 +86,8 @@ export async function getInvitation(id: string) {
 	} catch {
 		return null;
 	}
+}
+
+function toJsonSafe<T>(value: T): T {
+	return value == null ? value : (JSON.parse(JSON.stringify(value)) as T);
 }

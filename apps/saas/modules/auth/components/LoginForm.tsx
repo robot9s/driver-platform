@@ -21,12 +21,11 @@ import {
 	KeyIcon,
 	MailboxIcon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { withQuery } from "ufo";
 import { z } from "zod";
 
 import { type OAuthProvider, oAuthProviders } from "../constants/oauth-providers";
-import { useSession } from "../hooks/use-session";
 import { getSafeRedirectPath } from "../lib/redirects";
 import { LoginModeSwitch } from "./LoginModeSwitch";
 import { SocialSigninButton } from "./SocialSigninButton";
@@ -48,7 +47,6 @@ export function LoginForm() {
 	const router = useRouter();
 	const queryClient = useQueryClient();
 	const search = useSearch({ strict: false }) as AuthSearch;
-	const { user, loaded: sessionLoaded } = useSession();
 
 	const [showPassword, setShowPassword] = useState(false);
 	const [signinMode, setSigninMode] = useState<"password" | "magic-link">(
@@ -135,12 +133,6 @@ export function LoginForm() {
 	const isSubmitting = useStore(form.store, (s) => s.isSubmitting);
 	const formErrors = useStore(form.store, (s) => s.errors);
 	const rootMessage = formatFormRootError(formErrors);
-
-	useEffect(() => {
-		if (sessionLoaded && user) {
-			void router.navigate({ to: redirectPath, replace: true });
-		}
-	}, [user, sessionLoaded, router, redirectPath]);
 
 	const signInWithPasskey = async () => {
 		try {

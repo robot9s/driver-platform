@@ -1,23 +1,34 @@
-import {
-	loadOrganizationListForRouteFn,
-	loadSessionForRouteFn,
-} from "@auth/lib/auth-route-loaders";
+import { getOrganizationList, getSession } from "@auth/lib/auth-server.server";
 import { useTranslations } from "@i18n/intl";
 import { OrganizationsGrid } from "@organizations/components/OrganizationsGrid";
 import { config as authConfig } from "@repo/auth/config";
 import { Card } from "@repo/ui";
 import { PageHeader } from "@shared/components/PageHeader";
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+
+const loadSessionForMainIndexRouteFn = createServerFn({ method: "GET", strict: false }).handler(async () => {
+	return { result: await getSession() };
+});
+
+const loadOrganizationListForMainIndexRouteFn = createServerFn({ method: "GET", strict: false }).handler(
+	async () => ({ result: await getOrganizationList() }),
+);
+
+type MainIndexSession = Awaited<ReturnType<typeof getSession>>;
+type MainIndexOrganizations = Awaited<ReturnType<typeof getOrganizationList>>;
 
 export const Route = createFileRoute("/_authenticated/_main/")({
 	loader: async () => {
-		const session = await loadSessionForRouteFn();
+		const session = unwrapServerFnResult<MainIndexSession>(await loadSessionForMainIndexRouteFn());
 
 		if (!session) {
 			throw redirect({ href: "/login" });
 		}
 
-		const organizations = await loadOrganizationListForRouteFn();
+		const organizations = unwrapServerFnResult<MainIndexOrganizations>(
+			await loadOrganizationListForMainIndexRouteFn(),
+		);
 
 		if (authConfig.organizations.enable && authConfig.organizations.requireOrganization) {
 			const organization =
@@ -58,4 +69,13 @@ function DashboardHome() {
 			</div>
 		</div>
 	);
+}
+
+function unwrapServerFnResult<T>(value: T | { result: T }): T {
+	return value &&
+		typeof value === "object" &&
+		"result" in value &&
+		Object.keys(value).length === 1
+		? value.result
+		: (value as T);
 }
