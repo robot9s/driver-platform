@@ -1,4 +1,5 @@
 import { OnboardingForm } from "@onboarding/components/OnboardingForm";
+import { AuthWrapper } from "@shared/components/AuthWrapper";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/onboarding/")({
@@ -9,5 +10,9 @@ export const Route = createFileRoute("/_authenticated/onboarding/")({
 });
 
 function OnboardingPage() {
-	return <OnboardingForm />;
+	return (
+		<AuthWrapper>
+			<OnboardingForm />
+		</AuthWrapper>
+	);
 }
