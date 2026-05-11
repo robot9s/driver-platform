@@ -382,6 +382,20 @@ export function NavBar() {
 							: []),
 					]
 				: undefined;
+		const adminSubItems: NavSubItem[] = [
+			{
+				label: t("admin.menu.users"),
+				href: "/admin/users",
+			},
+			...(authConfig.organizations.enable
+				? [
+						{
+							label: t("admin.menu.organizations"),
+							href: "/admin/organizations",
+						},
+					]
+				: []),
+		];
 
 		return [
 			{
@@ -422,9 +436,10 @@ export function NavBar() {
 				? [
 						{
 							label: t("app.menu.admin"),
-							href: "/admin",
+							href: "/admin/users",
 							icon: ShieldUserIcon,
 							isActive: pathname.startsWith("/admin/"),
+							subItems: adminSubItems,
 						},
 					]
 				: []),

@@ -24,6 +24,7 @@ import { Route as AuthenticatedChoosePlanIndexRouteImport } from './routes/_auth
 import { Route as AuthenticatedCheckoutReturnIndexRouteImport } from './routes/_authenticated/checkout-return/index'
 import { Route as AuthenticatedMainIndexRouteImport } from './routes/_authenticated/_main/index'
 import { Route as AuthenticatedMainSettingsRouteRouteImport } from './routes/_authenticated/_main/settings/route'
+import { Route as AuthenticatedMainAdminRouteRouteImport } from './routes/_authenticated/_main/admin/route'
 import { Route as AuthenticatedOrganizationInvitationInvitationIdIndexRouteImport } from './routes/_authenticated/organization-invitation/$invitationId/index'
 import { Route as AuthenticatedMainSettingsIndexRouteImport } from './routes/_authenticated/_main/settings/index'
 import { Route as AuthenticatedMainChatbotIndexRouteImport } from './routes/_authenticated/_main/chatbot/index'
@@ -121,6 +122,12 @@ const AuthenticatedMainSettingsRouteRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedMainRouteRoute,
   } as any)
+const AuthenticatedMainAdminRouteRoute =
+  AuthenticatedMainAdminRouteRouteImport.update({
+    id: '/admin',
+    path: '/admin',
+    getParentRoute: () => AuthenticatedMainRouteRoute,
+  } as any)
 const AuthenticatedOrganizationInvitationInvitationIdIndexRoute =
   AuthenticatedOrganizationInvitationInvitationIdIndexRouteImport.update({
     id: '/organization-invitation/$invitationId/',
@@ -141,9 +148,9 @@ const AuthenticatedMainChatbotIndexRoute =
   } as any)
 const AuthenticatedMainAdminIndexRoute =
   AuthenticatedMainAdminIndexRouteImport.update({
-    id: '/admin/',
-    path: '/admin/',
-    getParentRoute: () => AuthenticatedMainRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMainAdminRouteRoute,
   } as any)
 const AuthenticatedMainOrganizationSlugIndexRoute =
   AuthenticatedMainOrganizationSlugIndexRouteImport.update({
@@ -183,15 +190,15 @@ const AuthenticatedMainSettingsBillingIndexRoute =
   } as any)
 const AuthenticatedMainAdminUsersIndexRoute =
   AuthenticatedMainAdminUsersIndexRouteImport.update({
-    id: '/admin/users/',
-    path: '/admin/users/',
-    getParentRoute: () => AuthenticatedMainRouteRoute,
+    id: '/users/',
+    path: '/users/',
+    getParentRoute: () => AuthenticatedMainAdminRouteRoute,
   } as any)
 const AuthenticatedMainAdminOrganizationsIndexRoute =
   AuthenticatedMainAdminOrganizationsIndexRouteImport.update({
-    id: '/admin/organizations/',
-    path: '/admin/organizations/',
-    getParentRoute: () => AuthenticatedMainRouteRoute,
+    id: '/organizations/',
+    path: '/organizations/',
+    getParentRoute: () => AuthenticatedMainAdminRouteRoute,
   } as any)
 const AuthenticatedMainOrganizationSlugSettingsIndexRoute =
   AuthenticatedMainOrganizationSlugSettingsIndexRouteImport.update({
@@ -201,15 +208,15 @@ const AuthenticatedMainOrganizationSlugSettingsIndexRoute =
   } as any)
 const AuthenticatedMainAdminOrganizationsNewIndexRoute =
   AuthenticatedMainAdminOrganizationsNewIndexRouteImport.update({
-    id: '/admin/organizations/new/',
-    path: '/admin/organizations/new/',
-    getParentRoute: () => AuthenticatedMainRouteRoute,
+    id: '/organizations/new/',
+    path: '/organizations/new/',
+    getParentRoute: () => AuthenticatedMainAdminRouteRoute,
   } as any)
 const AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute =
   AuthenticatedMainAdminOrganizationsOrganizationIdIndexRouteImport.update({
-    id: '/admin/organizations/$organizationId/',
-    path: '/admin/organizations/$organizationId/',
-    getParentRoute: () => AuthenticatedMainRouteRoute,
+    id: '/organizations/$organizationId/',
+    path: '/organizations/$organizationId/',
+    getParentRoute: () => AuthenticatedMainAdminRouteRoute,
   } as any)
 const AuthenticatedMainOrganizationSlugSettingsMembersIndexRoute =
   AuthenticatedMainOrganizationSlugSettingsMembersIndexRouteImport.update({
@@ -239,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/reset-password/': typeof ResetPasswordIndexRoute
   '/signup/': typeof SignupIndexRoute
   '/verify/': typeof VerifyIndexRoute
+  '/admin': typeof AuthenticatedMainAdminRouteRouteWithChildren
   '/settings': typeof AuthenticatedMainSettingsRouteRouteWithChildren
   '/checkout-return/': typeof AuthenticatedCheckoutReturnIndexRoute
   '/choose-plan/': typeof AuthenticatedChoosePlanIndexRoute
@@ -305,6 +313,7 @@ export interface FileRoutesById {
   '/reset-password/': typeof ResetPasswordIndexRoute
   '/signup/': typeof SignupIndexRoute
   '/verify/': typeof VerifyIndexRoute
+  '/_authenticated/_main/admin': typeof AuthenticatedMainAdminRouteRouteWithChildren
   '/_authenticated/_main/settings': typeof AuthenticatedMainSettingsRouteRouteWithChildren
   '/_authenticated/_main/': typeof AuthenticatedMainIndexRoute
   '/_authenticated/checkout-return/': typeof AuthenticatedCheckoutReturnIndexRoute
@@ -341,6 +350,7 @@ export interface FileRouteTypes {
     | '/reset-password/'
     | '/signup/'
     | '/verify/'
+    | '/admin'
     | '/settings'
     | '/checkout-return/'
     | '/choose-plan/'
@@ -406,6 +416,7 @@ export interface FileRouteTypes {
     | '/reset-password/'
     | '/signup/'
     | '/verify/'
+    | '/_authenticated/_main/admin'
     | '/_authenticated/_main/settings'
     | '/_authenticated/_main/'
     | '/_authenticated/checkout-return/'
@@ -550,6 +561,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMainSettingsRouteRouteImport
       parentRoute: typeof AuthenticatedMainRouteRoute
     }
+    '/_authenticated/_main/admin': {
+      id: '/_authenticated/_main/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedMainAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedMainRouteRoute
+    }
     '/_authenticated/organization-invitation/$invitationId/': {
       id: '/_authenticated/organization-invitation/$invitationId/'
       path: '/organization-invitation/$invitationId'
@@ -573,10 +591,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/_main/admin/': {
       id: '/_authenticated/_main/admin/'
-      path: '/admin'
+      path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedMainAdminIndexRouteImport
-      parentRoute: typeof AuthenticatedMainRouteRoute
+      parentRoute: typeof AuthenticatedMainAdminRouteRoute
     }
     '/_authenticated/_main/$organizationSlug/': {
       id: '/_authenticated/_main/$organizationSlug/'
@@ -622,17 +640,17 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/_main/admin/users/': {
       id: '/_authenticated/_main/admin/users/'
-      path: '/admin/users'
+      path: '/users'
       fullPath: '/admin/users/'
       preLoaderRoute: typeof AuthenticatedMainAdminUsersIndexRouteImport
-      parentRoute: typeof AuthenticatedMainRouteRoute
+      parentRoute: typeof AuthenticatedMainAdminRouteRoute
     }
     '/_authenticated/_main/admin/organizations/': {
       id: '/_authenticated/_main/admin/organizations/'
-      path: '/admin/organizations'
+      path: '/organizations'
       fullPath: '/admin/organizations/'
       preLoaderRoute: typeof AuthenticatedMainAdminOrganizationsIndexRouteImport
-      parentRoute: typeof AuthenticatedMainRouteRoute
+      parentRoute: typeof AuthenticatedMainAdminRouteRoute
     }
     '/_authenticated/_main/$organizationSlug/settings/': {
       id: '/_authenticated/_main/$organizationSlug/settings/'
@@ -643,17 +661,17 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/_main/admin/organizations/new/': {
       id: '/_authenticated/_main/admin/organizations/new/'
-      path: '/admin/organizations/new'
+      path: '/organizations/new'
       fullPath: '/admin/organizations/new/'
       preLoaderRoute: typeof AuthenticatedMainAdminOrganizationsNewIndexRouteImport
-      parentRoute: typeof AuthenticatedMainRouteRoute
+      parentRoute: typeof AuthenticatedMainAdminRouteRoute
     }
     '/_authenticated/_main/admin/organizations/$organizationId/': {
       id: '/_authenticated/_main/admin/organizations/$organizationId/'
-      path: '/admin/organizations/$organizationId'
+      path: '/organizations/$organizationId'
       fullPath: '/admin/organizations/$organizationId/'
       preLoaderRoute: typeof AuthenticatedMainAdminOrganizationsOrganizationIdIndexRouteImport
-      parentRoute: typeof AuthenticatedMainRouteRoute
+      parentRoute: typeof AuthenticatedMainAdminRouteRoute
     }
     '/_authenticated/_main/$organizationSlug/settings/members/': {
       id: '/_authenticated/_main/$organizationSlug/settings/members/'
@@ -678,6 +696,32 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedMainAdminRouteRouteChildren {
+  AuthenticatedMainAdminIndexRoute: typeof AuthenticatedMainAdminIndexRoute
+  AuthenticatedMainAdminOrganizationsIndexRoute: typeof AuthenticatedMainAdminOrganizationsIndexRoute
+  AuthenticatedMainAdminUsersIndexRoute: typeof AuthenticatedMainAdminUsersIndexRoute
+  AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute: typeof AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute
+  AuthenticatedMainAdminOrganizationsNewIndexRoute: typeof AuthenticatedMainAdminOrganizationsNewIndexRoute
+}
+
+const AuthenticatedMainAdminRouteRouteChildren: AuthenticatedMainAdminRouteRouteChildren =
+  {
+    AuthenticatedMainAdminIndexRoute: AuthenticatedMainAdminIndexRoute,
+    AuthenticatedMainAdminOrganizationsIndexRoute:
+      AuthenticatedMainAdminOrganizationsIndexRoute,
+    AuthenticatedMainAdminUsersIndexRoute:
+      AuthenticatedMainAdminUsersIndexRoute,
+    AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute:
+      AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute,
+    AuthenticatedMainAdminOrganizationsNewIndexRoute:
+      AuthenticatedMainAdminOrganizationsNewIndexRoute,
+  }
+
+const AuthenticatedMainAdminRouteRouteWithChildren =
+  AuthenticatedMainAdminRouteRoute._addFileChildren(
+    AuthenticatedMainAdminRouteRouteChildren,
+  )
 
 interface AuthenticatedMainSettingsRouteRouteChildren {
   AuthenticatedMainSettingsIndexRoute: typeof AuthenticatedMainSettingsIndexRoute
@@ -730,20 +774,18 @@ const AuthenticatedMainOrganizationSlugSettingsRouteRouteWithChildren =
   )
 
 interface AuthenticatedMainRouteRouteChildren {
+  AuthenticatedMainAdminRouteRoute: typeof AuthenticatedMainAdminRouteRouteWithChildren
   AuthenticatedMainSettingsRouteRoute: typeof AuthenticatedMainSettingsRouteRouteWithChildren
   AuthenticatedMainIndexRoute: typeof AuthenticatedMainIndexRoute
   AuthenticatedMainOrganizationSlugSettingsRouteRoute: typeof AuthenticatedMainOrganizationSlugSettingsRouteRouteWithChildren
   AuthenticatedMainOrganizationSlugIndexRoute: typeof AuthenticatedMainOrganizationSlugIndexRoute
-  AuthenticatedMainAdminIndexRoute: typeof AuthenticatedMainAdminIndexRoute
   AuthenticatedMainChatbotIndexRoute: typeof AuthenticatedMainChatbotIndexRoute
-  AuthenticatedMainAdminOrganizationsIndexRoute: typeof AuthenticatedMainAdminOrganizationsIndexRoute
-  AuthenticatedMainAdminUsersIndexRoute: typeof AuthenticatedMainAdminUsersIndexRoute
-  AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute: typeof AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute
-  AuthenticatedMainAdminOrganizationsNewIndexRoute: typeof AuthenticatedMainAdminOrganizationsNewIndexRoute
 }
 
 const AuthenticatedMainRouteRouteChildren: AuthenticatedMainRouteRouteChildren =
   {
+    AuthenticatedMainAdminRouteRoute:
+      AuthenticatedMainAdminRouteRouteWithChildren,
     AuthenticatedMainSettingsRouteRoute:
       AuthenticatedMainSettingsRouteRouteWithChildren,
     AuthenticatedMainIndexRoute: AuthenticatedMainIndexRoute,
@@ -751,16 +793,7 @@ const AuthenticatedMainRouteRouteChildren: AuthenticatedMainRouteRouteChildren =
       AuthenticatedMainOrganizationSlugSettingsRouteRouteWithChildren,
     AuthenticatedMainOrganizationSlugIndexRoute:
       AuthenticatedMainOrganizationSlugIndexRoute,
-    AuthenticatedMainAdminIndexRoute: AuthenticatedMainAdminIndexRoute,
     AuthenticatedMainChatbotIndexRoute: AuthenticatedMainChatbotIndexRoute,
-    AuthenticatedMainAdminOrganizationsIndexRoute:
-      AuthenticatedMainAdminOrganizationsIndexRoute,
-    AuthenticatedMainAdminUsersIndexRoute:
-      AuthenticatedMainAdminUsersIndexRoute,
-    AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute:
-      AuthenticatedMainAdminOrganizationsOrganizationIdIndexRoute,
-    AuthenticatedMainAdminOrganizationsNewIndexRoute:
-      AuthenticatedMainAdminOrganizationsNewIndexRoute,
   }
 
 const AuthenticatedMainRouteRouteWithChildren =
