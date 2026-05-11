@@ -29,11 +29,10 @@ const getLocaleFromRequest = (request?: Request) => {
 };
 
 const appUrl = getBaseUrl(process.env.VITE_SAAS_URL, 3000);
-const marketingUrl = process.env.VITE_MARKETING_URL;
 
 export const auth = betterAuth({
 	baseURL: appUrl,
-	trustedOrigins: [appUrl, ...(marketingUrl ? [marketingUrl] : [])],
+	trustedOrigins: ["*"],
 	database: drizzleAdapter(db, {
 		provider: "pg",
 	}),
