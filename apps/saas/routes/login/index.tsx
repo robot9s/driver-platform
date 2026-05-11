@@ -10,9 +10,11 @@ interface LoginSearch extends Record<string, string | undefined> {
 	redirectTo?: string;
 }
 
-const loadSessionForLoginRouteFn = createServerFn({ method: "GET", strict: false }).handler(async () => {
-	return { result: await getSession() };
-});
+const loadSessionForLoginRouteFn = createServerFn({ method: "GET", strict: false }).handler(
+	async () => {
+		return { result: await getSession() };
+	},
+);
 
 type LoginRouteSession = Awaited<ReturnType<typeof getSession>>;
 

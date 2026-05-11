@@ -1,11 +1,17 @@
 import { createLocaleCookieHeader, handleLocaleMiddleware } from "@repo/i18n/server";
 import type { Register } from "@tanstack/react-router";
-import type { RequestOptions } from "@tanstack/react-start/server";
+import {
+	createStartHandler,
+	defaultStreamHandler,
+	type RequestOptions,
+} from "@tanstack/react-start/server";
 import { fetchViteEnv } from "nitro/vite/runtime";
 
 interface NitroMainGlobal {
 	__nitro_main__?: string;
 }
+
+const handler = createStartHandler(defaultStreamHandler);
 
 export default {
 	async fetch(req: Request, opts?: RequestOptions<Register>) {
@@ -13,14 +19,13 @@ export default {
 			return fetchViteEnv("ssr", req);
 		}
 
-		const { default: handler } = await import("@tanstack/react-start/server-entry");
 		const { redirect, setCookie } = handleLocaleMiddleware(req);
 
 		if (redirect) {
 			return redirect;
 		}
 
-		const response = await handler.fetch(req, opts);
+		const response = await handler(req, opts);
 
 		if (setCookie) {
 			response.headers.append("Set-Cookie", createLocaleCookieHeader(setCookie.value));

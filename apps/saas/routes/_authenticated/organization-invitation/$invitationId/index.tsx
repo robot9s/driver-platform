@@ -1,11 +1,29 @@
 import { OrganizationInvitationModal } from "@organizations/components/OrganizationInvitationModal";
-import { loadPendingInvitationForPageFn } from "@organizations/lib/load-pending-invitation-for-page";
+import { getInvitationById } from "@repo/database";
 import { Card, CardContent } from "@repo/ui";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+
+const loadPendingInvitationForInvitationRouteFn = createServerFn({ method: "GET" })
+	.inputValidator((invitationId: string) => invitationId)
+	.handler(async ({ data: invitationId }) => {
+		const record = await getInvitationById(invitationId);
+
+		if (!record || record.status !== "pending" || !record.organization) {
+			throw notFound();
+		}
+
+		return {
+			invitationId: record.id,
+			organizationName: record.organization.name,
+			organizationSlug: record.organization.slug,
+			logoUrl: record.organization.logo ?? undefined,
+		} as const;
+	});
 
 export const Route = createFileRoute("/_authenticated/organization-invitation/$invitationId/")({
 	loader: async ({ params }) => {
-		return loadPendingInvitationForPageFn({ data: params.invitationId });
+		return loadPendingInvitationForInvitationRouteFn({ data: params.invitationId });
 	},
 	component: OrganizationInvitationPage,
 	head: () => ({ meta: [{ title: "Organization invitation" }] }),

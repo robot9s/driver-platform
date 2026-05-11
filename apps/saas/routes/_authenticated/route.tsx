@@ -1,8 +1,5 @@
 import { SessionProvider } from "@auth/components/SessionProvider";
-import {
-	getActiveOrganizationById,
-	getSession,
-} from "@auth/lib/auth-server.server";
+import { getActiveOrganizationById, getSession } from "@auth/lib/auth-server.server";
 import { ActiveOrganizationProvider } from "@organizations/components/ActiveOrganizationProvider";
 import { ConfirmationAlertProvider } from "@shared/components/ConfirmationAlertProvider";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";

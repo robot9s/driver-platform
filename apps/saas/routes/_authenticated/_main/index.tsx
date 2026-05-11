@@ -7,20 +7,25 @@ import { PageHeader } from "@shared/components/PageHeader";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 
-const loadSessionForMainIndexRouteFn = createServerFn({ method: "GET", strict: false }).handler(async () => {
-	return { result: await getSession() };
-});
-
-const loadOrganizationListForMainIndexRouteFn = createServerFn({ method: "GET", strict: false }).handler(
-	async () => ({ result: await getOrganizationList() }),
+const loadSessionForMainIndexRouteFn = createServerFn({ method: "GET", strict: false }).handler(
+	async () => {
+		return { result: await getSession() };
+	},
 );
+
+const loadOrganizationListForMainIndexRouteFn = createServerFn({
+	method: "GET",
+	strict: false,
+}).handler(async () => ({ result: await getOrganizationList() }));
 
 type MainIndexSession = Awaited<ReturnType<typeof getSession>>;
 type MainIndexOrganizations = Awaited<ReturnType<typeof getOrganizationList>>;
 
 export const Route = createFileRoute("/_authenticated/_main/")({
 	loader: async () => {
-		const session = unwrapServerFnResult<MainIndexSession>(await loadSessionForMainIndexRouteFn());
+		const session = unwrapServerFnResult<MainIndexSession>(
+			await loadSessionForMainIndexRouteFn(),
+		);
 
 		if (!session) {
 			throw redirect({ href: "/login" });
