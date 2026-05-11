@@ -54,6 +54,7 @@ export function LoginForm() {
 	const [signinMode, setSigninMode] = useState<"password" | "magic-link">(
 		authConfig.enablePasswordLogin ? "password" : "magic-link",
 	);
+	const [magicLinkSent, setMagicLinkSent] = useState(false);
 	const invitationId = search.invitationId;
 	const email = search.email;
 	const redirectTo = search.redirectTo;
@@ -72,6 +73,8 @@ export function LoginForm() {
 		},
 		onSubmit: async ({ value: values, formApi }) => {
 			try {
+				setMagicLinkSent(false);
+
 				if (signinMode === "password") {
 					if (!values.password) {
 						formApi.setFieldMeta("password", (prev) => ({
@@ -110,8 +113,11 @@ export function LoginForm() {
 					if (error) {
 						throw error;
 					}
+
+					setMagicLinkSent(true);
 				}
 			} catch (e) {
+				setMagicLinkSent(false);
 				formApi.setErrorMap({
 					onSubmit: {
 						form: getAuthErrorMessage(
@@ -127,7 +133,6 @@ export function LoginForm() {
 	});
 
 	const isSubmitting = useStore(form.store, (s) => s.isSubmitting);
-	const isSubmitSuccessful = useStore(form.store, (s) => s.isSubmitSuccessful);
 	const formErrors = useStore(form.store, (s) => s.errors);
 	const rootMessage = formatFormRootError(formErrors);
 
@@ -158,7 +163,7 @@ export function LoginForm() {
 			<h1 className="font-bold text-xl md:text-2xl">{t("auth.login.title")}</h1>
 			<p className="mt-1 mb-6 text-foreground/60">{t("auth.login.subtitle")}</p>
 
-			{isSubmitSuccessful && signinMode === "magic-link" ? (
+			{magicLinkSent ? (
 				<Alert variant="success">
 					<MailboxIcon />
 					<AlertTitle>{t("auth.login.hints.linkSent.title")}</AlertTitle>
@@ -180,7 +185,10 @@ export function LoginForm() {
 							{authConfig.enableMagicLink && authConfig.enablePasswordLogin && (
 								<LoginModeSwitch
 									activeMode={signinMode}
-									onChange={(mode) => setSigninMode(mode as typeof signinMode)}
+									onChange={(mode) => {
+										setMagicLinkSent(false);
+										setSigninMode(mode as typeof signinMode);
+									}}
 								/>
 							)}
 
