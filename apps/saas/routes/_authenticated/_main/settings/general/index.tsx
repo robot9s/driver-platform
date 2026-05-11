@@ -1,6 +1,7 @@
 import { useTranslations } from "@i18n/intl";
 import { ChangeEmailForm } from "@settings/components/ChangeEmailForm";
 import { ChangeNameForm } from "@settings/components/ChangeNameForm";
+import { DeleteAccountForm } from "@settings/components/DeleteAccountForm";
 import { UserAvatarForm } from "@settings/components/UserAvatarForm";
 import { UserLanguageForm } from "@settings/components/UserLanguageForm";
 import { SettingsList } from "@shared/components/SettingsList";
@@ -22,6 +23,7 @@ function SettingsGeneralPage() {
 				<ChangeNameForm />
 				<ChangeEmailForm />
 				<UserLanguageForm />
+				<DeleteAccountForm />
 			</SettingsList>
 		</div>
 	);
