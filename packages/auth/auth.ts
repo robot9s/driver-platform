@@ -7,7 +7,7 @@ import {
 	getUserByEmail,
 	getUserById,
 } from "@repo/database";
-import { config as i18nConfig, normalizeLocale, type Locale } from "@repo/i18n";
+import { config as i18nConfig, normalizeLocale } from "@repo/i18n";
 import { logger } from "@repo/logs";
 import { sendEmail } from "@repo/mail";
 import { createWelcomeNotification } from "@repo/notifications";

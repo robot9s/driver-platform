@@ -67,14 +67,11 @@ function mergeScope(locale: Locale, scope: TranslationScope): Messages {
 	return messages;
 }
 
-export function getMessagesForLocaleSync<T = Messages>(
-	locale: Locale | string,
-	scope: TranslationScope,
-): T {
+export function getMessagesForLocaleSync<T = Messages>(locale: string, scope: TranslationScope): T {
 	return mergeScope(normalizeLocale(locale), scope) as T;
 }
 
-export function createTranslatorForLocale(locale: Locale | string, scope: TranslationScope) {
+export function createTranslatorForLocale(locale: string, scope: TranslationScope) {
 	const resolvedLocale = normalizeLocale(locale);
 	const translator = createTranslator({
 		locale: resolvedLocale,

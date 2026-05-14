@@ -1,16 +1,9 @@
-import {
-	createNotificationForUser,
-	getUserById,
-	isNotificationDisabled,
-} from "@repo/database";
+import { createNotificationForUser, getUserById, isNotificationDisabled } from "@repo/database";
 import type { Locale } from "@repo/i18n";
 import { sendEmail } from "@repo/mail";
 
 import { resolveNotificationLink } from "./resolve-link";
-import {
-	NOTIFICATION_TARGETS,
-	type NotificationType,
-} from "./types";
+import { NOTIFICATION_TARGETS, type NotificationType } from "./types";
 
 function getRecordData(data: unknown): Record<string, unknown> {
 	return data && typeof data === "object" && !Array.isArray(data)

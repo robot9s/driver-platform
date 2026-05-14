@@ -20,11 +20,7 @@ export async function isNotificationDisabled(
 ) {
 	const row = await db.query.userNotificationPreference.findFirst({
 		where: (pref, { eq: eqFn, and: andFn }) =>
-			andFn(
-				eqFn(pref.userId, userId),
-				eqFn(pref.type, type),
-				eqFn(pref.target, target),
-			),
+			andFn(eqFn(pref.userId, userId), eqFn(pref.type, type), eqFn(pref.target, target)),
 	});
 	return Boolean(row);
 }
