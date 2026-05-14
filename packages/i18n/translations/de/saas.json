@@ -568,6 +568,28 @@
 			},
 			"title": "Zahlung"
 		},
+		"notificationsPage": {
+			"title": "Benachrichtigungen",
+			"description": "Lege fest, wie du Benachrichtigungen erhältst. Deaktivierte Optionen werden gespeichert; standardmäßig ist alles aktiviert.",
+			"groups": {
+				"general": {
+					"title": "Allgemein"
+				}
+			},
+			"types": {
+				"WELCOME": {
+					"label": "Willkommen"
+				},
+				"APP_UPDATE": {
+					"label": "App-Updates"
+				}
+			},
+			"columns": {
+				"type": "Benachrichtigung",
+				"inApp": "In der App",
+				"email": "E-Mail"
+			}
+		},
 		"menu": {
 			"account": {
 				"billing": "Abrechnung",

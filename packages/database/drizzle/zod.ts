@@ -11,6 +11,7 @@ import {
 	purchase,
 	session,
 	user,
+	userNotificationPreference,
 	userNotificationPreferences,
 	verification,
 } from "./schema";
@@ -36,4 +37,5 @@ export const AccountSchema = createSelectSchema(account);
 export const VerificationSchema = createSelectSchema(verification);
 export const PasskeySchema = createSelectSchema(passkey);
 export const NotificationSchema = createSelectSchema(notification);
+export const UserNotificationPreferenceSchema = createSelectSchema(userNotificationPreference);
 export const UserNotificationPreferencesSchema = createSelectSchema(userNotificationPreferences);

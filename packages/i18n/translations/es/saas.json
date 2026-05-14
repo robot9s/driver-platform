@@ -569,6 +569,25 @@
 			},
 			"title": "Facturación"
 		},
+		"notificationsPage": {
+			"title": "Notificaciones",
+			"description": "Elige cómo recibes las notificaciones. Las opciones desactivadas se guardan; por defecto todo está activado.",
+			"groups": {
+				"general": {
+					"title": "General"
+				}
+			},
+			"types": {
+				"APP_UPDATE": {
+					"label": "Actualizaciones de la app"
+				}
+			},
+			"columns": {
+				"type": "Notificación",
+				"inApp": "En la app",
+				"email": "Correo"
+			}
+		},
 		"menu": {
 			"account": {
 				"billing": "Facturación",

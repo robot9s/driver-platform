@@ -1,4 +1,3 @@
-import type { Locale } from "./config";
 import { getCurrentLocale } from "./runtime";
 import {
 	defaultLocale,
@@ -31,7 +30,7 @@ export function deLocalizeUrl(url: URL): URL {
 	return withPathname(url, stripLocaleFromPath(url.pathname));
 }
 
-export function localizeUrl(url: URL | string, options?: { locale?: Locale | string }): URL {
+export function localizeUrl(url: URL | string, options?: { locale?: string }): URL {
 	const nextUrl = copyUrl(url);
 
 	if (shouldIgnorePath(nextUrl.pathname)) {
@@ -56,7 +55,7 @@ export function deLocalizeHref(href: string): string {
 	return `${delocalized.pathname}${delocalized.search}${delocalized.hash}`;
 }
 
-export function localizeHref(href: string, options?: { locale?: Locale | string }): string {
+export function localizeHref(href: string, options?: { locale?: string }): string {
 	const url = new URL(href, "http://localhost");
 	const localized = localizeUrl(url, options);
 	return `${localized.pathname}${localized.search}${localized.hash}`;

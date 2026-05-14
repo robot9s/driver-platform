@@ -1,13 +1,59 @@
 import { and, count, eq, isNull } from "drizzle-orm";
 
 import { db } from "../client";
-import { notification, userNotificationPreferences } from "../schema/postgres";
+import { notification, userNotificationPreference } from "../schema/postgres";
 
-const defaultPreferences = {
-	emailNewsletter: true,
-	emailProductUpdates: true,
-	emailAccountSecurity: true,
-} as const;
+export async function getDisabledNotificationPreferences(userId: string) {
+	return db
+		.select({
+			type: userNotificationPreference.type,
+			target: userNotificationPreference.target,
+		})
+		.from(userNotificationPreference)
+		.where(eq(userNotificationPreference.userId, userId));
+}
+
+export async function isNotificationDisabled(
+	userId: string,
+	type: "WELCOME" | "APP_UPDATE",
+	target: "IN_APP" | "EMAIL",
+) {
+	const row = await db.query.userNotificationPreference.findFirst({
+		where: (pref, { eq: eqFn, and: andFn }) =>
+			andFn(eqFn(pref.userId, userId), eqFn(pref.type, type), eqFn(pref.target, target)),
+	});
+	return Boolean(row);
+}
+
+export async function setNotificationDisabled(
+	userId: string,
+	type: "WELCOME" | "APP_UPDATE",
+	target: "IN_APP" | "EMAIL",
+	disabled: boolean,
+) {
+	if (disabled) {
+		await db
+			.insert(userNotificationPreference)
+			.values({ userId, type, target })
+			.onConflictDoNothing({
+				target: [
+					userNotificationPreference.userId,
+					userNotificationPreference.type,
+					userNotificationPreference.target,
+				],
+			});
+	} else {
+		await db
+			.delete(userNotificationPreference)
+			.where(
+				and(
+					eq(userNotificationPreference.userId, userId),
+					eq(userNotificationPreference.type, type),
+					eq(userNotificationPreference.target, target),
+				),
+			);
+	}
+}
 
 export async function listNotificationsByUserId(userId: string, limit: number) {
 	return db.query.notification.findMany({
@@ -41,68 +87,6 @@ export async function markAllNotificationsAsReadForUser(userId: string) {
 		.where(and(eq(notification.userId, userId), isNull(notification.readAt)));
 }
 
-export async function getUserNotificationPreferences(userId: string) {
-	const row = await db.query.userNotificationPreferences.findFirst({
-		where: (p, { eq: eqFn }) => eqFn(p.userId, userId),
-	});
-	if (row) {
-		return {
-			emailNewsletter: row.emailNewsletter,
-			emailProductUpdates: row.emailProductUpdates,
-			emailAccountSecurity: row.emailAccountSecurity,
-		};
-	}
-	return { ...defaultPreferences };
-}
-
-type PreferencesUpdate = {
-	emailNewsletter?: boolean;
-	emailProductUpdates?: boolean;
-	emailAccountSecurity?: boolean;
-};
-
-export async function upsertUserNotificationPreferences(userId: string, patch: PreferencesUpdate) {
-	const existing = await db.query.userNotificationPreferences.findFirst({
-		where: (p, { eq: eqFn }) => eqFn(p.userId, userId),
-	});
-	const next = {
-		emailNewsletter:
-			patch.emailNewsletter ??
-			existing?.emailNewsletter ??
-			defaultPreferences.emailNewsletter,
-		emailProductUpdates:
-			patch.emailProductUpdates ??
-			existing?.emailProductUpdates ??
-			defaultPreferences.emailProductUpdates,
-		emailAccountSecurity:
-			patch.emailAccountSecurity ??
-			existing?.emailAccountSecurity ??
-			defaultPreferences.emailAccountSecurity,
-	};
-
-	if (existing) {
-		await db
-			.update(userNotificationPreferences)
-			.set({
-				...next,
-				updatedAt: new Date(),
-			})
-			.where(eq(userNotificationPreferences.userId, userId));
-	} else {
-		await db.insert(userNotificationPreferences).values({
-			userId,
-			...next,
-		});
-	}
-
-	return next;
-}
-
-/**
- * Inserts an in-app notification for a user. Call from API procedures, webhooks, or jobs
- * when something should appear in the notification center (`link` should be an in-app path
- * like `/settings` or `/my-org/settings/general` when the item is clickable).
- */
 export async function createNotificationForUser({
 	userId,
 	type,

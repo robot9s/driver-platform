@@ -6,10 +6,11 @@ export * from "./welcome";
 
 export {
 	createNotificationForUser,
+	getDisabledNotificationPreferences,
 	getUnreadNotificationCountByUserId,
-	getUserNotificationPreferences,
+	isNotificationDisabled,
 	listNotificationsByUserId,
 	markAllNotificationsAsReadForUser,
 	markNotificationAsReadById,
-	upsertUserNotificationPreferences,
+	setNotificationDisabled,
 } from "@repo/database";

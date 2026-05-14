@@ -6,7 +6,6 @@ import { markAsRead } from "./procedures/mark-as-read";
 import { markNotificationsRead } from "./procedures/mark-notifications-read";
 import { unreadCount } from "./procedures/unread-count";
 import { updatePreference } from "./procedures/update-preference";
-import { updatePreferences } from "./procedures/update-preferences";
 
 export const notificationsRouter = {
 	list,
@@ -16,6 +15,5 @@ export const notificationsRouter = {
 	markAllAsRead,
 	markAllRead: markAllNotificationsRead,
 	getPreferences,
-	updatePreferences,
 	updatePreference,
 };
