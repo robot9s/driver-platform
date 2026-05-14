@@ -1,4 +1,4 @@
-import { getUserNotificationPreferences } from "@repo/database";
+import { getDisabledNotificationPreferences } from "@repo/notifications";
 
 import { protectedProcedure } from "../../../orpc/procedures";
 
@@ -7,22 +7,9 @@ export const getPreferences = protectedProcedure
 		method: "GET",
 		path: "/notifications/preferences",
 		tags: ["Notifications"],
-		summary: "Get email notification preferences",
+		summary: "Get notification preferences",
 	})
 	.handler(async ({ context: { user } }) => {
-		const preferences = await getUserNotificationPreferences(user.id);
-		const disabled: Array<{ type: "WELCOME" | "APP_UPDATE"; target: "EMAIL" }> = [];
-
-		if (!preferences.emailAccountSecurity) {
-			disabled.push({ type: "WELCOME", target: "EMAIL" });
-		}
-
-		if (!preferences.emailProductUpdates) {
-			disabled.push({ type: "APP_UPDATE", target: "EMAIL" });
-		}
-
-		return {
-			...preferences,
-			disabled,
-		};
+		const disabled = await getDisabledNotificationPreferences(user.id);
+		return { disabled };
 	});

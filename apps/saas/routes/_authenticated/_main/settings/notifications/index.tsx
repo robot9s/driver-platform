@@ -1,5 +1,6 @@
 import { useTranslations } from "@i18n/intl";
 import { NotificationPreferencesForm } from "@settings/components/NotificationPreferencesForm";
+import { SettingsList } from "@shared/components/SettingsList";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/_main/settings/notifications/")({
@@ -8,14 +9,15 @@ export const Route = createFileRoute("/_authenticated/_main/settings/notificatio
 });
 
 function SettingsNotificationsPage() {
-	const t = useTranslations();
+	const t = useTranslations("settings.notificationsPage");
 
 	return (
 		<div>
-			<h2 className="mb-4 font-semibold text-lg">
-				{t("settings.menu.account.notifications")}
-			</h2>
-			<NotificationPreferencesForm />
+			<h2 className="mb-2 font-semibold text-lg">{t("title")}</h2>
+			<p className="mb-4 text-sm text-muted-foreground">{t("description")}</p>
+			<SettingsList>
+				<NotificationPreferencesForm />
+			</SettingsList>
 		</div>
 	);
 }

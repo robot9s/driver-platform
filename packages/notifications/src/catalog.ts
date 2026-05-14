@@ -1,3 +1,4 @@
+/** Section id for i18n (`settings.notificationsPage.groups.${id}`) and ordering. */
 export type NotificationGroupId = "general";
 export type NotificationTypeId = "WELCOME" | "APP_UPDATE";
 

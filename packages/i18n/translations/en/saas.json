@@ -569,6 +569,25 @@
 			},
 			"title": "Billing"
 		},
+		"notificationsPage": {
+			"title": "Notifications",
+			"description": "Choose how you receive notifications. Disabled options are stored; everything is enabled by default.",
+			"groups": {
+				"general": {
+					"title": "General"
+				}
+			},
+			"types": {
+				"APP_UPDATE": {
+					"label": "App updates"
+				}
+			},
+			"columns": {
+				"type": "Notification",
+				"inApp": "In-app",
+				"email": "Email"
+			}
+		},
 		"menu": {
 			"account": {
 				"billing": "Billing",

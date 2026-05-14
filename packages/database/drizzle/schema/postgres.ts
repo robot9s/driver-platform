@@ -13,6 +13,10 @@ import {
 
 export const purchaseTypeEnum = pgEnum("PurchaseType", ["SUBSCRIPTION", "ONE_TIME"]);
 
+export const notificationTypeEnum = pgEnum("NotificationType", ["WELCOME", "APP_UPDATE"]);
+
+export const notificationTargetEnum = pgEnum("NotificationTarget", ["IN_APP", "EMAIL"]);
+
 export const user = pgTable("user", {
 	id: text("id")
 		.$defaultFn(() => cuid())
@@ -252,6 +256,29 @@ export const notification = pgTable(
 	],
 );
 
+export const userNotificationPreference = pgTable(
+	"user_notification_preference",
+	{
+		id: text("id")
+			.$defaultFn(() => cuid())
+			.primaryKey(),
+		userId: text("userId")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		type: notificationTypeEnum("type").notNull(),
+		target: notificationTargetEnum("target").notNull(),
+		createdAt: timestamp("createdAt").defaultNow().notNull(),
+	},
+	(table) => [
+		index("user_notification_preference_userId_idx").on(table.userId),
+		uniqueIndex("user_notification_preference_user_type_target_uidx").on(
+			table.userId,
+			table.type,
+			table.target,
+		),
+	],
+);
+
 export const userNotificationPreferences = pgTable("user_notification_preferences", {
 	userId: text("userId")
 		.primaryKey()
@@ -345,6 +372,16 @@ export const userNotificationPreferencesRelations = relations(
 	({ one }) => ({
 		user: one(user, {
 			fields: [userNotificationPreferences.userId],
+			references: [user.id],
+		}),
+	}),
+);
+
+export const userNotificationPreferenceRelations = relations(
+	userNotificationPreference,
+	({ one }) => ({
+		user: one(user, {
+			fields: [userNotificationPreference.userId],
 			references: [user.id],
 		}),
 	}),

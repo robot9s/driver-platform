@@ -1,4 +1,4 @@
-import { upsertUserNotificationPreferences } from "@repo/database";
+import { setNotificationDisabled } from "@repo/notifications";
 import { z } from "zod";
 
 import { protectedProcedure } from "../../../orpc/procedures";
@@ -8,10 +8,10 @@ const notificationTargetSchema = z.enum(["IN_APP", "EMAIL"]);
 
 export const updatePreference = protectedProcedure
 	.route({
-		method: "POST",
-		path: "/notifications/preference",
+		method: "PUT",
+		path: "/notifications/preferences",
 		tags: ["Notifications"],
-		summary: "Update one notification preference",
+		summary: "Update a notification preference",
 	})
 	.input(
 		z.object({
@@ -20,17 +20,7 @@ export const updatePreference = protectedProcedure
 			disabled: z.boolean(),
 		}),
 	)
-	.handler(async ({ input, context: { user } }) => {
-		if (input.target === "IN_APP") {
-			return { ok: true as const };
-		}
-
-		const enabled = !input.disabled;
-		const patch =
-			input.type === "WELCOME"
-				? { emailAccountSecurity: enabled }
-				: { emailProductUpdates: enabled };
-
-		await upsertUserNotificationPreferences(user.id, patch);
+	.handler(async ({ input: { type, target, disabled }, context: { user } }) => {
+		await setNotificationDisabled(user.id, type, target, disabled);
 		return { ok: true as const };
 	});

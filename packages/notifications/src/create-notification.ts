@@ -1,7 +1,7 @@
 import {
 	createNotificationForUser,
 	getUserById,
-	getUserNotificationPreferences,
+	isNotificationDisabled,
 } from "@repo/database";
 import type { Locale } from "@repo/i18n";
 import { sendEmail } from "@repo/mail";
@@ -9,8 +9,6 @@ import { sendEmail } from "@repo/mail";
 import { resolveNotificationLink } from "./resolve-link";
 import {
 	NOTIFICATION_TARGETS,
-	NOTIFICATION_TYPES,
-	type NotificationTarget,
 	type NotificationType,
 } from "./types";
 
@@ -27,27 +25,6 @@ function getTitle(type: NotificationType, data: Record<string, unknown>): string
 
 function getMessage(data: Record<string, unknown>): string {
 	return typeof data.message === "string" ? data.message : "";
-}
-
-async function isNotificationDisabled(
-	userId: string,
-	type: NotificationType,
-	target: NotificationTarget,
-) {
-	if (target === NOTIFICATION_TARGETS.IN_APP) {
-		return false;
-	}
-
-	const preferences = await getUserNotificationPreferences(userId);
-
-	switch (type) {
-		case NOTIFICATION_TYPES.APP_UPDATE:
-			return !preferences.emailProductUpdates;
-		case NOTIFICATION_TYPES.WELCOME:
-			return !preferences.emailAccountSecurity;
-		default:
-			return false;
-	}
 }
 
 export async function createNotification(input: {
