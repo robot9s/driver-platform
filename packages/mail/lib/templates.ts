@@ -1,6 +1,6 @@
-import { render } from "@react-email/render";
 import type { Locale } from "@repo/i18n";
 import type { ReactElement } from "react";
+import { render } from "react-email";
 
 import { mailTemplates } from "../emails";
 import { getMailTranslator } from "./i18n";
