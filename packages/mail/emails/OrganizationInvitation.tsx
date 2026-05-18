@@ -1,4 +1,4 @@
-import { Heading, Link, Text } from "@react-email/components";
+import { Heading, Link, Text } from "react-email";
 import React from "react";
 
 import PrimaryButton from "../components/PrimaryButton";

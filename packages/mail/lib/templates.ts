@@ -1,4 +1,4 @@
-import { render } from "@react-email/render";
+import { render } from "react-email";
 import type { Locale } from "@repo/i18n";
 import type { ReactElement } from "react";
 

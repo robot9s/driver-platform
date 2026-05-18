@@ -1,4 +1,4 @@
-import { Container, Font, Head, Html, Section, Tailwind } from "@react-email/components";
+import { Container, Font, Head, Html, Section, Tailwind } from "react-email";
 import { Logo } from "@repo/ui";
 import React, { type PropsWithChildren } from "react";
 
