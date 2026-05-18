@@ -1,6 +1,6 @@
-import { Container, Font, Head, Html, Section, Tailwind } from "react-email";
 import { Logo } from "@repo/ui";
 import React, { type PropsWithChildren } from "react";
+import { Container, Font, Head, Html, Section, Tailwind } from "react-email";
 
 // Keep email design tokens aligned with tooling/tailwind/theme.css.
 const mailTailwindTheme = {

@@ -1,5 +1,5 @@
-import { Heading, Link, Text } from "react-email";
 import React from "react";
+import { Heading, Link, Text } from "react-email";
 
 import PrimaryButton from "../components/PrimaryButton";
 import Wrapper from "../components/Wrapper";
