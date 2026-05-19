@@ -1,7 +1,6 @@
 {
 	"common": {
 		"openLinkInBrowser": "If you want to open the link in a different browser than your default one, copy and paste this link:",
-		"otp": "One-time password",
 		"useLink": "or use the following link:"
 	},
 	"emailVerification": {
@@ -18,11 +17,6 @@
 		"body": "Hey,\nyou requested a login email from supastarter.\n\nClick the link below to login.",
 		"login": "Login",
 		"subject": "Login to supastarter"
-	},
-	"newUser": {
-		"body": "Hey,\nthanks for signing up for supastarter.\n\nTo start using our app, please confirm your email address by clicking the link below.",
-		"confirmEmail": "Confirm email",
-		"subject": "Confirm your email"
 	},
 	"notification": {
 		"openInApp": "Open this notification in the app:",
