@@ -1,7 +1,6 @@
 {
 	"common": {
 		"openLinkInBrowser": "Wenn du den Link in einem anderen Browser als deinem Standardbrowser öffnen möchtest, kopiere diesen und füge ihn in die Adresszeile deines Browsers ein:",
-		"otp": "Einmaliges Passwort",
 		"useLink": "oder nutze den folgenden Link:"
 	},
 	"emailVerification": {
@@ -18,11 +17,6 @@
 		"body": "Hey,\ndu hast eine Anmelde-E-Mail von supastarter angefordert.\n\nKlicke auf den unten stehenden Link, um dich anzumelden.",
 		"login": "Login",
 		"subject": "Login bei supastarter"
-	},
-	"newUser": {
-		"body": "Hallo,\n\nVielen Dank, dass du dich bei Supastarter angemeldet hast.\n\n\nUm mit der Nutzung unserer App zu beginnen, bestätige bitte deine E-Mail-Adresse, indem du auf den untenstehenden Link klickst.",
-		"confirmEmail": "E-Mail bestätigen",
-		"subject": "E-Mail bestätigen"
 	},
 	"notification": {
 		"openInApp": "Öffne diese Benachrichtigung in der App:",

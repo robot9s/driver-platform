@@ -1,7 +1,6 @@
 {
 	"common": {
 		"openLinkInBrowser": "Si deseas abrir el enlace en un navegador diferente al predeterminado, copia y pega este enlace:",
-		"otp": "Contraseña de un solo uso",
 		"useLink": "o usa el siguiente enlace:"
 	},
 	"emailVerification": {
@@ -18,11 +17,6 @@
 		"body": "Hola,\nsolicitaste un correo de inicio de sesión de supastarter.\n\nHaz clic en el enlace de abajo para iniciar sesión.",
 		"login": "Iniciar sesión",
 		"subject": "Iniciar sesión en supastarter"
-	},
-	"newUser": {
-		"body": "Hola,\ngracias por registrarte en supastarter.\n\nPara comenzar a usar nuestra aplicación, por favor confirma tu dirección de correo electrónico haciendo clic en el enlace de abajo.",
-		"confirmEmail": "Confirmar correo",
-		"subject": "Confirma tu correo electrónico"
 	},
 	"notification": {
 		"openInApp": "Abre esta notificación en la aplicación:",

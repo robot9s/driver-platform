@@ -9,7 +9,6 @@ const mailSubjects = {
 	emailVerification: "emailVerification.subject",
 	forgotPassword: "forgotPassword.subject",
 	magicLink: "magicLink.subject",
-	newUser: "newUser.subject",
 	notification: "notification.subject",
 	organizationInvitation: "organizationInvitation.subject",
 } as const;
