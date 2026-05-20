@@ -1,12 +1,70 @@
 # Changelog
 
-## Unreleased
+## 2026-05-20
+
+### Removed
+
+#### Mail
+
+- **NewUser template**: Removed the unused `NewUser` email template, its `mailTemplates` registration, and related `mail.json` copy (including `common.otp`) because signup and email changes use `emailVerification` instead.
+
+---
+
+## 2026-05-18
+
+### Changed
+
+#### Mail
+
+- **React Email 6**: The mail package uses the unified `react-email` package (v6). Scoped `@react-email/components` and `@react-email/render` dependencies were removed in favor of imports from `react-email`. The mail preview app replaces `@react-email/preview-server` with `@react-email/ui` per the v6 upgrade guide. Email templates were reformatted with oxfmt.
+
+### Fixed
+
+#### Internationalization
+
+- **TanStack Start paths**: Locale helpers now treat `/_serverFn` like other framework internals so server function traffic is not mistaken for a missing locale prefix during routing and prefetch.
+
+---
+
+## 2026-05-11
 
 ### Added
 
-- Added TanStack Start parity routes for `robots.txt`, generated marketing sitemap output, and private avatar/logo image proxying.
-- Added `@repo/notifications` with notification creation helpers, link resolution, welcome notifications, and notification email support.
-- Added marketing analytics provider examples for Google Analytics, Mixpanel, PostHog, Vercel Analytics, and custom integrations.
+#### SaaS app
+
+- **Admin area**: Added the admin route shell and matching navbar navigation for the admin users section.
+
+### Changed
+
+#### Notifications
+
+- **Preferences**: Account notification settings align with the Next.js starter, including grouped per-type preferences, matching oRPC procedures, Drizzle-backed preference storage, and updated SaaS translations.
+
+#### Continuous integration
+
+- **Verify pipeline**: Marketing content collections generate before oxlint so type-aware lint resolves the virtual module, with formatting and lint cleanups on touched files.
+
+### Fixed
+
+#### Routing and authentication
+
+- **TanStack Start routing**: Updated file-based routing, invitation flows, and Nitro server entries so marketing and SaaS SSR route through the shared service reliably (including Vercel builds).
+
+- **Authentication**: Stabilized SaaS auth redirects, corrected auth form submissions, and surfaced magic link errors on the login form.
+
+#### Settings
+
+- **Account and onboarding**: Moved delete-account controls into general settings, simplified organization general settings, and aligned the onboarding page layout with the shell.
+
+---
+
+## 2026-05-10
+
+### Added
+
+- TanStack Start parity routes for `robots.txt`, generated marketing sitemap output, and private avatar or logo image proxying.
+- `@repo/notifications` with notification creation helpers, link resolution, welcome notifications, and notification email support.
+- Marketing analytics provider examples for Google Analytics, Mixpanel, PostHog, Vercel Analytics, and custom integrations.
 
 ### Fixed
 
