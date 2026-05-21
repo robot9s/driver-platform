@@ -1,12 +1,21 @@
-import { useTranslations } from "@i18n/intl";
 import type { OrganizationMemberRole } from "@repo/auth";
+import { organizationMemberRoleOrder } from "@repo/auth/lib/organization-member-role-order";
+import { useTranslations } from "next-intl";
 
 export function useOrganizationMemberRoles() {
 	const t = useTranslations();
 
-	return {
-		member: t("organizations.roles.member"),
-		owner: t("organizations.roles.owner"),
-		admin: t("organizations.roles.admin"),
-	} satisfies Record<OrganizationMemberRole, string>;
+	return Object.fromEntries(
+		organizationMemberRoleOrder.map((role) => [role, t(`organizations.roles.${role}`)]),
+	) as Record<OrganizationMemberRole, string>;
+}
+
+export function useOrganizationMemberRoleOptions() {
+	const t = useTranslations();
+
+	return organizationMemberRoleOrder.map((role) => ({
+		value: role,
+		label: t(`organizations.roles.${role}`),
+		description: t(`organizations.roles.descriptions.${role}`),
+	}));
 }
