@@ -1,6 +1,6 @@
+import { useTranslations } from "@i18n/intl";
 import { useOrganizationMemberRoleOptions } from "@organizations/hooks/member-roles";
 import { Alert, AlertDescription, AlertTitle } from "@repo/ui/components/alert";
-import { useTranslations } from "next-intl";
 
 export function OrganizationMemberRolesInfo() {
 	const t = useTranslations();

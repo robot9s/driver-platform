@@ -1,6 +1,6 @@
+import { useTranslations } from "@i18n/intl";
 import type { OrganizationMemberRole } from "@repo/auth";
 import { organizationMemberRoleOrder } from "@repo/auth/lib/organization-member-role-order";
-import { useTranslations } from "next-intl";
 
 export function useOrganizationMemberRoles() {
 	const t = useTranslations();
