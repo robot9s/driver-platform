@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-05-21
+
+### Fixes and improvements
+
+#### SaaS app
+
+- **Organization members**: Role selects are ordered member → admin → owner (least to most access). The members settings page includes a role permissions summary, and each role option shows a short description of what it can do.
+
+---
+
 ## 2026-05-20
 
 ### Removed
