@@ -8,6 +8,10 @@
 
 - **Organization members**: Role selects are ordered member → admin → owner (least to most access). The members settings page includes a role permissions summary, and each role option shows a short description of what it can do.
 
+#### Internationalization
+
+- **Organization role UI**: Member-role hooks and the roles info panel now use the shared `@i18n/intl` formatting helpers instead of `next-intl` imports so the TanStack SaaS app passes oxlint and matches the rest of the workspace.
+
 ---
 
 ## 2026-05-20
