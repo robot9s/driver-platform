@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-05-25
+
+### Fixes and improvements
+
+#### Payments
+
+- **Stripe one-time checkout**: Creating a checkout link for a user or organization that already has a Stripe customer no longer sends `customer_creation` alongside `customer`, which Stripe rejects with a parameter conflict error.
+
+---
+
 ## 2026-05-21
 
 ### Fixes and improvements
