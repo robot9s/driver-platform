@@ -69,7 +69,7 @@ export const createCheckoutLink: CreateCheckoutLink = async (options) => {
 					payment_intent_data: {
 						metadata,
 					},
-					customer_creation: "always",
+					...(customerId ? {} : { customer_creation: "always" as const }),
 				}
 			: {
 					subscription_data: {
