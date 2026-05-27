@@ -2,9 +2,8 @@ version: 2
 updates:
     - package-ecosystem: "npm"
       directory: "/"
-      open-pull-requests-limit: 5
       schedule:
-          interval: "weekly"
+          interval: "daily"
       ignore:
           - dependency-name: "cropperjs"
             versions: [">1.6.2"]
