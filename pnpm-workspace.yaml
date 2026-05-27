@@ -63,7 +63,6 @@ catalog:
     nprogress: ^0.2.0
     nuqs: ^2.8.9
     openai: ^6.27.0
-    oslo: ^1.2.1
     oxfmt: 0.41.0
     oxlint: 1.56.0
     pg: ^8.20.0
@@ -91,3 +90,8 @@ catalog:
     vite: ^8.0.8
     vitest: ^4.1.4
     zod: ^4.3.6
+
+allowBuilds:
+    "@swc/core": true
+    esbuild: true
+    sharp: true
