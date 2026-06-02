@@ -2,6 +2,12 @@
 
 ## 2026-06-02
 
+### Fixed
+
+#### SaaS app
+
+- **Organization logo settings**: Added a delete action for organization logos in general settings and the matching English translations so the logo flow no longer references a missing key.
+
 ### Security
 
 #### Auth
