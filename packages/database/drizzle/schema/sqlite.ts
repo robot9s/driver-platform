@@ -16,8 +16,6 @@ export const user = sqliteTable("user", {
 	updatedAt: integer("updatedAt", { mode: "timestamp" })
 		.notNull()
 		.default(sql`CURRENT_TIMESTAMP`),
-	username: text("username").unique(),
-	displayUsername: text("displayUsername"),
 	role: text("role"),
 	banned: integer("banned", { mode: "boolean" }),
 	twoFactorEnabled: integer("twoFactorEnabled", { mode: "boolean" }).default(false),

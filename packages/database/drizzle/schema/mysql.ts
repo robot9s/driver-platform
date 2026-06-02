@@ -26,8 +26,6 @@ export const user = mysqlTable("user", {
 	image: text("image"),
 	createdAt: timestamp("createdAt").notNull().defaultNow(),
 	updatedAt: timestamp("updatedAt").notNull().defaultNow(),
-	username: text("username").unique(),
-	displayUsername: text("displayUsername"),
 	role: text("role"),
 	banned: boolean("banned").default(false),
 	twoFactorEnabled: boolean("twoFactorEnabled").default(false),

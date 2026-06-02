@@ -11,3 +11,16 @@ export function getBaseUrl(envValue?: string, defaultPort = 3000): string {
 	}
 	return `http://localhost:${process.env.PORT ?? defaultPort}`;
 }
+
+/**
+ * Returns the list of origins the app considers its own. Used as the
+ * single source of truth for both the API CORS allow-list and better-auth's
+ * `trustedOrigins` (origin/CSRF and callback/redirect URL validation), so the
+ * two never drift apart. Always includes the SaaS app origin and adds the
+ * marketing site origin when configured.
+ */
+export function getTrustedOrigins(): string[] {
+	const saasUrl = getBaseUrl(process.env.VITE_SAAS_URL, 3000);
+	const marketingUrl = process.env.VITE_MARKETING_URL;
+	return [saasUrl, ...(marketingUrl ? [marketingUrl] : [])];
+}

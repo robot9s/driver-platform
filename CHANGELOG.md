@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-06-02
+
+### Security
+
+#### Auth
+
+- **Magic-link open redirect**: Replaced `trustedOrigins: ["*"]` in `packages/auth/auth.ts` with an explicit allow-list of the app's own origins. The wildcard disabled better-auth's origin/callback validation, allowing an attacker-controlled `callbackURL` to drive an open redirect out of the magic-link verify flow while a valid session cookie was set on the legitimate domain.
+- **Shared trusted origins**: Added a `getTrustedOrigins()` helper in `@repo/utils` (SaaS app origin plus the marketing origin when `VITE_MARKETING_URL` is set) and used it as the single source of truth for both better-auth's `trustedOrigins` and the API CORS allow-list in `packages/api`, so the two can no longer drift apart.
+- **Username enumeration**: Removed the `username()` better-auth plugin, which exposed an unauthenticated `POST /api/auth/is-username-available` account-enumeration endpoint. The now-unused `username` and `displayUsername` columns were dropped from the `user` table across the Postgres, MySQL, and SQLite schemas (run `pnpm --filter @repo/database db:generate` and apply the migration).
+
+---
+
 ## 2026-05-25
 
 ### Fixes and improvements

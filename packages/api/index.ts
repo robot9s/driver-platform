@@ -1,7 +1,7 @@
 import { auth } from "@repo/auth";
 import { logger } from "@repo/logs";
 import { webhookHandler as paymentsWebhookHandler } from "@repo/payments";
-import { getBaseUrl } from "@repo/utils";
+import { getTrustedOrigins } from "@repo/utils";
 import { Hono } from "hono";
 import type { MiddlewareHandler } from "hono";
 import { cors } from "hono/cors";
@@ -12,9 +12,7 @@ import { openApiHandler, rpcHandler } from "./orpc/handler";
 
 export { router } from "./orpc/router";
 
-const saasUrl = getBaseUrl(process.env.VITE_SAAS_URL, 3000);
-const marketingUrl = process.env.VITE_MARKETING_URL;
-const allowedOrigins = [saasUrl, ...(marketingUrl ? [marketingUrl] : [])];
+const allowedOrigins = getTrustedOrigins();
 const isProduction = process.env.NODE_ENV === "production";
 const enableApiDocs = process.env.ENABLE_API_DOCS === "true" || !isProduction;
 
