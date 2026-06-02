@@ -12,6 +12,23 @@
 
 ---
 
+## 2026-05-27
+
+### Changed
+
+#### Infrastructure
+
+- **Node.js and pnpm**: Upgraded from pnpm 10 to `pnpm@11.3.0`, moved `onlyBuiltDependencies` into `pnpm-workspace.yaml` `allowBuilds`, and now require Node.js `>=22`. Turborepo was upgraded to the latest 2.9.x release.
+- **Prisma installs**: Disabled postinstall builds for `prisma` and `@prisma/engines` in `allowBuilds` so installs stay fast while Prisma clients are still generated through the database package scripts.
+- **Dependabot**: Switched the npm ecosystem schedule from weekly to daily and removed the open-pull-requests limit.
+- **Root scripts**: Removed duplicate root-level `db:*` and `user:create` shortcuts; run database and script tasks via `pnpm --filter @repo/database` or `pnpm --filter @repo/scripts` instead.
+
+#### SaaS app
+
+- **Dependencies**: Removed the unused `oslo` package from the SaaS app.
+
+---
+
 ## 2026-05-25
 
 ### Fixes and improvements
