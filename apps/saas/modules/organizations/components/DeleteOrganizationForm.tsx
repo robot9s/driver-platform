@@ -13,9 +13,9 @@ export function DeleteOrganizationForm() {
 	const router = useRouter();
 	const { confirm } = useConfirmationAlert();
 	const { refetch: reloadOrganizations } = useOrganizationListQuery();
-	const { activeOrganization, setActiveOrganization } = useActiveOrganization();
+	const { activeOrganization, activeOrganizationUserRole, setActiveOrganization } = useActiveOrganization();
 
-	if (!activeOrganization) {
+	if (!activeOrganization || activeOrganizationUserRole !== "owner") {
 		return null;
 	}
 
