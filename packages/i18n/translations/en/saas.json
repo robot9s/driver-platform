@@ -401,6 +401,7 @@
 	"settings": {
 		"account": {
 			"avatar": {
+				"delete": "Delete avatar",
 				"description": "To change your avatar click the picture in this block and select a file from your computer to upload.",
 				"notifications": {
 					"error": "Could not update avatar",

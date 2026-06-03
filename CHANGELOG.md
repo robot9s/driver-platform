@@ -10,7 +10,7 @@
 
 #### SaaS app
 
-- **Organization logo settings**: Added a delete action for organization logos in general settings and the matching English translations so the logo flow no longer references a missing key.
+- **Avatar and organization logo settings**: Added delete actions for user avatars and organization logos in general settings, plus the matching English translations so both image-management flows are internally consistent.
 
 ### Security
 
