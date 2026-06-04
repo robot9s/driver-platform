@@ -3,6 +3,7 @@ import { useActiveOrganization } from "@organizations/hooks/use-active-organizat
 import { organizationListQueryKey } from "@organizations/lib/api";
 import { authClient } from "@repo/auth/client";
 import { Spinner } from "@repo/ui";
+import { Button } from "@repo/ui/components/button";
 import { toastError, toastSuccess } from "@repo/ui/components/toast";
 import { SettingsItem } from "@shared/components/SettingsItem";
 import { orpc } from "@shared/lib/orpc-query-utils";
@@ -15,7 +16,7 @@ import { OrganizationLogo } from "./OrganizationLogo";
 
 export function OrganizationLogoForm() {
 	const t = useTranslations();
-	const [uploading, setUploading] = useState(false);
+	const [isSaving, setIsSaving] = useState(false);
 	const [cropDialogOpen, setCropDialogOpen] = useState(false);
 	const [image, setImage] = useState<File | null>(null);
 	const { activeOrganization, refetchActiveOrganization } = useActiveOrganization();
@@ -33,6 +34,7 @@ export function OrganizationLogoForm() {
 			"image/png": [".png"],
 			"image/jpeg": [".jpg", ".jpeg"],
 		},
+		disabled: isSaving,
 		multiple: false,
 	});
 
@@ -45,7 +47,7 @@ export function OrganizationLogoForm() {
 			return;
 		}
 
-		setUploading(true);
+		setIsSaving(true);
 		try {
 			const { signedUploadUrl, path } = await getSignedUploadUrlMutation.mutateAsync({
 				organizationId: activeOrganization.id,
@@ -74,7 +76,7 @@ export function OrganizationLogoForm() {
 				throw error;
 			}
 
-			toastSuccess(t("settings.account.avatar.notifications.success"));
+			toastSuccess(t("organizations.settings.logo.notifications.success"));
 
 			await refetchActiveOrganization();
 
@@ -82,9 +84,41 @@ export function OrganizationLogoForm() {
 				queryKey: organizationListQueryKey,
 			});
 		} catch {
-			toastError(t("settings.account.avatar.notifications.error"));
+			toastError(t("organizations.settings.logo.notifications.error"));
 		} finally {
-			setUploading(false);
+			setIsSaving(false);
+		}
+	};
+
+	const deleteLogo = async () => {
+		if (!activeOrganization.logo) {
+			return;
+		}
+
+		setIsSaving(true);
+		try {
+			const { error } = await authClient.organization.update({
+				organizationId: activeOrganization.id,
+				data: {
+					logo: "",
+				},
+			});
+
+			if (error) {
+				throw error;
+			}
+
+			toastSuccess(t("organizations.settings.logo.notifications.success"));
+
+			await refetchActiveOrganization();
+
+			await queryClient.invalidateQueries({
+				queryKey: organizationListQueryKey,
+			});
+		} catch {
+			toastError(t("organizations.settings.logo.notifications.error"));
+		} finally {
+			setIsSaving(false);
 		}
 	};
 
@@ -93,20 +127,35 @@ export function OrganizationLogoForm() {
 			title={t("organizations.settings.logo.title")}
 			description={t("organizations.settings.logo.description")}
 		>
-			<div
-				className="size-24 relative rounded-full"
-				{...(getRootProps() as HTMLAttributes<HTMLDivElement>)}
-			>
-				<input {...getInputProps()} />
-				<OrganizationLogo
-					className="size-24 text-xl cursor-pointer"
-					logoUrl={activeOrganization.logo}
-					name={activeOrganization.name ?? ""}
-				/>
+			<div className="gap-4 flex flex-col">
+				<div
+					className="size-24 relative rounded-full"
+					{...(getRootProps() as HTMLAttributes<HTMLDivElement>)}
+				>
+					<input {...getInputProps()} />
+					<OrganizationLogo
+						className="size-24 text-xl cursor-pointer"
+						logoUrl={activeOrganization.logo}
+						name={activeOrganization.name ?? ""}
+					/>
 
-				{uploading && (
-					<div className="inset-0 absolute z-20 flex items-center justify-center bg-card/90">
-						<Spinner />
+					{isSaving && (
+						<div className="inset-0 absolute z-20 flex items-center justify-center bg-card/90">
+							<Spinner />
+						</div>
+					)}
+				</div>
+
+				{activeOrganization.logo && (
+					<div className="flex justify-end">
+						<Button
+							variant="outline"
+							onClick={deleteLogo}
+							loading={isSaving}
+							disabled={isSaving}
+						>
+							{t("organizations.settings.logo.delete")}
+						</Button>
 					</div>
 				)}
 			</div>

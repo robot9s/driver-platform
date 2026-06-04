@@ -8,6 +8,10 @@
 
 - **Hide delete organization for non-owners (SUP-33)**: The "Delete Organization" section in organization general settings is now only visible to members with the `owner` role. Non-owner admins can still access all other organization settings.
 
+#### SaaS app
+
+- **Avatar and organization logo settings**: Added delete actions for user avatars and organization logos in general settings, plus the matching English translations so both image-management flows are internally consistent.
+
 ### Security
 
 #### Auth
