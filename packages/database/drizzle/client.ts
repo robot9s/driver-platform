@@ -5,11 +5,8 @@ import * as schema from "./schema/postgres";
 // Check the drizzle documentation for more information on how to connect to your preferred database provider
 // https://orm.drizzle.team/docs/get-started-postgresql
 
-const databaseUrl = process.env.DATABASE_URL as string;
-
-if (!databaseUrl) {
-	throw new Error("DATABASE_URL is not set");
-}
+const databaseUrl =
+	process.env.DATABASE_URL ?? "postgresql://postgres:postgres@localhost:5432/supastarter";
 
 export const db = drizzle(databaseUrl, {
 	schema,
