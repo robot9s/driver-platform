@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-06-12
+
+### Fixes and improvements
+
+#### Infrastructure
+
+- **TanStack Start dev server**: SaaS and marketing server entries now use `createServerEntry` and forward the first request pass into the SSR Vite environment via an `x-ssr-dispatch` header. In dev, Nitro runs the entry in its own environment where TanStack Start's server-function resolver is not wired, so `/_serverFn/` calls previously returned 500 with `Cannot read properties of undefined (reading 'method')`. Server functions now resolve in the SSR environment in both dev and production.
+
+#### Continuous integration
+
+- **End-to-end tests**: Marketing Playwright config uses `import.meta.url` instead of `__dirname` so CI can load the ES module package. The SaaS dev server falls back to a dummy `DATABASE_URL` when unset so e2e can boot without a live database.
+
+---
+
 ## 2026-06-02
 
 ### Fixed
