@@ -4,7 +4,6 @@ import { SettingsItem } from "@shared/components/SettingsItem";
 import { useState } from "react";
 
 import { OrganizationInvitationsList } from "./OrganizationInvitationsList";
-import { OrganizationMemberRolesInfo } from "./OrganizationMemberRolesInfo";
 import { OrganizationMembersList } from "./OrganizationMembersList";
 
 export function OrganizationMembersBlock({ organizationId }: { organizationId: string }) {
@@ -16,7 +15,6 @@ export function OrganizationMembersBlock({ organizationId }: { organizationId: s
 			title={t("organizations.settings.members.title")}
 			description={t("organizations.settings.members.description")}
 		>
-			<OrganizationMemberRolesInfo />
 			<Tabs value={activeTab} onValueChange={(tab) => setActiveTab(tab)}>
 				<TabsList className="mb-4">
 					<TabsTrigger value="members">
