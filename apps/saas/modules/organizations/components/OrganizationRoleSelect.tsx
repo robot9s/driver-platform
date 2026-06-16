@@ -36,13 +36,15 @@ export function OrganizationRoleSelect({
 			</SelectTrigger>
 			<SelectContent className="min-w-72">
 				{roleOptions.map((option) => (
-					<SelectItem key={option.value} value={option.value}>
-						<div className="gap-0.5 py-0.5 flex flex-col text-left">
-							<span>{option.label}</span>
-							<span className="text-xs leading-snug text-foreground/60">
-								{option.description}
-							</span>
-						</div>
+					<SelectItem
+						key={option.value}
+						value={option.value}
+						label={option.label}
+						itemText={option.label}
+					>
+						<span className="line-clamp-1 text-xs leading-snug text-foreground/60">
+							{option.description}
+						</span>
 					</SelectItem>
 				))}
 			</SelectContent>
