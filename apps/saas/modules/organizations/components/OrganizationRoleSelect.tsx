@@ -39,7 +39,7 @@ export function OrganizationRoleSelect({
 					<SelectItem key={option.value} value={option.value} label={option.label}>
 						<div className="gap-0.5 py-0.5 flex flex-col text-left">
 							<span>{option.label}</span>
-							<span className="line-clamp-1 text-xs leading-snug text-foreground/60">
+							<span className="text-xs leading-snug line-clamp-1 text-foreground/60">
 								{option.description}
 							</span>
 						</div>
