@@ -72,15 +72,11 @@ const SelectLabel = ({
 const SelectItem = ({
 	className,
 	children,
-	itemText,
 	...props
-}: React.ComponentProps<typeof SelectPrimitive.Item> & {
-	itemText?: React.ReactNode;
-}) => (
+}: React.ComponentProps<typeof SelectPrimitive.Item>) => (
 	<SelectPrimitive.Item
 		className={cn(
-			"py-1.5 pr-8 pl-2 text-sm relative flex w-full cursor-default rounded-md outline-hidden select-none focus:bg-accent focus:text-accent-foreground aria-disabled:pointer-events-none aria-disabled:opacity-50",
-			itemText ? "items-start" : "items-center",
+			"py-1.5 pr-8 pl-2 text-sm relative flex w-full cursor-default items-center rounded-md outline-hidden select-none focus:bg-accent focus:text-accent-foreground aria-disabled:pointer-events-none aria-disabled:opacity-50",
 			className,
 		)}
 		{...props}
@@ -90,14 +86,7 @@ const SelectItem = ({
 				<CheckIcon className="size-4" />
 			</SelectPrimitive.ItemIndicator>
 		</span>
-		{itemText ? (
-			<div className="gap-0.5 py-0.5 flex flex-col text-left">
-				<SelectPrimitive.ItemText>{itemText}</SelectPrimitive.ItemText>
-				{children}
-			</div>
-		) : (
-			<SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-		)}
+		<SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
 	</SelectPrimitive.Item>
 );
 
