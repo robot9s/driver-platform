@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-06-16
+
+### Fixes and improvements
+
+#### SaaS app
+
+- **Organization members**: Removed the role permissions summary box from the members settings page. Role descriptions now appear only inside the role select dropdown (capped to one line), and the select trigger shows only the role label for a compact layout.
+
+---
+
 ## 2026-06-12
 
 ### Fixes and improvements
