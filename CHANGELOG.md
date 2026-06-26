@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-06-26
+
+### Changed
+
+#### Dependencies
+
+- **Production dependencies**: Bumped 50+ production packages, including TanStack Router `1.170.16`, TanStack Start `1.168.26`, Better Auth `1.6.20`, oRPC `1.14.6`, Stripe `22.3.0`, Tailwind CSS `4.3.1`, AWS SDK S3 clients `3.1075.0`, Lucide React `1.21.0`, Fumadocs `16.10.5`, and other workspace runtime dependencies. Major-version upgrades for `ai` 7.x, `@ai-sdk/*` 4.x, and `cookie` 2.x were intentionally skipped pending migration work.
+- **Development dependencies**: Bumped Turborepo to `2.10.0`, Oxlint to `1.71.0`, Oxfmt to `0.56.0`, TypeScript to `6.0.3`, Vitest to `4.1.9`, and Playwright to `1.61.1`. Added `minimumReleaseAge: 1440` (one day) to `pnpm-workspace.yaml` to match the other repositories. Refresh the lockfile with `pnpm install` after pulling.
+
+---
+
 ## 2026-06-16
 
 ### Fixes and improvements
