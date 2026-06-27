@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-06-27
+
+### Changed
+
+#### Dependencies
+
+- **Production dependencies**: Bumped AI SDK packages (`ai` `6.0.211`, `@ai-sdk/anthropic` `3.0.87`, `@ai-sdk/openai` `3.0.75`, `@ai-sdk/react` `3.0.213`), `es-toolkit` `1.49.0`, `nodemailer` `8.0.11`, and `dotenv` `17.4.2`, along with other workspace runtime dependencies resolved in the lockfile. Major-version upgrades for `ai` 7.x, `@ai-sdk/*` 4.x, `cookie` 2.x, `nodemailer` 9.x, and `cropperjs` 2.x were intentionally skipped pending migration work.
+- **Development dependencies**: Bumped `@types/node` to `22.20.0` and `@types/js-cookie` to `3.0.6`. Refresh the lockfile with `pnpm install` after pulling. `pnpm-workspace.yaml` enforces `minimumReleaseAge: 1440` (one day) at install time.
+
+---
+
 ## 2026-06-26
 
 ### Changed
