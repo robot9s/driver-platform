@@ -7,9 +7,9 @@ packages:
 minimumReleaseAge: 1440
 
 catalog:
-    "@ai-sdk/anthropic": ^3.0.71
-    "@ai-sdk/openai": ^3.0.53
-    "@ai-sdk/react": ^3.0.170
+    "@ai-sdk/anthropic": ^3.0.87
+    "@ai-sdk/openai": ^3.0.75
+    "@ai-sdk/react": ^3.0.213
     "@aws-sdk/client-s3": 3.1075.0
     "@aws-sdk/s3-request-presigner": 3.1075.0
     "@base-ui/react": ^1.6.0
@@ -31,9 +31,9 @@ catalog:
     "@tanstack/react-router": ^1.170.16
     "@tanstack/react-start": ^1.168.26
     "@tanstack/react-table": ^8.21.3
-    "@types/js-cookie": ^3.0.4
+    "@types/js-cookie": ^3.0.6
     "@types/mdx": ^2.0.14
-    "@types/node": ^22.10.2
+    "@types/node": ^22.20.0
     "@types/nodemailer": ^8.0.1
     "@types/nprogress": ^0.2.3
     "@types/react": 19.2.17
@@ -41,7 +41,7 @@ catalog:
     "@types/uuid": ^11.0.0
     "@vitejs/plugin-react": ^6.0.3
     "@vitest/coverage-v8": ^4.1.9
-    ai: ^6.0.168
+    ai: ^6.0.211
     autoprefixer: 10.5.2
     better-auth: 1.6.20
     boring-avatars: ^2.0.4
@@ -55,7 +55,7 @@ catalog:
     drizzle-kit: ^0.31.10
     drizzle-orm: ^0.45.2
     drizzle-zod: 0.8.3
-    es-toolkit: ^1.48.1
+    es-toolkit: ^1.49.0
     hono: ^4.12.27
     input-otp: ^1.4.2
     js-cookie: ^3.0.8
