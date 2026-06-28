@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-06-28
+
+### Changed
+
+#### Dependencies
+
+- **Production dependencies**: Bumped Better Auth to `1.6.22`, `@better-auth/passkey` to `1.6.22`, `resend` to `6.16.0`, and `@scalar/hono-api-reference` to `0.11.6`. Major-version upgrades for `ai` 7.x, `@ai-sdk/*` 4.x, `cookie` 2.x, `nodemailer` 9.x, and `cropperjs` 2.x were intentionally skipped pending migration work. Refresh the lockfile with `pnpm install` after pulling. `pnpm-workspace.yaml` enforces `minimumReleaseAge: 1440` (one day) at install time.
+
+---
+
 ## 2026-06-27
 
 ### Changed
