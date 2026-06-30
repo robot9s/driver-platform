@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-06-30
+
+### Changed
+
+#### Dependencies
+
+- **Production dependencies**: Bumped `lucide-react` to `1.22.0`, `postcss` to `8.5.16`, and `sharp` to `0.35.2`. Major-version upgrades for `ai` 7.x, `@ai-sdk/*` 4.x, `cookie` 2.x, `nodemailer` 9.x, and `cropperjs` 2.x were intentionally skipped pending migration work. Refresh the lockfile with `pnpm install` after pulling. `pnpm-workspace.yaml` enforces `minimumReleaseAge: 1440` (one day) at install time.
+
+---
+
 ## 2026-06-29
 
 ### Changed
