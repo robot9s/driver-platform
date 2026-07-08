@@ -70,16 +70,22 @@ docs: https://nativelaunch.dev/docs — archive a copy into that repo).
 - [ ] Cert-expiry reminder job + `certification_expiring` notifications
 - [ ] Marketing site: two-audience landing, pricing page
 
-## Phase 7 — Mobile driver app (`robot9s/driver-platform-expo-app`)
+## Phase 7 — Mobile driver app (base: `vendor/moneyra-template`)
 
 - [x] Vendor `moneyra-template` into this monorepo at `vendor/moneyra-template` (unmodified copy from `robot9s/driver-platform-expo-app` @ 5198445; outside workspace globs until adopted)
-- [ ] Archive https://nativelaunch.dev/docs into the repo (e.g. `docs/nativelaunch/`) so the vendor docs can't be lost
-- [ ] Audit `moneyra-template` (premium base app): map its modules, decide keep/gut list
-- [ ] Strip template domain code; wire Better Auth + oRPC client against `/api`
+- [x] Archive https://nativelaunch.dev/docs into the repo (`docs/nativelaunch/`, 40 pages + `crawl.mjs` to regenerate; crawled 2026-07-07, no pages login-gated)
+- [x] Audit `moneyra-template` (premium base app): map its modules, decide keep/gut list (see `docs/moneyra-audit.md` — no Supabase/push exists; template is offline-first WatermelonDB, auth is biometric-lock only)
+- [ ] Verify NativeLaunch Pro license permits use in this product/repo
+- [ ] Adopt template into pnpm workspace as `apps/mobile` (keep `vendor/` copy pristine); Metro monorepo config, tsconfig/eslint alignment, baseline build on device
+- [ ] Gut finance domain per `docs/moneyra-audit.md` §7 (screens/entities/widgets, WatermelonDB, iCloud backup, RevenueCat); clean `app.config.js`/`babel.config.js`/deps; replace committed Firebase/Sentry/iCloud identifiers
+- [ ] Wire Better Auth: add `expo()` plugin + app scheme to trusted origins in `packages/auth/auth.ts`; mobile `authClient` via `@better-auth/expo` + `expo-secure-store`; build `(auth)` group (login/signup/magic-link); session-guard `(app)` group, replacing the MMKV onboarding gate
+- [ ] Wire oRPC client against `/api/rpc` typed by `ApiRouterClient` (mirror `apps/saas/modules/shared/lib/orpc-client.ts`, cookie from `authClient.getCookie()`); smoke-test `drivers.getMyProfile`
+- [ ] Rebuild tab shell (Home / Jobs / Messages / Profile) on the kept `TabLayout`; prune i18n to en+fr and regenerate keys
+- [ ] Add a test runner (jest-expo or vitest) + adapt template CI workflows and EAS project (owner/projectId in `env.js`) to the monorepo
 - [ ] Driver onboarding: signup, voice intake (record → transcribe → review → apply)
 - [ ] Profile management: certifications (upload / provide-on-request), documents, truck listing
 - [ ] Job feed + contact requests + messaging
-- [ ] Expo push notifications (token registration endpoint + fan-out)
+- [ ] Expo push notifications (token registration endpoint + fan-out) — net-new work, the template ships no push plumbing
 
 ## Parked / future
 
