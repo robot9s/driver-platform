@@ -3,6 +3,11 @@ export interface StorageBucketNamesConfig {
 	 * Bucket used for user and organization avatar uploads.
 	 */
 	avatars: string;
+	/**
+	 * Bucket for driver certifications, documents and truck photos.
+	 * Must stay private — files are only served via short-lived signed URLs.
+	 */
+	documents: string;
 }
 
 export interface StorageConfig {

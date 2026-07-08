@@ -39,6 +39,7 @@ export const user = pgTable("user", {
 	paymentsCustomerId: text("paymentsCustomerId"),
 	locale: text("locale"),
 	lastActiveOrganizationId: text("lastActiveOrganizationId"),
+	userType: text("userType"),
 });
 
 export const session = pgTable(
@@ -290,6 +291,147 @@ export const userNotificationPreferences = pgTable("user_notification_preference
 		.notNull(),
 });
 
+export const driverProfile = pgTable(
+	"driver_profile",
+	{
+		id: text("id")
+			.$defaultFn(() => cuid())
+			.primaryKey(),
+		userId: text("userId")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		headline: text("headline"),
+		bio: text("bio"),
+		aiSummary: text("aiSummary"),
+		yearsExperience: integer("yearsExperience"),
+		licenceClass: text("licenceClass").default("class_1").notNull(),
+		licenceProvince: text("licenceProvince"),
+		homeCity: text("homeCity"),
+		homeProvince: text("homeProvince"),
+		regions: text("regions").array().default([]).notNull(),
+		haulPreferences: text("haulPreferences").array().default([]).notNull(),
+		employmentPreference: text("employmentPreference"),
+		availabilityStatus: text("availabilityStatus").default("open").notNull(),
+		crossBorder: boolean("crossBorder").default(false).notNull(),
+		visibility: text("visibility").default("active").notNull(),
+		verificationStatus: text("verificationStatus").default("unverified").notNull(),
+		profileCompleteness: integer("profileCompleteness").default(0).notNull(),
+		createdAt: timestamp("createdAt").defaultNow().notNull(),
+		updatedAt: timestamp("updatedAt")
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date())
+			.notNull(),
+	},
+	(table) => [
+		uniqueIndex("driver_profile_userId_uidx").on(table.userId),
+		index("driver_profile_homeProvince_idx").on(table.homeProvince),
+		index("driver_profile_availabilityStatus_idx").on(table.availabilityStatus),
+		index("driver_profile_visibility_idx").on(table.visibility),
+	],
+);
+
+export const driverExperience = pgTable(
+	"driver_experience",
+	{
+		id: text("id")
+			.$defaultFn(() => cuid())
+			.primaryKey(),
+		driverProfileId: text("driverProfileId")
+			.notNull()
+			.references(() => driverProfile.id, { onDelete: "cascade" }),
+		employer: text("employer").notNull(),
+		role: text("role"),
+		startedAt: timestamp("startedAt"),
+		endedAt: timestamp("endedAt"),
+		equipment: text("equipment").array().default([]).notNull(),
+		freightTypes: text("freightTypes").array().default([]).notNull(),
+		crossBorderPercent: integer("crossBorderPercent"),
+		description: text("description"),
+		aiTags: text("aiTags").array().default([]).notNull(),
+		createdAt: timestamp("createdAt").defaultNow().notNull(),
+		updatedAt: timestamp("updatedAt")
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date())
+			.notNull(),
+	},
+	(table) => [index("driver_experience_driverProfileId_idx").on(table.driverProfileId)],
+);
+
+export const driverCertification = pgTable(
+	"driver_certification",
+	{
+		id: text("id")
+			.$defaultFn(() => cuid())
+			.primaryKey(),
+		driverProfileId: text("driverProfileId")
+			.notNull()
+			.references(() => driverProfile.id, { onDelete: "cascade" }),
+		type: text("type").notNull(),
+		otherLabel: text("otherLabel"),
+		issuingAuthority: text("issuingAuthority"),
+		province: text("province"),
+		certificateNumber: text("certificateNumber"),
+		issuedAt: timestamp("issuedAt"),
+		expiresAt: timestamp("expiresAt"),
+		evidenceStatus: text("evidenceStatus").default("provide_upon_request").notNull(),
+		storageKey: text("storageKey"),
+		createdAt: timestamp("createdAt").defaultNow().notNull(),
+		updatedAt: timestamp("updatedAt")
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date())
+			.notNull(),
+	},
+	(table) => [
+		index("driver_certification_driverProfileId_idx").on(table.driverProfileId),
+		index("driver_certification_type_idx").on(table.type),
+		index("driver_certification_expiresAt_idx").on(table.expiresAt),
+	],
+);
+
+export const driverDocument = pgTable(
+	"driver_document",
+	{
+		id: text("id")
+			.$defaultFn(() => cuid())
+			.primaryKey(),
+		driverProfileId: text("driverProfileId")
+			.notNull()
+			.references(() => driverProfile.id, { onDelete: "cascade" }),
+		type: text("type").notNull(),
+		label: text("label"),
+		storageKey: text("storageKey").notNull(),
+		mimeType: text("mimeType"),
+		createdAt: timestamp("createdAt").defaultNow().notNull(),
+	},
+	(table) => [index("driver_document_driverProfileId_idx").on(table.driverProfileId)],
+);
+
+export const truck = pgTable(
+	"truck",
+	{
+		id: text("id")
+			.$defaultFn(() => cuid())
+			.primaryKey(),
+		driverProfileId: text("driverProfileId")
+			.notNull()
+			.references(() => driverProfile.id, { onDelete: "cascade" }),
+		make: text("make"),
+		model: text("model"),
+		year: integer("year"),
+		truckType: text("truckType"),
+		trailerTypes: text("trailerTypes").array().default([]).notNull(),
+		photoKeys: text("photoKeys").array().default([]).notNull(),
+		lastSafetyInspectionAt: timestamp("lastSafetyInspectionAt"),
+		notes: text("notes"),
+		createdAt: timestamp("createdAt").defaultNow().notNull(),
+		updatedAt: timestamp("updatedAt")
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date())
+			.notNull(),
+	},
+	(table) => [index("truck_driverProfileId_idx").on(table.driverProfileId)],
+);
+
 export const sessionRelations = relations(session, ({ one }) => ({
 	user: one(user, {
 		fields: [session.userId],
@@ -384,3 +526,42 @@ export const userNotificationPreferenceRelations = relations(
 		}),
 	}),
 );
+
+export const driverProfileRelations = relations(driverProfile, ({ one, many }) => ({
+	user: one(user, {
+		fields: [driverProfile.userId],
+		references: [user.id],
+	}),
+	experiences: many(driverExperience),
+	certifications: many(driverCertification),
+	documents: many(driverDocument),
+	trucks: many(truck),
+}));
+
+export const driverExperienceRelations = relations(driverExperience, ({ one }) => ({
+	driverProfile: one(driverProfile, {
+		fields: [driverExperience.driverProfileId],
+		references: [driverProfile.id],
+	}),
+}));
+
+export const driverCertificationRelations = relations(driverCertification, ({ one }) => ({
+	driverProfile: one(driverProfile, {
+		fields: [driverCertification.driverProfileId],
+		references: [driverProfile.id],
+	}),
+}));
+
+export const driverDocumentRelations = relations(driverDocument, ({ one }) => ({
+	driverProfile: one(driverProfile, {
+		fields: [driverDocument.driverProfileId],
+		references: [driverProfile.id],
+	}),
+}));
+
+export const truckRelations = relations(truck, ({ one }) => ({
+	driverProfile: one(driverProfile, {
+		fields: [truck.driverProfileId],
+		references: [driverProfile.id],
+	}),
+}));

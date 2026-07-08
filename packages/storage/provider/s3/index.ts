@@ -3,13 +3,18 @@ import { getSignedUrl as getS3SignedUrl } from "@aws-sdk/s3-request-presigner";
 import { logger } from "@repo/logs";
 
 import { config } from "../../config";
-import type { GetSignedUploadUrlHandler, GetSignedUrlHander } from "../../types";
+import type {
+	GetSignedUploadUrlHandler,
+	GetSignedUrlHander,
+	StorageBucketNamesConfig,
+} from "../../types";
 
-let s3Client: S3Client | null = null;
+const s3Clients = new Map<keyof StorageBucketNamesConfig, S3Client>();
 
-const getS3Client = () => {
-	if (s3Client) {
-		return s3Client;
+const getS3Client = (bucket: keyof StorageBucketNamesConfig) => {
+	const cachedClient = s3Clients.get(bucket);
+	if (cachedClient) {
+		return cachedClient;
 	}
 
 	const s3Endpoint = process.env.S3_ENDPOINT;
@@ -17,12 +22,19 @@ const getS3Client = () => {
 		throw new Error("Missing env variable S3_ENDPOINT");
 	}
 
-	const s3AccessKeyId = process.env.S3_ACCESS_KEY_ID;
+	// Providers like Railway object storage scope credentials to a single
+	// bucket, so each logical bucket may carry its own key pair (e.g.
+	// S3_DOCUMENTS_ACCESS_KEY_ID). Buckets without an override fall back to
+	// the global S3_ACCESS_KEY_ID / S3_SECRET_ACCESS_KEY pair.
+	const bucketEnvPrefix = `S3_${bucket.toUpperCase()}_`;
+	const s3AccessKeyId =
+		process.env[`${bucketEnvPrefix}ACCESS_KEY_ID`] ?? process.env.S3_ACCESS_KEY_ID;
 	if (!s3AccessKeyId) {
 		throw new Error("Missing env variable S3_ACCESS_KEY_ID");
 	}
 
-	const s3SecretAccessKey = process.env.S3_SECRET_ACCESS_KEY;
+	const s3SecretAccessKey =
+		process.env[`${bucketEnvPrefix}SECRET_ACCESS_KEY`] ?? process.env.S3_SECRET_ACCESS_KEY;
 	if (!s3SecretAccessKey) {
 		throw new Error("Missing env variable S3_SECRET_ACCESS_KEY");
 	}
@@ -32,7 +44,7 @@ const getS3Client = () => {
 	// `S3_REGION` explicitly when running against AWS.
 	const s3Region = process.env.S3_REGION ?? "auto";
 
-	s3Client = new S3Client({
+	const s3Client = new S3Client({
 		region: s3Region,
 		endpoint: s3Endpoint,
 		forcePathStyle: true,
@@ -41,6 +53,8 @@ const getS3Client = () => {
 			secretAccessKey: s3SecretAccessKey,
 		},
 	});
+
+	s3Clients.set(bucket, s3Client);
 
 	return s3Client;
 };
@@ -61,7 +75,7 @@ function getContentTypeFromPath(path: string): string {
 
 export const getSignedUploadUrl: GetSignedUploadUrlHandler = async (path, { bucket }) => {
 	const bucketName = config.bucketNames[bucket];
-	const s3Client = getS3Client();
+	const s3Client = getS3Client(bucket);
 	const contentType = getContentTypeFromPath(path);
 
 	try {
@@ -99,7 +113,7 @@ export const getSignedUrl: GetSignedUrlHander = async (path, { bucket, expiresIn
 		throw new Error("Invalid bucket");
 	}
 
-	const s3Client = getS3Client();
+	const s3Client = getS3Client(bucket);
 	try {
 		return getS3SignedUrl(s3Client, new GetObjectCommand({ Bucket: bucketName, Key: path }), {
 			expiresIn,

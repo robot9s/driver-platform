@@ -3,6 +3,10 @@ import { z } from "zod";
 
 import {
 	account,
+	driverCertification,
+	driverDocument,
+	driverExperience,
+	driverProfile,
 	invitation,
 	member,
 	notification,
@@ -10,6 +14,7 @@ import {
 	passkey,
 	purchase,
 	session,
+	truck,
 	user,
 	userNotificationPreference,
 	userNotificationPreferences,
@@ -39,3 +44,18 @@ export const PasskeySchema = createSelectSchema(passkey);
 export const NotificationSchema = createSelectSchema(notification);
 export const UserNotificationPreferenceSchema = createSelectSchema(userNotificationPreference);
 export const UserNotificationPreferencesSchema = createSelectSchema(userNotificationPreferences);
+
+export const DriverProfileSchema = createSelectSchema(driverProfile);
+export type DriverProfile = typeof driverProfile.$inferSelect;
+export const DriverProfileInsertSchema = createInsertSchema(driverProfile);
+export const DriverProfileUpdateSchema = createUpdateSchema(driverProfile, {
+	id: z.string(),
+});
+export const DriverExperienceSchema = createSelectSchema(driverExperience);
+export type DriverExperience = typeof driverExperience.$inferSelect;
+export const DriverCertificationSchema = createSelectSchema(driverCertification);
+export type DriverCertification = typeof driverCertification.$inferSelect;
+export const DriverDocumentSchema = createSelectSchema(driverDocument);
+export type DriverDocument = typeof driverDocument.$inferSelect;
+export const TruckSchema = createSelectSchema(truck);
+export type Truck = typeof truck.$inferSelect;
