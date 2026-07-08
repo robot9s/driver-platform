@@ -1,0 +1,6 @@
+export const STORAGE_EXPENSE_LAST_CATEGORY_ID = 'expenseLastCategoryId'
+export const STORAGE_INCOME_LAST_CATEGORY_ID = 'incomeLastCategoryId'
+export const STORAGE_CONSTANT_LAST_ACCOUNT_ID = 'lastAccountId'
+export const STORAGE_CONSTANT_LAST_PAYWALL_DATE = 'lastPaywallDate'
+export const STORAGE_CONSTANT_NUMBER_OF_TRANSACTIONS = 'numberOfTransactions'
+export const STORAGE_FIRST_CURRENCY = 'currencyId'

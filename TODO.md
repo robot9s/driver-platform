@@ -72,6 +72,7 @@ docs: https://nativelaunch.dev/docs — archive a copy into that repo).
 
 ## Phase 7 — Mobile driver app (`robot9s/driver-platform-expo-app`)
 
+- [x] Vendor `moneyra-template` into this monorepo at `vendor/moneyra-template` (unmodified copy from `robot9s/driver-platform-expo-app` @ 5198445; outside workspace globs until adopted)
 - [ ] Archive https://nativelaunch.dev/docs into the repo (e.g. `docs/nativelaunch/`) so the vendor docs can't be lost
 - [ ] Audit `moneyra-template` (premium base app): map its modules, decide keep/gut list
 - [ ] Strip template domain code; wire Better Auth + oRPC client against `/api`
