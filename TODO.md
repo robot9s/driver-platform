@@ -3,22 +3,28 @@
 > Live task tracker. See `ARCHITECTURE.md` for the full plan and rationale.
 > Mark items `[x]` as they land; add discovered work under the right phase.
 
+**Repos:** SaaS/dashboard/API: `robot9s/driver-platform` (main auto-deploys to
+Railway — merge deliberately). Mobile: `robot9s/driver-platform-expo-app`
+(NativeLaunch boilerplate + `moneyra-template` premium base to gut & rebrand;
+docs: https://nativelaunch.dev/docs — archive a copy into that repo).
+
 ## Phase 0 — Foundation
 
 - [ ] Decide platform name; update `apps/saas/config` + `apps/marketing/config` branding
-- [ ] Environment setup: `.env.local` (DB, S3, mail, AI keys), `docker-compose` Postgres running, migrations applied
-- [ ] Add `userType` (`driver` | `company_member`) additional field to Better Auth user + signup flows
+- [ ] Environment setup: `.env.local` (DB, S3, mail, AI keys), `docker-compose` Postgres running, schema applied (`pnpm --filter @repo/database push`)
+- [x] Add `userType` (`driver` | `company_member`) additional field to Better Auth user (`packages/auth/auth.ts`, `user.userType` column)
 - [ ] Route company signups through existing org onboarding; driver signups skip org creation
 - [ ] Seed script: sample drivers, certifications, companies for local dev
 
 ## Phase 1 — Driver domain (schema + API)
 
-- [ ] Drizzle schema: `driverProfile`, `driverExperience`, `driverCertification`, `driverDocument`, `truck`
-- [ ] Certification taxonomy union type + zod schemas in `packages/api/modules/drivers/types.ts`
-- [ ] Query helpers in `packages/database/drizzle/queries/`
-- [ ] oRPC module `drivers`: profile get/upsert, experience CRUD, certification CRUD (with `evidenceStatus`), document CRUD, truck CRUD
-- [ ] S3 presigned upload procedures for certs/documents/truck photos (follow avatar-upload pattern)
-- [ ] Migrations generated + applied
+- [x] Drizzle schema: `driverProfile`, `driverExperience`, `driverCertification`, `driverDocument`, `truck` (postgres schema + relations + zod select schemas)
+- [x] Certification taxonomy union type + zod schemas in `packages/api/modules/drivers/types.ts`
+- [x] Query helpers in `packages/database/drizzle/queries/drivers.ts`
+- [x] oRPC module `drivers`: `getMyProfile`, `upsertProfile`, experience/certification/document/truck save+delete (all ownership-scoped, wired into `orpc/router.ts`)
+- [x] S3 presigned upload procedure (`drivers.documentUploadUrl`, private `documents` bucket, per-user path)
+- [ ] Apply schema to Railway Postgres (`db push`; switch to generated migrations once the schema stabilizes)
+- [ ] Create private `documents` bucket in S3 storage + `VITE_DOCUMENTS_BUCKET_NAME` env
 
 ## Phase 2 — Company dashboard (apps/saas)
 
@@ -64,9 +70,10 @@
 - [ ] Cert-expiry reminder job + `certification_expiring` notifications
 - [ ] Marketing site: two-audience landing, pricing page
 
-## Phase 7 — Mobile driver app (separate repo)
+## Phase 7 — Mobile driver app (`robot9s/driver-platform-expo-app`)
 
-- [ ] Add `nativelaunch/moneyra-template` to session (`add_repo`); clone into fresh private repo under owner account
+- [ ] Archive https://nativelaunch.dev/docs into the repo (e.g. `docs/nativelaunch/`) so the vendor docs can't be lost
+- [ ] Audit `moneyra-template` (premium base app): map its modules, decide keep/gut list
 - [ ] Strip template domain code; wire Better Auth + oRPC client against `/api`
 - [ ] Driver onboarding: signup, voice intake (record → transcribe → review → apply)
 - [ ] Profile management: certifications (upload / provide-on-request), documents, truck listing

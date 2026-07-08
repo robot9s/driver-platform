@@ -7,17 +7,27 @@
 **Working name:** _TBD_ (referred to as "the platform" below — rename in
 `apps/*/config` once decided).
 
+**Repositories & deployment:**
+
+- `robot9s/driver-platform` — this codebase (supastarter TanStack Start clone,
+  upstream remote kept for boilerplate updates). `main` auto-deploys to
+  Railway, so treat `main` as production: land work via feature branches.
+- `robot9s/driver-platform-expo-app` — driver mobile app. Contains the
+  NativeLaunch boilerplate repos; the premium `moneyra-template` is the base
+  app to gut and rebrand. Vendor docs: https://nativelaunch.dev/docs (archive
+  a copy into the repo so they can't be lost).
+
 ---
 
 ## 1. Product Overview
 
 ### Personas
 
-| Persona | Surface | Account shape |
-| --- | --- | --- |
-| **Driver** (company driver or owner-operator) | Mobile app (later; separate repo) + API | Individual `user`, no organization |
-| **Company / Dispatcher / Recruiter** | SaaS web dashboard (`apps/saas`) | `organization` with members (Better Auth orgs) |
-| **Platform admin** | Existing admin module in `apps/saas` | `user` with admin role |
+| Persona                                       | Surface                                 | Account shape                                  |
+| --------------------------------------------- | --------------------------------------- | ---------------------------------------------- |
+| **Driver** (company driver or owner-operator) | Mobile app (later; separate repo) + API | Individual `user`, no organization             |
+| **Company / Dispatcher / Recruiter**          | SaaS web dashboard (`apps/saas`)        | `organization` with members (Better Auth orgs) |
+| **Platform admin**                            | Existing admin module in `apps/saas`    | `user` with admin role                         |
 
 ### Core value loops
 
@@ -33,19 +43,19 @@
 
 ## 2. What supastarter already gives us (reuse, don't rebuild)
 
-| Need | Existing capability | Where |
-| --- | --- | --- |
-| Auth (email/pw, magic link, passkeys, 2FA) | Better Auth | `packages/auth` |
-| Company accounts, seats, invitations | Better Auth organizations | `packages/auth`, `apps/saas/modules/organizations` |
-| API layer consumable by web **and** mobile | oRPC over Hono (`/api`) | `packages/api` |
-| DB | Drizzle + Postgres | `packages/database` (schema: `drizzle/schema/postgres.ts`) |
-| AI | Vercel AI SDK + Anthropic/OpenAI, streaming chat procedure | `packages/ai`, `packages/api/modules/ai` |
-| File uploads | S3 presigned URLs (see avatar upload pattern) | `packages/storage`, `packages/api/modules/users/procedures/create-avatar-upload-url.ts` |
-| Billing | Stripe/Polar/LemonSqueezy/Creem/Dodo | `packages/payments` |
-| Email | Resend/Postmark/etc. + react-email templates | `packages/mail` |
-| In-app + email notifications | Notification tables & module | `packages/database`, `packages/api/modules/notifications` |
-| Marketing site, blog, legal | | `apps/marketing` |
-| Admin panel | | `apps/saas/modules/admin` |
+| Need                                       | Existing capability                                        | Where                                                                                   |
+| ------------------------------------------ | ---------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Auth (email/pw, magic link, passkeys, 2FA) | Better Auth                                                | `packages/auth`                                                                         |
+| Company accounts, seats, invitations       | Better Auth organizations                                  | `packages/auth`, `apps/saas/modules/organizations`                                      |
+| API layer consumable by web **and** mobile | oRPC over Hono (`/api`)                                    | `packages/api`                                                                          |
+| DB                                         | Drizzle + Postgres                                         | `packages/database` (schema: `drizzle/schema/postgres.ts`)                              |
+| AI                                         | Vercel AI SDK + Anthropic/OpenAI, streaming chat procedure | `packages/ai`, `packages/api/modules/ai`                                                |
+| File uploads                               | S3 presigned URLs (see avatar upload pattern)              | `packages/storage`, `packages/api/modules/users/procedures/create-avatar-upload-url.ts` |
+| Billing                                    | Stripe/Polar/LemonSqueezy/Creem/Dodo                       | `packages/payments`                                                                     |
+| Email                                      | Resend/Postmark/etc. + react-email templates               | `packages/mail`                                                                         |
+| In-app + email notifications               | Notification tables & module                               | `packages/database`, `packages/api/modules/notifications`                               |
+| Marketing site, blog, legal                |                                                            | `apps/marketing`                                                                        |
+| Admin panel                                |                                                            | `apps/saas/modules/admin`                                                               |
 
 Key decision that falls out of this: **one backend for everything.** The
 mobile driver app is just another client of the same oRPC/Hono API and the
@@ -195,13 +205,12 @@ New feature modules (mirroring existing module conventions + path aliases):
 Two-audience landing ("For drivers" / "For carriers"), pricing, blog. Copy
 skeleton only until product stabilizes.
 
-### Mobile driver app (separate repo, later phase)
+### Mobile driver app (`robot9s/driver-platform-expo-app`, later phase)
 
-- Base: `nativelaunch/moneyra-template` (private). **Recommendation: clone
-  into a fresh private repo under your account** (not a GitHub fork — forks
-  of private templates stay chained to upstream and complicate divergence).
-  When we start this track, the repo must be added to the session
-  (`add_repo`) so I can access it through your account.
+- Base: the premium `moneyra-template` from NativeLaunch (already vendored
+  into the repo). Plan: gut its finance-domain features, keep the app shell,
+  auth wiring, navigation and UI kit. Vendor docs at
+  https://nativelaunch.dev/docs — keep an archived copy in the repo.
 - Talks to the same `/api` (oRPC) + Better Auth endpoints; Expo push tokens
   stored per user for job-match/message notifications.
 
