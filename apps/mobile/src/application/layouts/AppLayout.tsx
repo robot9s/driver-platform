@@ -1,5 +1,6 @@
-import {Stack} from 'expo-router'
+import {Redirect, Stack} from 'expo-router'
 import {Platform} from 'react-native'
+import {authClient} from '@shared/api'
 import {useTranslation} from '@shared/i18n'
 import {useColorPalette} from '@shared/lib/palette'
 import {BackButton} from './ui/BackButton'
@@ -7,6 +8,15 @@ import {BackButton} from './ui/BackButton'
 export default function AppLayout() {
   const {t} = useTranslation('AppLayout')
   const {getColor} = useColorPalette()
+  const {data: session, isPending} = authClient.useSession()
+
+  if (isPending) {
+    return null
+  }
+
+  if (!session) {
+    return <Redirect href="/login" />
+  }
 
   return (
     <Stack

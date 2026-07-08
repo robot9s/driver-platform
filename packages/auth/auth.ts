@@ -1,3 +1,4 @@
+import { expo } from "@better-auth/expo";
 import { passkey } from "@better-auth/passkey";
 import {
 	db,
@@ -37,7 +38,9 @@ export const auth = betterAuth({
 	// protection — e.g. it lets an attacker-controlled `callbackURL` drive an
 	// open redirect out of the magic-link verify flow — so we constrain it to
 	// our own app surfaces (shared with the CORS allow-list in packages/api).
-	trustedOrigins: getTrustedOrigins(),
+	// The mobile app's deep-link scheme must match SCHEME in apps/mobile/env.js
+	// (update both together when the platform gets its real name).
+	trustedOrigins: [...getTrustedOrigins(), "moneyra://"],
 	database: drizzleAdapter(db, {
 		provider: "pg",
 	}),
@@ -250,6 +253,7 @@ export const auth = betterAuth({
 		},
 	},
 	plugins: [
+		expo(),
 		admin(),
 		passkey(),
 		magicLink({

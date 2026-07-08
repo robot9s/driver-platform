@@ -2,6 +2,7 @@ import {toast} from '@backpackapp-io/react-native-toast'
 import {
   IconBook2,
   IconChevronRight,
+  IconLogout,
   IconExternalLink,
   IconInfoCircle,
   IconLayoutDashboard,
@@ -15,6 +16,7 @@ import {useRouter} from 'expo-router'
 import {Alert, Linking, ScrollView, Share, View} from 'react-native'
 import {AppVersion} from '@widgets/app-version'
 import {SettingCard, SettingCardGroup} from '@widgets/settings-card'
+import {authClient} from '@shared/api'
 import {useTranslation, useLocale} from '@shared/i18n'
 import {Text} from '@shared/ui/text'
 import {ScreenContent} from '@shared/ui-primitives/ScreenContent'
@@ -24,6 +26,11 @@ export default function SettingScreen() {
   const {t} = useTranslation('SettingScreen')
   const router = useRouter()
   const {language} = useLocale()
+
+  const handleSignOut = async () => {
+    await authClient.signOut()
+    router.replace('/login')
+  }
 
   async function handleShare() {
     try {
@@ -126,6 +133,15 @@ export default function SettingScreen() {
             icon={IconShare}
             rightSection={<IconChevronRight className="h-6 w-6 text-foreground" />}
             iconClassName="bg-emerald-200 dark:bg-emerald-700"
+          />
+        </SettingCardGroup>
+        <SettingCardGroup title={t('group.account')}>
+          <SettingCard
+            onPress={handleSignOut}
+            title={t('card.signOut.title')}
+            icon={IconLogout}
+            rightSection={<IconChevronRight className="h-6 w-6 text-foreground" />}
+            iconClassName="bg-red-200 dark:bg-red-700"
           />
         </SettingCardGroup>
       </ScrollView>
