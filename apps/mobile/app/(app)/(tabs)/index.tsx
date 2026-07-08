@@ -1,1 +1,1 @@
-export {default} from '@screens/transactions'
+export {default} from '@screens/home'

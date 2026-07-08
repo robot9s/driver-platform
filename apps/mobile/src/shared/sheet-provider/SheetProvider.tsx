@@ -1,11 +1,8 @@
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet'
-import React, {useRef} from 'react'
+import React from 'react'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-// eslint-disable-next-line import/no-restricted-paths
-import * as Bottom from '@widgets/sheet'
-import SheetContext, {AppSheet} from './context'
+import SheetContext from './context'
 import type {SheetProvider as ProviderType} from './context'
-import type {BottomSheetModal} from '@gorhom/bottom-sheet'
 import type {FC} from 'react'
 
 interface SheetProviderProps {
@@ -13,17 +10,12 @@ interface SheetProviderProps {
 }
 
 export const SheetProvider: FC<SheetProviderProps> = ({children}) => {
-  const initialSheetContext: ProviderType = {
-    [AppSheet.BUDGET_LEFT_INFO]: useRef<BottomSheetModal>(null),
-  }
+  const initialSheetContext: ProviderType = {}
 
   return (
     <SheetContext.Provider value={initialSheetContext}>
       <GestureHandlerRootView style={{flex: 1}}>
-        <BottomSheetModalProvider>
-          <Bottom.SheetBudgetLeftInfo />
-          {children}
-        </BottomSheetModalProvider>
+        <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SheetContext.Provider>
   )

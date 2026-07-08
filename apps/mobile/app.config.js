@@ -36,7 +36,6 @@ export default {
         'android.permission.RECORD_AUDIO',
         'android.permission.USE_BIOMETRIC',
         'android.permission.USE_FINGERPRINT',
-        'com.android.vending.BILLING',
       ],
       googleServicesFile: './google-services.json',
     },
@@ -77,14 +76,6 @@ export default {
         'expo-build-properties',
         {
           ios: {
-            extraPods: [
-              {
-                name: 'simdjson',
-                configurations: ['Debug', 'Release'],
-                path: '../node_modules/@nozbe/simdjson',
-                modular_headers: true,
-              },
-            ],
             useFrameworks: 'static',
             forceStaticLinking: ['RNFBApp', 'RNFBAnalytics'],
           },
@@ -100,13 +91,6 @@ export default {
       ],
       'expo-asset',
       '@react-native-firebase/app',
-      [
-        'react-native-cloud-storage',
-        {
-          iCloudContainerEnvironment: 'Production',
-          iCloudContainerIdentifier: 'iCloud.com.moneyra.backups',
-        },
-      ],
     ],
     experiments: {
       typedRoutes: true,

@@ -5,15 +5,5 @@ module.exports = function (api) {
     plugins: [
       'react-native-worklets/plugin',
     ],
-    overrides: [
-      {
-        test: (filename) =>
-          Boolean(filename && /src\/shared\/database\/models\/.*\.ts$/.test(filename)),
-        plugins: [
-          ['@babel/plugin-proposal-decorators', {legacy: true}],
-          ['@babel/plugin-transform-class-properties', {loose: true}],
-        ],
-      },
-    ],
   }
 }
