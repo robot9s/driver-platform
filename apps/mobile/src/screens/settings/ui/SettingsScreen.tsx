@@ -1,26 +1,20 @@
 import {toast} from '@backpackapp-io/react-native-toast'
 import {
   IconBook2,
-  IconCategory,
   IconChevronRight,
-  IconCurrencyDollar,
   IconExternalLink,
   IconInfoCircle,
   IconLayoutDashboard,
   IconListSearch,
-  IconLock,
   IconMessage2Share,
   IconNotes,
-  IconRefresh,
   IconShare,
-  IconWallet,
   IconWorld,
 } from '@tabler/icons-react-native'
 import {useRouter} from 'expo-router'
 import {Alert, Linking, ScrollView, Share, View} from 'react-native'
 import {AppVersion} from '@widgets/app-version'
 import {SettingCard, SettingCardGroup} from '@widgets/settings-card'
-import {useUserEntitlements} from '@entities/subscription'
 import {useTranslation, useLocale} from '@shared/i18n'
 import {Text} from '@shared/ui/text'
 import {ScreenContent} from '@shared/ui-primitives/ScreenContent'
@@ -30,7 +24,6 @@ export default function SettingScreen() {
   const {t} = useTranslation('SettingScreen')
   const router = useRouter()
   const {language} = useLocale()
-  const {isPro} = useUserEntitlements()
 
   async function handleShare() {
     try {
@@ -61,51 +54,6 @@ export default function SettingScreen() {
         contentContainerClassName="p-4 gap-4 mb-[400px]"
         contentContainerStyle={{paddingBottom: 120}}
       >
-        {!isPro && (
-          <SettingCard
-            className="!px-4 !h-20 border border-amber-600 bg-secondary rounded-lg"
-            onPress={() => router.push('/paywall')}
-            title={t('card.premium.title')}
-            description={t('card.premium.desc')}
-            rightSection={<IconLock className="h-6 w-6 text-muted-foreground" />}
-            titleClassName="text-xl"
-            descClassName="!text-base font-regular text-muted-foreground mt-0"
-          />
-        )}
-        <SettingCardGroup title={t('group.common')}>
-          <SettingCard
-            className="border-b border-background dark:border-muted"
-            onPress={() => router.push('/categories')}
-            title={t('card.categories.title')}
-            description={t('card.categories.desc')}
-            icon={IconCategory}
-            rightSection={<IconChevronRight className="h-6 w-6 text-foreground" />}
-            iconClassName="bg-orange-200 dark:bg-orange-700"
-          />
-          <SettingCard
-            className="border-b border-background dark:border-muted"
-            onPress={() => router.push('/accounts')}
-            title={t('card.accounts.title')}
-            icon={IconWallet}
-            rightSection={<IconChevronRight className="h-6 w-6 text-foreground" />}
-            iconClassName="bg-amber-200 dark:bg-amber-700"
-          />
-          <SettingCard
-            className="border-b border-background dark:border-muted"
-            onPress={() => router.push('/currencies')}
-            title={t('card.currencies.title')}
-            icon={IconCurrencyDollar}
-            rightSection={<IconChevronRight className="h-6 w-6 text-foreground" />}
-            iconClassName="bg-lime-200 dark:bg-lime-700"
-          />
-          <SettingCard
-            onPress={() => router.push('/data')}
-            title={t('card.data.title')}
-            icon={IconRefresh}
-            rightSection={<IconChevronRight className="h-6 w-6 text-foreground" />}
-            iconClassName="bg-stone-200 dark:bg-stone-700"
-          />
-        </SettingCardGroup>
         <SettingCardGroup title={t('group.app')}>
           <SettingCardLocalAuth />
           <SettingCard

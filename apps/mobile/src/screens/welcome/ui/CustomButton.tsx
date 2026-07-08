@@ -2,7 +2,6 @@ import {IconArrowRight} from '@tabler/icons-react-native'
 import {useRouter} from 'expo-router'
 import {Pressable} from 'react-native'
 import Animated, {useAnimatedStyle, withSpring, withTiming} from 'react-native-reanimated'
-import {setMeta} from '@shared/database'
 import {useTranslation} from '@shared/i18n'
 import {
   constantStorage,
@@ -43,8 +42,7 @@ const CustomButton = ({flatListRef, flatListIndex, dataLength}: CustomButtonProp
       flatListRef.current?.scrollToIndex({index: flatListIndex.value + 1})
     } else {
       constantStorage.setBoolean(STORAGE_CONSTANT_IS_USER_ONBOARDED, true)
-      await setMeta('onboarding_completed', 'true')
-      router.navigate('/select-currency')
+      router.navigate('/(app)/(tabs)')
     }
   }
 

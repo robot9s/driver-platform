@@ -163,6 +163,7 @@
   "FaqScreen.itemQuestion4": "4. Kann ich Moneyra auf mehreren Geräten verwenden?",
   "FaqScreen.itemQuestion5": "5. Was kann ich tun, wenn etwas nicht funktioniert?",
   "FaqScreen.itemQuestion6": "6. Funktioniert die App offline?",
+  "HomeScreen.subtitle": "Deine Fahrer-Zentrale kommt bald",
   "ImportScreen.buttons.choose": "JSON-Datei auswählen",
   "ImportScreen.buttons.import": "Importieren",
   "ImportScreen.description": "Stellen Sie Ihre Daten aus einer JSON-Sicherung wieder her, die in dieser App auf dem Exportbildschirm erstellt wurde.",

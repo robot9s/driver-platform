@@ -1,10 +1,4 @@
-import {
-  IconChartDonut3,
-  IconCropLandscape,
-  IconDatabaseDollar,
-  IconList,
-  IconSettings,
-} from '@tabler/icons-react-native'
+import {IconHome, IconSettings} from '@tabler/icons-react-native'
 import {rem} from 'nativewind'
 import {useEffect} from 'react'
 import {Pressable, View, useWindowDimensions, type PressableProps} from 'react-native'
@@ -96,10 +90,7 @@ const PAD_X = 0.5 * rem.get() // p-2  = 0.5rem
 const INDICATOR_PADDING = 7 // ←  7px
 
 const TAB_BAR_ICONS = {
-  index: IconList,
-  statistics: IconChartDonut3,
-  empty: IconCropLandscape,
-  budgets: IconDatabaseDollar,
+  index: IconHome,
   settings: IconSettings,
 }
 
@@ -146,7 +137,4 @@ type TabBarItemProps = {
 // TRANSLATIONS
 
 // t('index')
-// t('statistics')
-// t('empty')
-// t('budgets')
 // t('settings')

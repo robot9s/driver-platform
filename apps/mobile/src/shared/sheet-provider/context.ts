@@ -2,9 +2,7 @@ import {createContext, useContext} from 'react'
 import type {BottomSheetModal} from '@gorhom/bottom-sheet'
 import type {RefObject} from 'react'
 
-export enum AppSheet {
-  BUDGET_LEFT_INFO = 'budget-left-info',
-}
+export enum AppSheet {}
 
 export type SheetProvider = Record<AppSheet, RefObject<BottomSheetModal | null>>
 

@@ -158,7 +158,6 @@ function RootLayoutNav() {
                       options={{headerShown: false, presentation: 'modal'}}
                     />
                     <Stack.Screen name="welcome" options={{headerShown: false}} />
-                    <Stack.Screen name="select-currency" options={{headerShown: false}} />
                     <Stack.Screen name="+not-found" />
                   </Stack>
                   <ToastRoot />
