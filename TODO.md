@@ -11,7 +11,7 @@ docs: https://nativelaunch.dev/docs — archive a copy into that repo).
 ## Phase 0 — Foundation
 
 - [ ] Decide platform name; update `apps/saas/config` + `apps/marketing/config` branding
-- [ ] Environment setup: `.env.local` (DB, S3, mail, AI keys), `docker-compose` Postgres running, schema applied (`pnpm --filter @repo/database push`)
+- [x] Environment setup: `.env.local` wired to Railway Postgres + buckets, schema applied (`pnpm --filter @repo/database push`); mail/AI keys still pending
 - [x] Add `userType` (`driver` | `company_member`) additional field to Better Auth user (`packages/auth/auth.ts`, `user.userType` column)
 - [ ] Route company signups through existing org onboarding; driver signups skip org creation
 - [ ] Seed script: sample drivers, certifications, companies for local dev
@@ -23,8 +23,8 @@ docs: https://nativelaunch.dev/docs — archive a copy into that repo).
 - [x] Query helpers in `packages/database/drizzle/queries/drivers.ts`
 - [x] oRPC module `drivers`: `getMyProfile`, `upsertProfile`, experience/certification/document/truck save+delete (all ownership-scoped, wired into `orpc/router.ts`)
 - [x] S3 presigned upload procedure (`drivers.documentUploadUrl`, private `documents` bucket, per-user path)
-- [ ] Apply schema to Railway Postgres (`db push`; switch to generated migrations once the schema stabilizes)
-- [ ] Create private `documents` bucket in S3 storage + `VITE_DOCUMENTS_BUCKET_NAME` env
+- [x] Apply schema to Railway Postgres (`db push`; switch to generated migrations once the schema stabilizes)
+- [x] Create private `documents` bucket (Railway object storage) + `VITE_DOCUMENTS_BUCKET_NAME` env; per-bucket credential overrides in `packages/storage` (`S3_DOCUMENTS_ACCESS_KEY_ID`/`SECRET`) since Railway scopes S3 keys per bucket
 
 ## Phase 2 — Company dashboard (apps/saas)
 
