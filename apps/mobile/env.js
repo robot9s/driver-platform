@@ -35,6 +35,7 @@ const client = z.object({
   EXPO_PUBLIC_REVENUECAT_API_KEY_IOS: z.string().optional(),
   EXPO_PUBLIC_REVENUECAT_API_KEY_ANDROID: z.string().optional(),
   EXPO_PUBLIC_SENTRY_DSN: z.string().optional(),
+  EXPO_PUBLIC_API_URL: z.string().url().optional(),
 })
 
 const buildTime = z.object({
@@ -57,6 +58,7 @@ const _clientEnv = {
   EXPO_PUBLIC_REVENUECAT_API_KEY_ANDROID: process.env.EXPO_PUBLIC_REVENUECAT_API_KEY_ANDROID,
   EXPO_PUBLIC_ONESIGNAL_APP_ID: process.env.EXPO_PUBLIC_ONESIGNAL_APP_ID,
   EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL,
 }
 
 const _buildTimeEnv = {

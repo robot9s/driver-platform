@@ -8,6 +8,7 @@
 		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@better-auth/expo": "catalog:",
 		"@better-auth/passkey": "catalog:",
 		"@repo/database": "workspace:*",
 		"@repo/i18n": "workspace:*",
