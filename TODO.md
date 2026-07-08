@@ -75,8 +75,8 @@ docs: https://nativelaunch.dev/docs â€” archive a copy into that repo).
 - [x] Vendor `moneyra-template` into this monorepo at `vendor/moneyra-template` (unmodified copy from `robot9s/driver-platform-expo-app` @ 5198445; outside workspace globs until adopted)
 - [x] Archive https://nativelaunch.dev/docs into the repo (`docs/nativelaunch/`, 40 pages + `crawl.mjs` to regenerate; crawled 2026-07-07, no pages login-gated)
 - [x] Audit `moneyra-template` (premium base app): map its modules, decide keep/gut list (see `docs/moneyra-audit.md` â€” no Supabase/push exists; template is offline-first WatermelonDB, auth is biometric-lock only)
-- [ ] Verify NativeLaunch Pro license permits use in this product/repo
-- [ ] Adopt template into pnpm workspace as `apps/mobile` (keep `vendor/` copy pristine); Metro monorepo config, tsconfig/eslint alignment, baseline build on device
+- [x] Verify NativeLaunch Pro license permits use in this product/repo (owner confirmed 2026-07-08: license purchased — repo access is gated on purchase — and no attribution required)
+- [x] Adopt template into pnpm workspace as `apps/mobile` (keep `vendor/` copy pristine) — pnpm install + tsc + Metro bundle (`expo export`) all green; added `react-native-css-interop` as direct dep for pnpm isolated linking; mobile keeps its own eslint (excluded from root oxlint). On-device build still to be done
 - [ ] Gut finance domain per `docs/moneyra-audit.md` Â§7 (screens/entities/widgets, WatermelonDB, iCloud backup, RevenueCat); clean `app.config.js`/`babel.config.js`/deps; replace committed Firebase/Sentry/iCloud identifiers
 - [ ] Wire Better Auth: add `expo()` plugin + app scheme to trusted origins in `packages/auth/auth.ts`; mobile `authClient` via `@better-auth/expo` + `expo-secure-store`; build `(auth)` group (login/signup/magic-link); session-guard `(app)` group, replacing the MMKV onboarding gate
 - [ ] Wire oRPC client against `/api/rpc` typed by `ApiRouterClient` (mirror `apps/saas/modules/shared/lib/orpc-client.ts`, cookie from `authClient.getCookie()`); smoke-test `drivers.getMyProfile`
