@@ -1,0 +1,7 @@
+import {globalStorageMMKV} from '@shared/storage/global-storage'
+import {zustandStorageMMKV} from '@shared/storage/zustand-storage'
+
+export const clearStorage = async () => {
+  globalStorageMMKV.clearAll()
+  zustandStorageMMKV.clearAll()
+}
