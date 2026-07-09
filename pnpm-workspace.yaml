@@ -6,6 +6,14 @@ packages:
 
 minimumReleaseAge: 1440
 
+# Windows: RN native (CMake/ninja) builds fail on long .pnpm paths; keep them short
+virtualStoreDirMaxLength: 40
+
+# React Native native builds (CMake/ninja) cannot cope with symlink/junction
+# node_modules layouts on Windows (ninja "manifest still dirty" loop in
+# screens/nitro/worklets). Hoisted = flat npm-style layout, no junctions.
+nodeLinker: hoisted
+
 catalog:
   "@ai-sdk/anthropic": ^3.0.87
   "@ai-sdk/openai": ^3.0.75
