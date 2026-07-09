@@ -12,7 +12,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import {StatusBar} from 'expo-status-bar'
 import {colorScheme as nativewindColorScheme, cssInterop} from 'nativewind'
 import {useCallback, useEffect, useState} from 'react'
-import {AppState, type AppStateStatus, Platform, View} from 'react-native'
+import {AppState, type AppStateStatus, LogBox, Platform, View} from 'react-native'
 import {KeyboardProvider} from 'react-native-keyboard-controller'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {Svg} from 'react-native-svg'
@@ -30,6 +30,11 @@ import 'react-native-reanimated'
 import '../intl-polyfills'
 
 const SentryInstance = !__DEV__ && initSentry()
+
+// Known upstream issue: nativewind v4's css-interop pushes CSS-variable
+// updates to descendant styled components during render, which React 19
+// flags as setState-in-render. Dev-only noise — revisit with nativewind v5.
+LogBox.ignoreLogs([/Cannot update a component \(`CssInterop\./])
 
 // Online status management
 onlineManager.setEventListener((setOnline) => {
